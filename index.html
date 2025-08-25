@@ -1,0 +1,418 @@
+import React, { useState, useEffect } from 'react';
+import { ChevronRight, Target, Users, Brain, Award, Star, BarChart3, TrendingUp, Zap, Crown, Mail, Timer } from 'lucide-react';
+
+const DiscLeadershipLanding = () => {
+  const [currentSection, setCurrentSection] = useState('landing');
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState([]);
+  const [showResults, setShowResults] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(5);
+  const [isBlurred, setIsBlurred] = useState(false);
+  const [email, setEmail] = useState('');
+  const [discResult, setDiscResult] = useState(null);
+
+  const questions = [
+    {
+      question: "En una reunión crítica de proyecto, tu primer instinto es:",
+      options: [
+        { text: "Tomar el control y dirigir hacia una solución rápida", type: 'D', icon: <Target className="w-5 h-5" /> },
+        { text: "Motivar al equipo y generar entusiasmo hacia la meta", type: 'I', icon: <Star className="w-5 h-5" /> },
+        { text: "Escuchar todas las perspectivas antes de decidir", type: 'S', icon: <Users className="w-5 h-5" /> },
+        { text: "Analizar todos los datos disponibles sistemáticamente", type: 'C', icon: <Brain className="w-5 h-5" /> }
+      ]
+    },
+    {
+      question: "Cuando enfrentas una decisión de alto impacto, prefieres:",
+      options: [
+        { text: "Decidir rápido basándote en tu experiencia e intuición", type: 'D', icon: <Zap className="w-5 h-5" /> },
+        { text: "Consultar con tu red de contactos y buscar múltiples opiniones", type: 'I', icon: <Users className="w-5 h-5" /> },
+        { text: "Evaluar cómo afectará a tu equipo y mantener estabilidad", type: 'S', icon: <Award className="w-5 h-5" /> },
+        { text: "Investigar exhaustivamente antes de comprometerte", type: 'C', icon: <BarChart3 className="w-5 h-5" /> }
+      ]
+    },
+    {
+      question: "Tu mayor fortaleza como líder es:",
+      options: [
+        { text: "Impulsar resultados y superar obstáculos", type: 'D', icon: <TrendingUp className="w-5 h-5" /> },
+        { text: "Inspirar y conectar con personas de todos los niveles", type: 'I', icon: <Crown className="w-5 h-5" /> },
+        { text: "Crear un ambiente de trabajo estable y colaborativo", type: 'S', icon: <Users className="w-5 h-5" /> },
+        { text: "Garantizar precisión y excelencia en la ejecución", type: 'C', icon: <Target className="w-5 h-5" /> }
+      ]
+    }
+  ];
+
+  const discProfiles = {
+    D: {
+      title: "Líder Dominante",
+      subtitle: "El Visionario Ejecutor",
+      description: "Orientado a resultados, decisivo y orientado al control. Excelente para impulsar cambios y superar desafíos.",
+      strengths: ["Toma de decisiones rápida", "Orientación a resultados", "Liderazgo bajo presión", "Superación de obstáculos"],
+      color: "from-red-600 to-orange-500",
+      icon: <Target className="w-8 h-8" />,
+      metrics: { drive: 95, influence: 70, stability: 40, precision: 60 }
+    },
+    I: {
+      title: "Líder Influyente",
+      subtitle: "El Inspirador Carismático",
+      description: "Carismático, optimista y orientado a las personas. Excelente para motivar equipos y generar consenso.",
+      strengths: ["Comunicación persuasiva", "Motivación de equipos", "Networking efectivo", "Innovación colaborativa"],
+      color: "from-yellow-500 to-amber-400",
+      icon: <Star className="w-8 h-8" />,
+      metrics: { drive: 75, influence: 95, stability: 60, precision: 45 }
+    },
+    S: {
+      title: "Líder Estable",
+      subtitle: "El Constructor de Equipos",
+      description: "Paciente, confiable y orientado al equipo. Excelente para mantener cohesión y generar confianza.",
+      strengths: ["Construcción de equipos", "Gestión de conflictos", "Consistencia operativa", "Desarrollo de talento"],
+      color: "from-green-600 to-emerald-500",
+      icon: <Users className="w-8 h-8" />,
+      metrics: { drive: 55, influence: 65, stability: 95, precision: 70 }
+    },
+    C: {
+      title: "Líder Analítico",
+      subtitle: "El Estratega Sistemático",
+      description: "Analítico, preciso y orientado a la calidad. Excelente para planificación estratégica y optimización.",
+      strengths: ["Análisis estratégico", "Gestión de riesgos", "Optimización de procesos", "Planificación detallada"],
+      color: "from-blue-700 to-indigo-600",
+      icon: <Brain className="w-8 h-8" />,
+      metrics: { drive: 65, influence: 50, stability: 75, precision: 95 }
+    }
+  };
+
+  useEffect(() => {
+    if (showResults && timeLeft > 0) {
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (timeLeft === 0) {
+      setIsBlurred(true);
+    }
+  }, [showResults, timeLeft]);
+
+  const calculateDiscResult = () => {
+    const scores = { D: 0, I: 0, S: 0, C: 0 };
+    answers.forEach(answer => {
+      scores[answer]++;
+    });
+    const maxScore = Math.max(...Object.values(scores));
+    return Object.keys(scores).find(key => scores[key] === maxScore);
+  };
+
+  const handleAnswer = (type) => {
+    const newAnswers = [...answers, type];
+    setAnswers(newAnswers);
+    
+    if (currentQuestion < questions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      const result = calculateDiscResult();
+      setDiscResult(result);
+      setShowResults(true);
+    }
+  };
+
+  const handleEmailSubmit = () => {
+    if (email && email.includes('@')) {
+      setIsBlurred(false);
+      // Aquí irían las métricas completas
+    }
+  };
+
+  const MetricBar = ({ label, value, color }) => (
+    <div className="mb-4">
+      <div className="flex justify-between mb-2">
+        <span className="text-sm font-medium text-gray-300">{label}</span>
+        <span className="text-sm font-bold text-white">{value}%</span>
+      </div>
+      <div className="w-full bg-gray-800 rounded-full h-3 overflow-hidden">
+        <div 
+          className={`h-full bg-gradient-to-r ${color} transition-all duration-1000 ease-out rounded-full shadow-lg`}
+          style={{ width: `${value}%` }}
+        />
+      </div>
+    </div>
+  );
+
+  if (currentSection === 'landing') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
+        {/* Fondo animado */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-20 w-72 h-72 bg-purple-500 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-20 right-20 w-96 h-96 bg-blue-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-yellow-400 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }} />
+        </div>
+
+        <div className="relative z-10">
+          {/* Header */}
+          <nav className="p-4 md:p-8 flex justify-between items-center backdrop-blur-sm bg-black/20">
+            <div className="flex items-center space-x-2 md:space-x-3">
+              <Crown className="w-6 h-6 md:w-8 md:h-8 text-yellow-400" />
+              <h1 className="text-lg md:text-2xl font-bold bg-gradient-to-r from-yellow-400 to-amber-300 bg-clip-text text-transparent">
+                APEX LEADERSHIP
+              </h1>
+            </div>
+            <div className="hidden md:flex space-x-8 text-sm font-medium">
+              <a href="#" className="hover:text-yellow-400 transition-colors">Metodología</a>
+              <a href="#" className="hover:text-yellow-400 transition-colors">Resultados</a>
+              <a href="#" className="hover:text-yellow-400 transition-colors">Contacto</a>
+            </div>
+          </nav>
+
+          {/* Hero Section */}
+          <div className="px-4 md:px-8 py-12 md:py-20 max-w-7xl mx-auto">
+            <div className="text-center mb-12 md:mb-16">
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent leading-tight">
+                Forjamos Líderes<br />
+                <span className="bg-gradient-to-r from-yellow-400 to-amber-300 bg-clip-text text-transparent">
+                  Excepcionales
+                </span>
+              </h2>
+              <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-8 md:mb-10 leading-relaxed px-4">
+                Cada líder excepcional tiene una personalidad única. Descubre tu perfil DISC y desbloquea 
+                tu potencial de liderazgo con metodologías respaldadas por la neurociencia.
+              </p>
+              <button 
+                onClick={() => setCurrentSection('assessment')}
+                className="group bg-gradient-to-r from-yellow-400 via-amber-400 to-orange-400 px-8 md:px-10 py-3 md:py-4 rounded-full text-black font-bold text-base md:text-lg hover:from-yellow-300 hover:via-amber-300 hover:to-orange-300 transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-yellow-400/40 border-2 border-yellow-300"
+              >
+                Descubre tu Perfil de Liderazgo
+                <ChevronRight className="w-4 h-4 md:w-5 md:h-5 inline ml-2 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </div>
+
+            {/* Características del Liderazgo */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-16 md:mb-20 px-4">
+              {[
+                { icon: <Target className="w-6 h-6 md:w-8 md:h-8" />, title: "Dominante", desc: "Líderes que impulsan resultados y toman decisiones audaces", color: "from-red-500 to-orange-400" },
+                { icon: <Star className="w-6 h-6 md:w-8 md:h-8" />, title: "Influyente", desc: "Líderes que inspiran y conectan con equipos diversos", color: "from-yellow-500 to-amber-400" },
+                { icon: <Users className="w-6 h-6 md:w-8 md:h-8" />, title: "Estable", desc: "Líderes que construyen equipos sólidos y duraderos", color: "from-green-500 to-emerald-400" },
+                { icon: <Brain className="w-6 h-6 md:w-8 md:h-8" />, title: "Analítico", desc: "Líderes que optimizan estrategias con precisión", color: "from-blue-500 to-indigo-400" }
+              ].map((item, idx) => (
+                <div key={idx} className="backdrop-blur-sm bg-white/10 p-6 md:p-8 rounded-2xl border border-white/20 hover:bg-white/15 transition-all duration-300 transform hover:scale-105 group">
+                  <div className={`w-12 h-12 md:w-16 md:h-16 bg-gradient-to-r ${item.color} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform mx-auto md:mx-0`}>
+                    {item.icon}
+                  </div>
+                  <h3 className="text-lg md:text-xl font-bold mb-3 text-center md:text-left">{item.title}</h3>
+                  <p className="text-gray-300 leading-relaxed text-sm md:text-base text-center md:text-left">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Estadísticas */}
+            <div className="text-center px-4">
+              <h3 className="text-2xl md:text-3xl font-bold mb-8 md:mb-12">Resultados que Transforman</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                {[
+                  { number: "95%", label: "Incremento en efectividad de liderazgo", icon: <TrendingUp className="w-5 h-5 md:w-6 md:h-6" /> },
+                  { number: "10,000+", label: "Líderes formados exitosamente", icon: <Award className="w-5 h-5 md:w-6 md:h-6" /> },
+                  { number: "40%", label: "Mejora en retención de talento", icon: <Users className="w-5 h-5 md:w-6 md:h-6" /> }
+                ].map((stat, idx) => (
+                  <div key={idx} className="backdrop-blur-sm bg-gradient-to-b from-white/10 to-white/5 p-6 md:p-8 rounded-2xl border border-white/20">
+                    <div className="flex justify-center mb-4 text-yellow-400">
+                      {stat.icon}
+                    </div>
+                    <div className="text-3xl md:text-4xl font-bold mb-2 bg-gradient-to-r from-yellow-400 to-amber-300 bg-clip-text text-transparent">
+                      {stat.number}
+                    </div>
+                    <div className="text-gray-300 text-sm md:text-base">{stat.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (currentSection === 'assessment' && !showResults) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white flex items-center justify-center relative overflow-hidden">
+        {/* Fondo animado */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 right-10 w-64 h-64 bg-purple-500 rounded-full blur-3xl animate-pulse" />
+          <div className="absolute bottom-10 left-10 w-80 h-80 bg-blue-500 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '3s' }} />
+        </div>
+
+        <div className="relative z-10 max-w-4xl mx-auto p-4 md:p-8">
+          {/* Progreso */}
+          <div className="mb-8 md:mb-12">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-xs md:text-sm font-medium text-gray-400">Pregunta {currentQuestion + 1} de {questions.length}</span>
+              <span className="text-xs md:text-sm font-medium text-yellow-400">Assessment DISC</span>
+            </div>
+            <div className="w-full bg-gray-800 rounded-full h-2">
+              <div 
+                className="bg-gradient-to-r from-yellow-500 to-amber-400 h-2 rounded-full transition-all duration-500"
+                style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+              />
+            </div>
+          </div>
+
+          {/* Pregunta */}
+          <div className="backdrop-blur-sm bg-white/10 rounded-3xl p-6 md:p-12 border border-white/20 shadow-2xl">
+            <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8 text-center leading-relaxed">
+              {questions[currentQuestion].question}
+            </h2>
+            
+            <div className="grid gap-3 md:gap-4">
+              {questions[currentQuestion].options.map((option, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleAnswer(option.type)}
+                  className="group flex items-center p-4 md:p-6 rounded-2xl bg-gradient-to-r from-white/5 to-white/10 border border-white/20 hover:from-white/15 hover:to-white/20 transition-all duration-300 transform hover:scale-[1.02] hover:shadow-xl text-left"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl flex items-center justify-center mr-4 md:mr-6 group-hover:scale-110 transition-transform">
+                    {option.icon}
+                  </div>
+                  <span className="text-base md:text-lg font-medium group-hover:text-yellow-400 transition-colors flex-1">
+                    {option.text}
+                  </span>
+                  <ChevronRight className="w-4 h-4 md:w-5 md:h-5 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all flex-shrink-0" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (showResults) {
+    const profile = discProfiles[discResult];
+    
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
+        {/* Overlay de blur */}
+        {isBlurred && (
+          <div className="absolute inset-0 backdrop-blur-md bg-black/50 z-50 flex items-center justify-center p-4">
+            <div className="backdrop-blur-sm bg-white/10 p-8 md:p-12 rounded-3xl border border-white/20 max-w-md w-full text-center">
+              <Mail className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 md:mb-6 text-yellow-400" />
+              <h3 className="text-xl md:text-2xl font-bold mb-3 md:mb-4">Acceso Completo</h3>
+              <p className="text-gray-300 mb-4 md:mb-6 text-sm md:text-base">Ingresa tu email para acceder al análisis completo de tu perfil y recomendaciones personalizadas</p>
+              <div className="space-y-4">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="tu@email.com"
+                  className="w-full p-3 md:p-4 rounded-xl bg-black/30 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400 text-sm md:text-base"
+                />
+                <button
+                  onClick={handleEmailSubmit}
+                  className="w-full bg-gradient-to-r from-yellow-400 via-orange-400 to-red-500 px-6 py-3 md:py-4 rounded-xl text-white font-bold hover:from-yellow-300 hover:via-orange-300 hover:to-red-400 transition-all duration-300 shadow-2xl hover:shadow-orange-500/50 border-2 border-orange-300 text-sm md:text-base transform hover:scale-105"
+                >
+                  Acceder al Análisis Completo
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Timer */}
+        {!isBlurred && (
+          <div className="absolute top-4 right-4 md:top-8 md:right-8 z-40">
+            <div className="backdrop-blur-sm bg-white/10 px-3 py-2 md:px-4 md:py-2 rounded-full border border-white/20 flex items-center space-x-2">
+              <Timer className="w-3 h-3 md:w-4 md:h-4 text-yellow-400" />
+              <span className="text-xs md:text-sm font-medium">{timeLeft}s</span>
+            </div>
+          </div>
+        )}
+
+        <div className={`relative z-10 p-4 md:p-8 transition-all duration-500 ${isBlurred ? 'blur-sm' : ''}`}>
+          <div className="max-w-6xl mx-auto">
+            {/* Header del resultado */}
+            <div className="text-center mb-8 md:mb-12">
+              <div className={`w-16 h-16 md:w-24 md:h-24 bg-gradient-to-r ${profile.color} rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 shadow-2xl`}>
+                {profile.icon}
+              </div>
+              <h1 className="text-3xl md:text-5xl font-bold mb-3 md:mb-4">{profile.title}</h1>
+              <h2 className="text-lg md:text-2xl text-yellow-400 mb-4 md:mb-6">{profile.subtitle}</h2>
+              <p className="text-base md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
+                {profile.description}
+              </p>
+            </div>
+
+            {/* Grid de contenido */}
+            <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
+              {/* Fortalezas */}
+              <div className="backdrop-blur-sm bg-white/10 p-6 md:p-8 rounded-3xl border border-white/20">
+                <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center justify-center lg:justify-start">
+                  <Award className="w-5 h-5 md:w-6 md:h-6 mr-3 text-yellow-400" />
+                  Fortalezas Clave
+                </h3>
+                <div className="space-y-3 md:space-y-4">
+                  {profile.strengths.map((strength, idx) => (
+                    <div key={idx} className="flex items-center p-3 md:p-4 rounded-xl bg-gradient-to-r from-white/5 to-white/10 border border-white/10">
+                      <div className={`w-3 h-3 bg-gradient-to-r ${profile.color} rounded-full mr-3 md:mr-4 flex-shrink-0`} />
+                      <span className="font-medium text-sm md:text-base">{strength}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Métricas de Liderazgo */}
+              <div className="backdrop-blur-sm bg-white/10 p-6 md:p-8 rounded-3xl border border-white/20">
+                <h3 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 flex items-center justify-center lg:justify-start">
+                  <BarChart3 className="w-5 h-5 md:w-6 md:h-6 mr-3 text-yellow-400" />
+                  Perfil de Liderazgo
+                </h3>
+                <div className="space-y-4 md:space-y-6">
+                  <MetricBar label="Impulso (Drive)" value={profile.metrics.drive} color={profile.color} />
+                  <MetricBar label="Influencia" value={profile.metrics.influence} color={profile.color} />
+                  <MetricBar label="Estabilidad" value={profile.metrics.stability} color={profile.color} />
+                  <MetricBar label="Precisión" value={profile.metrics.precision} color={profile.color} />
+                </div>
+              </div>
+            </div>
+
+            {/* Radar Chart Visual */}
+            <div className="mt-8 md:mt-12 backdrop-blur-sm bg-white/10 p-6 md:p-8 rounded-3xl border border-white/20">
+              <h3 className="text-xl md:text-2xl font-bold mb-6 md:mb-8 text-center">Perfil Completo de Liderazgo</h3>
+              <div className="relative w-64 h-64 md:w-80 md:h-80 mx-auto">
+                {/* Círculos concéntricos */}
+                {[1, 2, 3, 4, 5].map(ring => (
+                  <div key={ring} className={`absolute border border-white/20 rounded-full`} 
+                       style={{
+                         width: `${ring * 16}%`, 
+                         height: `${ring * 16}%`,
+                         top: `${50 - ring * 8}%`,
+                         left: `${50 - ring * 8}%`
+                       }} />
+                ))}
+                
+                {/* Líneas de eje */}
+                <div className="absolute inset-0">
+                  <div className="absolute w-full h-px bg-white/20 top-1/2" />
+                  <div className="absolute h-full w-px bg-white/20 left-1/2" />
+                </div>
+
+                {/* Etiquetas */}
+                <div className="absolute -top-4 md:-top-6 left-1/2 transform -translate-x-1/2 text-xs md:text-sm font-medium">Impulso</div>
+                <div className="absolute -bottom-4 md:-bottom-6 left-1/2 transform -translate-x-1/2 text-xs md:text-sm font-medium">Estabilidad</div>
+                <div className="absolute top-1/2 -left-8 md:-left-12 transform -translate-y-1/2 text-xs md:text-sm font-medium">Precisión</div>
+                <div className="absolute top-1/2 -right-10 md:-right-16 transform -translate-y-1/2 text-xs md:text-sm font-medium">Influencia</div>
+
+                {/* Polígono del perfil */}
+                <svg className="absolute inset-0 w-full h-full">
+                  <polygon
+                    points={`${80 + (80 * 0.6)},${80 - profile.metrics.drive * (80 * 0.6) / 100} ${80 + profile.metrics.influence * (80 * 0.6) / 100},${80 + (80 * 0.6)} ${80 + (80 * 0.6)},${80 + profile.metrics.stability * (80 * 0.6) / 100} ${80 - profile.metrics.precision * (80 * 0.6) / 100},${80 + (80 * 0.6)}`}
+                    fill="rgba(251, 191, 36, 0.3)"
+                    stroke="rgb(251, 191, 36)"
+                    strokeWidth="3"
+                    className="drop-shadow-lg"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+export default DiscLeadershipLanding;
