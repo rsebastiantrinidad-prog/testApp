@@ -19,9 +19,10 @@
             font-family: 'Quicksand', sans-serif;
             background: #FFFFFF;
             color: #333333;
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
             scroll-behavior: smooth;
+            font-size: 18px;
         }
 
         .container {
@@ -65,9 +66,9 @@
         }
 
         .tagline {
-            font-size: 1rem;
+            font-size: 1.2rem;
             color: #666666;
-            font-weight: 400;
+            font-weight: 500;
         }
 
         /* Hero Section */
@@ -79,7 +80,7 @@
 
         .hero h1 {
             font-family: 'Smooch Sans', sans-serif;
-            font-size: 4rem;
+            font-size: 5rem;
             font-weight: 700;
             margin-bottom: 2rem;
             color: #661EDA;
@@ -87,13 +88,13 @@
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: 1.6rem;
             color: #666666;
             margin-bottom: 3rem;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
-            font-weight: 400;
+            font-weight: 500;
         }
 
         /* Impact Section */
@@ -105,7 +106,7 @@
         .impact-section h2 {
             font-family: 'Smooch Sans', sans-serif;
             text-align: center;
-            font-size: 2.8rem;
+            font-size: 3.2rem;
             margin-bottom: 3rem;
             color: #19A7A0;
             font-weight: 600;
@@ -136,21 +137,21 @@
 
         .impact-number {
             font-family: 'Smooch Sans', sans-serif;
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
             color: #661EDA;
             margin-bottom: 1rem;
         }
 
         .impact-text {
-            font-size: 1rem;
+            font-size: 1.15rem;
             color: #666666;
             font-weight: 500;
         }
 
         .impact-highlight {
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             color: #333333;
             margin-top: 3rem;
             font-weight: 500;
@@ -161,10 +162,60 @@
             font-weight: 700;
         }
 
-        /* Quiz Section */
+        /* Quiz Section - Ultra Prominent with Animations */
         .quiz-section {
-            background: #F8F9FF;
-            padding: 5rem 0;
+            background: linear-gradient(135deg, #661EDA 0%, #19A7A0 100%);
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+            margin: 4rem 0;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(102, 30, 218, 0.3);
+        }
+
+        .quiz-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        .quiz-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.05) 75%),
+                        linear-gradient(45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.05) 75%);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(30px); }
+        }
+
+        .quiz-inner {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 30px;
+            padding: 4rem;
+            margin: 0 2rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         }
 
         .quiz-header {
@@ -174,16 +225,57 @@
 
         .quiz-header h2 {
             font-family: 'Smooch Sans', sans-serif;
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #661EDA;
-            font-weight: 600;
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #661EDA 0%, #19A7A0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
 
         .quiz-header p {
-            color: #666666;
-            font-size: 1.1rem;
-            font-weight: 400;
+            color: #333333;
+            font-size: 1.6rem;
+            font-weight: 600;
+            padding: 1.5rem 3rem;
+            background: linear-gradient(135deg, #F8F9FF 0%, #F0FFFE 100%);
+            border-radius: 50px;
+            display: inline-block;
+            border: 3px solid #19A7A0;
+            box-shadow: 0 6px 20px rgba(25, 167, 160, 0.2);
+        }
+
+        .quiz-cta-button {
+            display: inline-block;
+            margin-top: 2rem;
+            background: linear-gradient(135deg, #661EDA 0%, #19A7A0 100%);
+            color: #FFFFFF;
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 30, 218, 0.3);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .quiz-cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(102, 30, 218, 0.4);
         }
 
         .question-container {
@@ -201,7 +293,7 @@
 
         .question {
             font-family: 'Smooch Sans', sans-serif;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             margin-bottom: 3rem;
             text-align: center;
             color: #333333;
@@ -223,6 +315,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: left;
+            font-size: 1.1rem;
         }
 
         .option:hover {
@@ -233,16 +326,16 @@
 
         .option strong {
             color: #661EDA;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             display: block;
             margin-bottom: 0.5rem;
         }
 
         .progress-bar {
             width: 100%;
-            height: 4px;
-            background: #F0F0F0;
-            border-radius: 2px;
+            height: 8px;
+            background: rgba(102, 30, 218, 0.1);
+            border-radius: 4px;
             margin: 3rem auto;
             overflow: hidden;
             max-width: 400px;
@@ -250,8 +343,8 @@
 
         .progress {
             height: 100%;
-            background: #80DDDB;
-            border-radius: 2px;
+            background: linear-gradient(90deg, #661EDA 0%, #19A7A0 100%);
+            border-radius: 4px;
             transition: width 0.5s ease;
             width: 33.33%;
         }
@@ -261,6 +354,25 @@
             display: none;
             padding: 5rem 0;
             background: #FFFFFF;
+            opacity: 0;
+            animation: fadeInResults 0.5s ease forwards;
+        }
+
+        @keyframes fadeInResults {
+            to { opacity: 1; }
+        }
+
+        .results-blur-overlay {
+            position: relative;
+        }
+
+        .results-blur-overlay.blurred .charts-grid {
+            filter: blur(10px);
+            transition: filter 3s ease;
+        }
+
+        .results-blur-overlay.revealed .charts-grid {
+            filter: blur(0);
         }
 
         .results-header {
@@ -270,7 +382,7 @@
 
         .results-header h2 {
             font-family: 'Smooch Sans', sans-serif;
-            font-size: 3.2rem;
+            font-size: 3.5rem;
             color: #661EDA;
             font-weight: 600;
             margin-bottom: 1rem;
@@ -278,7 +390,7 @@
 
         .results-header p {
             color: #666666;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 400;
         }
 
@@ -300,7 +412,7 @@
 
         .chart-title {
             font-family: 'Smooch Sans', sans-serif;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             margin-bottom: 2rem;
             color: #333333;
             text-align: center;
@@ -321,14 +433,14 @@
 
         .cta-section h2 {
             font-family: 'Smooch Sans', sans-serif;
-            font-size: 3rem;
+            font-size: 3.5rem;
             color: #FFFFFF;
             margin-bottom: 1rem;
             font-weight: 600;
         }
 
         .cta-section p {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             color: rgba(255, 255, 255, 0.9);
             margin-bottom: 3rem;
             font-weight: 400;
@@ -348,10 +460,10 @@
         .primary-cta {
             background: #FFFFFF;
             border: none;
-            padding: 1.2rem 2.5rem;
+            padding: 1.3rem 2.8rem;
             border-radius: 50px;
             color: #661EDA;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -370,11 +482,11 @@
         .instagram-cta {
             color: #FFFFFF;
             text-decoration: none;
-            font-size: 1rem;
+            font-size: 1.1rem;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 1rem 2rem;
+            padding: 1.1rem 2.2rem;
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50px;
             transition: all 0.3s ease;
@@ -388,81 +500,109 @@
             transform: translateY(-3px);
         }
 
-        /* Blur overlay */
-        .blur-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(8px);
+        /* Final CTA Section */
+        .final-cta-section {
             display: none;
+            background: linear-gradient(135deg, #661EDA 0%, #19A7A0 100%);
+            padding: 5rem 0;
+            text-align: center;
+            border-radius: 30px;
+            margin: 4rem 0;
+            animation: slideUp 0.5s ease;
+            box-shadow: 0 15px 40px rgba(102, 30, 218, 0.2);
+        }
+
+        .final-cta-section h3 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .final-cta-section p {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 500;
+            line-height: 1.7;
+        }
+
+        .persuasive-message {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto 3rem;
+            max-width: 600px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .persuasive-message p {
+            color: #FFFFFF;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .final-cta-buttons {
+            display: flex;
+            gap: 2rem;
             justify-content: center;
             align-items: center;
-            border-radius: 16px;
-            z-index: 100;
+            flex-wrap: wrap;
         }
 
-        .email-form {
+        .agenda-cta {
             background: #FFFFFF;
-            padding: 3rem;
-            border-radius: 20px;
-            text-align: center;
-            border: 2px solid #80DDDB;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-        }
-
-        .email-form h3 {
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 2.2rem;
-            margin-bottom: 1rem;
-            color: #661EDA;
-            font-weight: 600;
-        }
-
-        .email-form p {
-            margin-bottom: 2rem;
-            color: #666666;
-            font-weight: 400;
-        }
-
-        .email-input {
-            width: 100%;
-            max-width: 350px;
-            padding: 1rem;
-            border: 2px solid #F0F0F0;
-            border-radius: 8px;
-            background: #FFFFFF;
-            font-size: 1rem;
-            margin-bottom: 2rem;
-            font-family: 'Quicksand', sans-serif;
-            transition: border-color 0.3s ease;
-        }
-
-        .email-input:focus {
-            outline: none;
-            border-color: #80DDDB;
-        }
-
-        .submit-button {
-            background: #19A7A0;
             border: none;
-            padding: 1rem 2rem;
+            padding: 1.6rem 3.5rem;
             border-radius: 50px;
-            color: #FFFFFF;
-            font-size: 1.1rem;
-            font-weight: 600;
+            color: #661EDA;
+            font-size: 1.3rem;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: 'Quicksand', sans-serif;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .agenda-cta:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            background: #F8F9FF;
+        }
+
+        .final-instagram-cta {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1.3rem 2.8rem;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 600;
             font-family: 'Quicksand', sans-serif;
         }
 
-        .submit-button:hover {
-            background: #80DDDB;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(25, 167, 160, 0.3);
+        .final-instagram-cta:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #FFFFFF;
+            transform: translateY(-3px);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Chart styles */
@@ -495,7 +635,7 @@
             bottom: -35px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #666666;
             font-weight: 500;
         }
@@ -526,7 +666,7 @@
             align-items: center;
             justify-content: center;
             font-family: 'Smooch Sans', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 600;
             color: #333333;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -535,7 +675,7 @@
         .pie-legend {
             text-align: center;
             margin-top: 1.5rem;
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #666666;
             display: flex;
             justify-content: center;
@@ -604,7 +744,7 @@
 
         .roi-number {
             font-family: 'Smooch Sans', sans-serif;
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
             color: #19A7A0;
         }
@@ -614,12 +754,12 @@
             text-align: center;
             margin-top: 1rem;
             font-weight: 400;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .efficiency-score {
             font-family: 'Smooch Sans', sans-serif;
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
             color: #661EDA;
             text-align: center;
@@ -643,6 +783,10 @@
 
         /* Responsive Design */
         @media (max-width: 1024px) {
+            body {
+                font-size: 16px;
+            }
+            
             .container {
                 padding: 0 15px;
             }
@@ -654,28 +798,61 @@
             .impact-grid {
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
+            
+            .hero h1 {
+                font-size: 4rem;
+            }
+            
+            .hero p {
+                font-size: 1.4rem;
+            }
+            
+            .quiz-header h2 {
+                font-size: 3.5rem;
+            }
+            
+            .quiz-inner {
+                margin: 0 1rem;
+                padding: 3rem;
+            }
         }
 
         @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+            
             .hero {
                 padding: 4rem 0;
             }
             
             .hero h1 { 
-                font-size: 2.8rem;
+                font-size: 3.5rem;
                 line-height: 1.1;
             }
             
             .hero p {
+                font-size: 1.3rem;
+            }
+            
+            .tagline {
                 font-size: 1.1rem;
             }
             
-            .impact-section, .quiz-section, .results-section, .cta-section {
+            .impact-section, .quiz-section, .results-section, .cta-section, .final-cta-section {
                 padding: 3rem 0;
             }
             
-            .impact-section h2, .quiz-header h2, .results-header h2, .cta-section h2 {
-                font-size: 2.2rem;
+            .impact-section h2, .results-header h2, .cta-section h2 {
+                font-size: 2.8rem;
+            }
+            
+            .quiz-header h2 {
+                font-size: 3rem;
+            }
+            
+            .final-cta-section h3 {
+                font-size: 2.5rem;
             }
             
             .charts-grid { 
@@ -688,7 +865,7 @@
                 gap: 1.5rem;
             }
             
-            .cta-buttons { 
+            .cta-buttons, .final-cta-buttons { 
                 flex-direction: column; 
                 gap: 1rem;
             }
@@ -698,7 +875,7 @@
             }
             
             .question {
-                font-size: 1.5rem;
+                font-size: 1.9rem;
             }
             
             .options {
@@ -707,11 +884,11 @@
             
             .option {
                 padding: 1.5rem;
+                font-size: 1rem;
             }
             
-            .email-form {
-                padding: 2rem;
-                margin: 1rem;
+            .option strong {
+                font-size: 1.2rem;
             }
             
             .logo-img {
@@ -719,7 +896,15 @@
             }
             
             .impact-number {
-                font-size: 3rem;
+                font-size: 3.5rem;
+            }
+            
+            .impact-text {
+                font-size: 1.05rem;
+            }
+            
+            .impact-highlight {
+                font-size: 1.3rem;
             }
             
             .pie-chart {
@@ -730,7 +915,7 @@
             .pie-center {
                 width: 80px;
                 height: 80px;
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
             
             .gauge {
@@ -739,16 +924,38 @@
             }
             
             .roi-number {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
             
             .bar-chart {
                 height: 180px;
                 gap: 1rem;
             }
+            
+            .chart-title {
+                font-size: 1.3rem;
+            }
+            
+            .quiz-header p {
+                font-size: 1.4rem;
+                padding: 1.2rem 2rem;
+            }
+            
+            .quiz-cta-button {
+                font-size: 1.2rem;
+                padding: 1.3rem 2.5rem;
+            }
+            
+            .quiz-inner {
+                padding: 2.5rem;
+            }
         }
 
         @media (max-width: 480px) {
+            body {
+                font-size: 15px;
+            }
+            
             .container {
                 padding: 0 10px;
             }
@@ -762,19 +969,31 @@
             }
             
             .hero h1 { 
-                font-size: 2.2rem;
+                font-size: 2.8rem;
             }
             
             .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .tagline {
                 font-size: 1rem;
             }
             
-            .impact-section, .quiz-section, .results-section, .cta-section {
+            .impact-section, .quiz-section, .results-section, .cta-section, .final-cta-section {
                 padding: 2.5rem 0;
             }
             
-            .impact-section h2, .quiz-header h2, .results-header h2, .cta-section h2 {
-                font-size: 1.8rem;
+            .impact-section h2, .results-header h2, .cta-section h2 {
+                font-size: 2.3rem;
+            }
+            
+            .quiz-header h2 {
+                font-size: 2.5rem;
+            }
+            
+            .final-cta-section h3 {
+                font-size: 2.1rem;
             }
             
             .impact-card, .question-container, .chart-container {
@@ -782,55 +1001,41 @@
             }
             
             .question {
-                font-size: 1.3rem;
+                font-size: 1.6rem;
                 margin-bottom: 2rem;
             }
             
             .option {
                 padding: 1.2rem;
+                font-size: 0.95rem;
             }
             
             .option strong {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
             .impact-number {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
             
             .impact-text {
-                font-size: 0.9rem;
+                font-size: 1rem;
             }
             
-            .primary-cta, .instagram-cta {
-                padding: 1rem 1.5rem;
+            .impact-highlight {
+                font-size: 1.2rem;
+            }
+            
+            .primary-cta, .instagram-cta, .agenda-cta, .final-instagram-cta {
+                padding: 1rem 1.8rem;
                 font-size: 1rem;
                 width: 100%;
                 max-width: 280px;
                 justify-content: center;
             }
             
-            .email-form h3 {
-                font-size: 1.8rem;
-            }
-            
-            .email-input {
-                padding: 0.8rem;
-                font-size: 0.9rem;
-            }
-            
-            .submit-button {
-                padding: 0.8rem 1.5rem;
-                font-size: 1rem;
-                width: 100%;
-            }
-            
             .logo-img {
                 height: 50px;
-            }
-            
-            .tagline {
-                font-size: 0.9rem;
             }
             
             .pie-chart {
@@ -841,7 +1046,7 @@
             .pie-center {
                 width: 70px;
                 height: 70px;
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
             
             .gauge {
@@ -854,11 +1059,11 @@
             }
             
             .roi-number {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
             
             .efficiency-score {
-                font-size: 2rem;
+                font-size: 2.5rem;
             }
             
             .bar-chart {
@@ -867,13 +1072,13 @@
             }
             
             .chart-title {
-                font-size: 1.1rem;
+                font-size: 1.2rem;
                 margin-bottom: 1.5rem;
             }
             
             .pie-legend {
                 gap: 0.5rem;
-                font-size: 0.8rem;
+                font-size: 0.9rem;
             }
             
             .legend-item {
@@ -886,46 +1091,70 @@
             }
             
             .roi-description {
-                font-size: 0.8rem;
+                font-size: 0.9rem;
             }
             
             .bar-label {
-                font-size: 0.8rem;
+                font-size: 0.9rem;
                 bottom: -25px;
+            }
+            
+            .quiz-header p {
+                font-size: 1.2rem;
+                padding: 1rem 1.5rem;
+            }
+            
+            .quiz-cta-button {
+                font-size: 1.1rem;
+                padding: 1.2rem 2rem;
+            }
+            
+            .quiz-inner {
+                margin: 0 0.5rem;
+                padding: 2rem 1.5rem;
+            }
+            
+            .final-cta-section p,
+            .persuasive-message p {
+                font-size: 1.2rem;
+            }
+            
+            .cta-section p {
+                font-size: 1.2rem;
             }
         }
 
         @media (max-width: 360px) {
+            body {
+                font-size: 14px;
+            }
+            
             .hero h1 { 
-                font-size: 1.9rem;
+                font-size: 2.4rem;
             }
             
             .impact-section h2, .quiz-header h2, .results-header h2, .cta-section h2 {
-                font-size: 1.6rem;
+                font-size: 2rem;
+            }
+            
+            .final-cta-section h3 {
+                font-size: 1.9rem;
             }
             
             .question {
-                font-size: 1.2rem;
+                font-size: 1.4rem;
             }
             
             .impact-number {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
             
             .roi-number {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
             
             .efficiency-score {
-                font-size: 1.8rem;
-            }
-            
-            .email-form {
-                padding: 1.5rem;
-            }
-            
-            .email-form h3 {
-                font-size: 1.6rem;
+                font-size: 2rem;
             }
         }
 
@@ -938,11 +1167,7 @@
                 justify-content: center;
             }
             
-            .primary-cta, .instagram-cta, .submit-button {
-                min-height: 48px;
-            }
-            
-            .email-input {
+            .primary-cta, .instagram-cta, .quiz-cta-button, .agenda-cta, .final-instagram-cta {
                 min-height: 48px;
             }
         }
@@ -1018,65 +1243,71 @@
         </section>
 
         <section class="quiz-section" id="quiz">
-            <div class="quiz-header">
-                <h2>Diagnóstico Inteligente</h2>
-                <p>Responde 3 preguntas estratégicas y descubre el perfil de madurez de tu organización</p>
-            </div>
+            <div class="quiz-inner">
+                <div class="quiz-header">
+                    <h2>Descubre Tu Potencial de Mejora</h2>
+                    <p>3 preguntas estratégicas para revelar oportunidades ocultas</p>
+                    <a href="https://calendly.com/rsebastian-trinidad/30min" target="_blank" class="quiz-cta-button">
+                        <i class="fas fa-chart-line"></i>
+                        Comienza Tu Diagnóstico
+                    </a>
+                </div>
 
-            <div class="progress-bar">
-                <div class="progress" id="progress"></div>
-            </div>
+                <div class="progress-bar" style="display: none;">
+                    <div class="progress" id="progress"></div>
+                </div>
 
-            <div class="question-container active" id="question1">
-                <div class="question">¿Cómo describes la alineación entre la estrategia corporativa y la ejecución de proyectos en tu organización?</div>
-                <div class="options">
-                    <div class="option" onclick="selectOption(1, 'high')">
-                        <strong>🎯 Excelente Alineación</strong>
-                        Los proyectos están directamente conectados con objetivos estratégicos y se revisan regularmente
-                    </div>
-                    <div class="option" onclick="selectOption(1, 'medium')">
-                        <strong>📊 Alineación Parcial</strong>
-                        Existe conexión estratégica pero falta claridad en la ejecución y seguimiento
-                    </div>
-                    <div class="option" onclick="selectOption(1, 'low')">
-                        <strong>🔴 Desconexión Estratégica</strong>
-                        Los proyectos operan de manera independiente sin clara conexión estratégica
+                <div class="question-container" id="question1">
+                    <div class="question">¿Cómo describes la alineación entre la estrategia corporativa y la ejecución de proyectos en tu organización?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(1, 'high')">
+                            <strong>Excelente Alineación</strong>
+                            Los proyectos están directamente conectados con objetivos estratégicos y se revisan regularmente
+                        </div>
+                        <div class="option" onclick="selectOption(1, 'medium')">
+                            <strong>Alineación Parcial</strong>
+                            Existe conexión estratégica pero falta claridad en la ejecución y seguimiento
+                        </div>
+                        <div class="option" onclick="selectOption(1, 'low')">
+                            <strong>Desconexión Estratégica</strong>
+                            Los proyectos operan de manera independiente sin clara conexión estratégica
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="question-container" id="question2">
-                <div class="question">¿Cómo evalúas la colaboración y comunicación entre equipos en proyectos críticos?</div>
-                <div class="options">
-                    <div class="option" onclick="selectOption(2, 'high')">
-                        <strong>🤝 Colaboración Excelente</strong>
-                        Comunicación fluida, roles claros y trabajo en equipo efectivo
-                    </div>
-                    <div class="option" onclick="selectOption(2, 'medium')">
-                        <strong>⚡ Colaboración Intermitente</strong>
-                        Buena comunicación en algunos equipos, pero inconsistente entre áreas
-                    </div>
-                    <div class="option" onclick="selectOption(2, 'low')">
-                        <strong>🚧 Silos Organizacionales</strong>
-                        Comunicación limitada, roles ambiguos y falta de sincronización
+                <div class="question-container" id="question2">
+                    <div class="question">¿Cómo evalúas la colaboración y comunicación entre equipos en proyectos críticos?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(2, 'high')">
+                            <strong>Colaboración Excelente</strong>
+                            Comunicación fluida, roles claros y trabajo en equipo efectivo
+                        </div>
+                        <div class="option" onclick="selectOption(2, 'medium')">
+                            <strong>Colaboración Intermitente</strong>
+                            Buena comunicación en algunos equipos, pero inconsistente entre áreas
+                        </div>
+                        <div class="option" onclick="selectOption(2, 'low')">
+                            <strong>Silos Organizacionales</strong>
+                            Comunicación limitada, roles ambiguos y falta de sincronización
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="question-container" id="question3">
-                <div class="question">¿Qué tan efectivos son tus procesos de gestión y seguimiento de proyectos?</div>
-                <div class="options">
-                    <div class="option" onclick="selectOption(3, 'high')">
-                        <strong>📈 Procesos Optimizados</strong>
-                        Metodologías claras, herramientas integradas y métricas de seguimiento efectivas
-                    </div>
-                    <div class="option" onclick="selectOption(3, 'medium')">
-                        <strong>🔧 Procesos en Desarrollo</strong>
-                        Algunas metodologías implementadas pero falta estandarización
-                    </div>
-                    <div class="option" onclick="selectOption(3, 'low')">
-                        <strong>⚠️ Procesos Ad-hoc</strong>
-                        Gestión reactiva, falta de estándares y herramientas desintegradas
+                <div class="question-container" id="question3">
+                    <div class="question">¿Qué tan efectivos son tus procesos de gestión y seguimiento de proyectos?</div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(3, 'high')">
+                            <strong>Procesos Optimizados</strong>
+                            Metodologías claras, herramientas integradas y métricas de seguimiento efectivas
+                        </div>
+                        <div class="option" onclick="selectOption(3, 'medium')">
+                            <strong>Procesos en Desarrollo</strong>
+                            Algunas metodologías implementadas pero falta estandarización
+                        </div>
+                        <div class="option" onclick="selectOption(3, 'low')">
+                            <strong>Procesos Ad-hoc</strong>
+                            Gestión reactiva, falta de estándares y herramientas desintegradas
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1088,83 +1319,95 @@
                 <p>Análisis detallado basado en tus respuestas</p>
             </div>
 
-            <div class="charts-grid">
-                <div class="chart-container">
-                    <div class="chart-title">Eficiencia Operativa</div>
-                    <div class="chart">
-                        <div class="gauge">
-                            <div class="gauge-bg">
-                                <div class="gauge-fill" id="gauge-fill"></div>
+            <div class="results-blur-overlay" id="results-blur">
+                <div class="charts-grid">
+                    <div class="chart-container">
+                        <div class="chart-title">Eficiencia Operativa</div>
+                        <div class="chart">
+                            <div class="gauge">
+                                <div class="gauge-bg">
+                                    <div class="gauge-fill" id="gauge-fill"></div>
+                                </div>
+                                <div class="gauge-needle"></div>
                             </div>
-                            <div class="gauge-needle"></div>
-                        </div>
-                        <div class="efficiency-score" id="efficiency-score">75%</div>
-                    </div>
-                </div>
-
-                <div class="chart-container">
-                    <div class="chart-title">Distribución de Riesgos</div>
-                    <div class="chart">
-                        <div class="pie-chart">
-                            <div class="pie-center" id="risk-center">Medio</div>
-                        </div>
-                        <div class="pie-legend">
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #80DDDB;"></div>
-                                <span>Estratégico</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #661EDA;"></div>
-                                <span>Operativo</span>
-                            </div>
-                            <div class="legend-item">
-                                <div class="legend-color" style="background: #19A7A0;"></div>
-                                <span>Técnico</span>
-                            </div>
+                            <div class="efficiency-score" id="efficiency-score">75%</div>
                         </div>
                     </div>
-                </div>
 
-                <div class="chart-container">
-                    <div class="chart-title">Potencial de Mejora</div>
-                    <div class="chart">
-                        <div class="bar-chart">
-                            <div class="bar" style="height: 80%; --bar-height: 80%;">
-                                <div class="bar-label">Estrategia</div>
+                    <div class="chart-container">
+                        <div class="chart-title">Distribución de Riesgos</div>
+                        <div class="chart">
+                            <div class="pie-chart">
+                                <div class="pie-center" id="risk-center">Medio</div>
                             </div>
-                            <div class="bar" style="height: 60%; --bar-height: 60%;">
-                                <div class="bar-label">Colaboración</div>
-                            </div>
-                            <div class="bar" style="height: 90%; --bar-height: 90%;">
-                                <div class="bar-label">Procesos</div>
+                            <div class="pie-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #80DDDB;"></div>
+                                    <span>Estratégico</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #661EDA;"></div>
+                                    <span>Operativo</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background: #19A7A0;"></div>
+                                    <span>Técnico</span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="chart-container">
-                    <div class="chart-title">ROI Proyectado</div>
-                    <div class="chart">
-                        <div class="roi-display">
-                            <div class="roi-number" id="roi-projection">+285%</div>
-                            <div class="roi-description">
-                                Incremento estimado con implementación de PMO
+                    <div class="chart-container">
+                        <div class="chart-title">Potencial de Mejora</div>
+                        <div class="chart">
+                            <div class="bar-chart">
+                                <div class="bar" style="height: 80%; --bar-height: 80%;">
+                                    <div class="bar-label">Estrategia</div>
+                                </div>
+                                <div class="bar" style="height: 60%; --bar-height: 60%;">
+                                    <div class="bar-label">Colaboración</div>
+                                </div>
+                                <div class="bar" style="height: 90%; --bar-height: 90%;">
+                                    <div class="bar-label">Procesos</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-title">ROI Proyectado</div>
+                        <div class="chart">
+                            <div class="roi-display">
+                                <div class="roi-number" id="roi-projection">+285%</div>
+                                <div class="roi-description">
+                                    Incremento estimado con implementación de PMO
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <div class="blur-overlay" id="blur-overlay">
-                <div class="email-form">
-                    <h3>🔓 Desbloquea tu Reporte</h3>
-                    <p>Obtén análisis detallado, recomendaciones personalizadas y roadmap de implementación</p>
-                    <input type="email" class="email-input" placeholder="tu.email@empresa.com" id="email-input" required>
-                    <br>
-                    <button class="submit-button" onclick="submitEmail()">
-                        <i class="fas fa-download"></i> Descargar Reporte
-                    </button>
-                </div>
+        <section class="final-cta-section" id="final-cta">
+            <h3>Tu Transformación Comienza Ahora</h3>
+            
+            <div class="persuasive-message">
+                <p>El 92% de las organizaciones que implementan nuestras metodologías logran resultados medibles en los primeros 90 días</p>
+            </div>
+            
+            <p>Has descubierto exactamente dónde tu organización puede mejorar. Cada día sin actuar representa oportunidades perdidas y costos acumulados. Nuestros expertos han ayudado a más de 150 organizaciones a transformar sus operaciones, generando un retorno promedio de 3.5x sobre la inversión.</p>
+            
+            <div class="final-cta-buttons">
+                <a href="https://calendly.com/rsebastian-trinidad/30min" target="_blank" class="agenda-cta">
+                    <i class="fas fa-calendar-check"></i>
+                    Reserva Tu Consulta Estratégica
+                </a>
+                
+                <a href="https://instagram.com/drivenbypeople_" target="_blank" class="final-instagram-cta">
+                    <i class="fab fa-instagram"></i>
+                    Únete a Nuestra Comunidad
+                </a>
             </div>
         </section>
 
@@ -1173,10 +1416,10 @@
             <p>Únete a los líderes que ya están optimizando sus proyectos con metodologías probadas</p>
             
             <div class="cta-buttons">
-                <button class="primary-cta" onclick="document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });">
-                    <i class="fas fa-rocket"></i>
-                    Comenzar Diagnóstico
-                </button>
+                <a href="https://calendly.com/rsebastian-trinidad/30min" target="_blank" class="primary-cta">
+                    <i class="fas fa-chart-line"></i>
+                    Agenda Tu Diagnóstico
+                </a>
                 
                 <a href="https://instagram.com/drivenbypeople_" target="_blank" class="instagram-cta">
                     <i class="fab fa-instagram"></i>
@@ -1189,8 +1432,26 @@
     <script>
         let answers = {};
         let currentQuestion = 1;
+        let quizStarted = false;
+
+        // Handle quiz start button
+        document.querySelector('.quiz-cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (!quizStarted) {
+                startQuiz();
+            }
+        });
+
+        function startQuiz() {
+            quizStarted = true;
+            document.querySelector('.quiz-header').style.display = 'none';
+            document.querySelector('.progress-bar').style.display = 'block';
+            document.getElementById('question1').classList.add('active');
+        }
 
         function selectOption(questionNum, value) {
+            if (!quizStarted) return;
+            
             answers[questionNum] = value;
             
             const progress = document.getElementById('progress');
@@ -1214,11 +1475,22 @@
             document.getElementById('quiz').style.display = 'none';
             document.getElementById('results').style.display = 'block';
             
+            // Apply blur initially
+            document.getElementById('results-blur').classList.add('blurred');
+            
             calculateAndDisplayResults();
             
+            // Remove blur after 3 seconds
             setTimeout(() => {
-                document.getElementById('blur-overlay').style.display = 'flex';
-            }, 15000);
+                document.getElementById('results-blur').classList.add('revealed');
+                document.getElementById('results-blur').classList.remove('blurred');
+            }, 3000);
+            
+            // Show final CTA after blur is removed
+            setTimeout(() => {
+                document.getElementById('final-cta').style.display = 'block';
+                document.getElementById('final-cta').scrollIntoView({ behavior: 'smooth' });
+            }, 3500);
         }
 
         function calculateAndDisplayResults() {
@@ -1246,16 +1518,6 @@
             document.getElementById('roi-projection').textContent = '+' + roiValue + '%';
         }
 
-        function submitEmail() {
-            const email = document.getElementById('email-input').value;
-            if (email && email.includes('@')) {
-                document.getElementById('blur-overlay').style.display = 'none';
-                alert('¡Perfecto! Tu reporte ejecutivo ha sido enviado a ' + email + '\n\nNuestro equipo se contactará contigo en las próximas 24 horas.\n\n📱 Síguenos en @drivenbypeople_ para más insights.');
-            } else {
-                alert('Por favor ingresa un email válido');
-            }
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
             const cards = document.querySelectorAll('.impact-card');
             cards.forEach((card, index) => {
@@ -1276,35 +1538,6 @@
                     option.addEventListener('touchend', function() {
                         this.style.transform = '';
                     });
-                });
-                
-                // Optimize blur timing for mobile
-                const originalShowResults = window.showResults;
-                window.showResults = function() {
-                    document.getElementById('quiz').style.display = 'none';
-                    document.getElementById('results').style.display = 'block';
-                    
-                    calculateAndDisplayResults();
-                    
-                    // Longer time on mobile for better UX
-                    setTimeout(() => {
-                        document.getElementById('blur-overlay').style.display = 'flex';
-                    }, 20000);
-                };
-            }
-            
-            // Smooth scroll polyfill for older browsers
-            if (!('scrollBehavior' in document.documentElement.style)) {
-                const smoothScrollTo = (element) => {
-                    element.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                };
-                
-                document.querySelector('.primary-cta').addEventListener('click', function(e) {
-                    e.preventDefault();
-                    smoothScrollTo(document.getElementById('quiz'));
                 });
             }
         });
