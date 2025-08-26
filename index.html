@@ -1,1 +1,1313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Transforma tu gestión de proyectos con Driven by People. Diagnóstico inteligente y soluciones personalizadas para líderes.">
+    <meta name="theme-color" content="#661EDA">
+    <title>Driven by People - Transforma tu Gestión de Proyectos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@100;200;300;400;500;600;700;800;900&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: #FFFFFF;
+            color: #333333;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            padding: 2rem 0;
+            text-align: center;
+            background: #FFFFFF;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .logo-container {
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        .logo-img {
+            height: 80px;
+            width: auto;
+            max-width: 100%;
+        }
+
+        /* Logo responsive behavior */
+        @media (max-width: 480px) {
+            .logo-img .mobile-logo {
+                display: block !important;
+            }
+            
+            .logo-img text:not(.mobile-logo text) {
+                display: none;
+            }
+            
+            .logo-img g:not(.mobile-logo) {
+                display: none;
+            }
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: #666666;
+            font-weight: 400;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #F8F9FF 0%, #F0FFFE 100%);
+        }
+
+        .hero h1 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: #661EDA;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666666;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: 400;
+        }
+
+        /* Impact Section */
+        .impact-section {
+            padding: 5rem 0;
+            background: #FFFFFF;
+        }
+
+        .impact-section h2 {
+            font-family: 'Smooch Sans', sans-serif;
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 3rem;
+            color: #19A7A0;
+            font-weight: 600;
+        }
+
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .impact-card {
+            background: #FFFFFF;
+            border: 2px solid #F0F0F0;
+            border-radius: 16px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .impact-card:hover {
+            transform: translateY(-8px);
+            border-color: #80DDDB;
+            box-shadow: 0 8px 30px rgba(25, 167, 160, 0.1);
+        }
+
+        .impact-number {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #661EDA;
+            margin-bottom: 1rem;
+        }
+
+        .impact-text {
+            font-size: 1rem;
+            color: #666666;
+            font-weight: 500;
+        }
+
+        .impact-highlight {
+            text-align: center;
+            font-size: 1.3rem;
+            color: #333333;
+            margin-top: 3rem;
+            font-weight: 500;
+        }
+
+        .highlight-text {
+            color: #19A7A0;
+            font-weight: 700;
+        }
+
+        /* Quiz Section */
+        .quiz-section {
+            background: #F8F9FF;
+            padding: 5rem 0;
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .quiz-header h2 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #661EDA;
+            font-weight: 600;
+        }
+
+        .quiz-header p {
+            color: #666666;
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .question-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+            background: #FFFFFF;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .question-container.active {
+            display: block;
+        }
+
+        .question {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: #333333;
+            font-weight: 500;
+        }
+
+        .options {
+            display: grid;
+            gap: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .option {
+            background: #FFFFFF;
+            border: 2px solid #F0F0F0;
+            border-radius: 12px;
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .option:hover {
+            border-color: #80DDDB;
+            background: #F0FFFE;
+            transform: translateX(8px);
+        }
+
+        .option strong {
+            color: #661EDA;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #F0F0F0;
+            border-radius: 2px;
+            margin: 3rem auto;
+            overflow: hidden;
+            max-width: 400px;
+        }
+
+        .progress {
+            height: 100%;
+            background: #80DDDB;
+            border-radius: 2px;
+            transition: width 0.5s ease;
+            width: 33.33%;
+        }
+
+        /* Results Section */
+        .results-section {
+            display: none;
+            padding: 5rem 0;
+            background: #FFFFFF;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .results-header h2 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 3.2rem;
+            color: #661EDA;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .results-header p {
+            color: #666666;
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .chart-container {
+            background: #FFFFFF;
+            border: 1px solid #F0F0F0;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+
+        .chart-title {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #333333;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .chart {
+            height: 280px;
+            position: relative;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, #661EDA 0%, #19A7A0 100%);
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 3rem;
+            color: #FFFFFF;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .primary-cta {
+            background: #FFFFFF;
+            border: none;
+            padding: 1.2rem 2.5rem;
+            border-radius: 50px;
+            color: #661EDA;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .primary-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .instagram-cta {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .instagram-cta:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #FFFFFF;
+            transform: translateY(-3px);
+        }
+
+        /* Blur overlay */
+        .blur-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 16px;
+            z-index: 100;
+        }
+
+        .email-form {
+            background: #FFFFFF;
+            padding: 3rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 2px solid #80DDDB;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+        }
+
+        .email-form h3 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #661EDA;
+            font-weight: 600;
+        }
+
+        .email-form p {
+            margin-bottom: 2rem;
+            color: #666666;
+            font-weight: 400;
+        }
+
+        .email-input {
+            width: 100%;
+            max-width: 350px;
+            padding: 1rem;
+            border: 2px solid #F0F0F0;
+            border-radius: 8px;
+            background: #FFFFFF;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-family: 'Quicksand', sans-serif;
+            transition: border-color 0.3s ease;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #80DDDB;
+        }
+
+        .submit-button {
+            background: #19A7A0;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            color: #FFFFFF;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Quicksand', sans-serif;
+        }
+
+        .submit-button:hover {
+            background: #80DDDB;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(25, 167, 160, 0.3);
+        }
+
+        /* Chart styles */
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            height: 220px;
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .bar {
+            flex: 1;
+            background: #80DDDB;
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            animation: growUp 1.5s ease;
+        }
+
+        .bar:nth-child(2) {
+            background: #661EDA;
+        }
+
+        .bar:nth-child(3) {
+            background: #19A7A0;
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: #666666;
+            font-weight: 500;
+        }
+
+        .pie-chart {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #80DDDB 0deg 120deg,
+                #661EDA 120deg 240deg,
+                #19A7A0 240deg 360deg
+            );
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .pie-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #333333;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .pie-legend {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #666666;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .gauge {
+            width: 180px;
+            height: 90px;
+            position: relative;
+            margin: 2rem auto;
+        }
+
+        .gauge-bg {
+            width: 100%;
+            height: 100%;
+            border-radius: 90px 90px 0 0;
+            background: #F0F0F0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gauge-fill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 100%;
+            background: #80DDDB;
+            border-radius: 90px 90px 0 0;
+            transition: width 2s ease;
+        }
+
+        .gauge-needle {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform-origin: bottom center;
+            width: 2px;
+            height: 70px;
+            background: #333333;
+            border-radius: 1px;
+            transform: translateX(-50%) rotate(-45deg);
+            animation: needleMove 2s ease;
+        }
+
+        .roi-display {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .roi-number {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: #19A7A0;
+        }
+
+        .roi-description {
+            color: #666666;
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: 400;
+            font-size: 0.9rem;
+        }
+
+        .efficiency-score {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #661EDA;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes growUp {
+            from { height: 0; }
+            to { height: var(--bar-height, 100%); }
+        }
+
+        @keyframes needleMove {
+            from { transform: translateX(-50%) rotate(-90deg); }
+            to { transform: translateX(-50%) rotate(-45deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .charts-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+            
+            .impact-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 4rem 0;
+            }
+            
+            .hero h1 { 
+                font-size: 2.8rem;
+                line-height: 1.1;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .impact-section, .quiz-section, .results-section, .cta-section {
+                padding: 3rem 0;
+            }
+            
+            .impact-section h2, .quiz-header h2, .results-header h2, .cta-section h2 {
+                font-size: 2.2rem;
+            }
+            
+            .charts-grid { 
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .impact-grid { 
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .cta-buttons { 
+                flex-direction: column; 
+                gap: 1rem;
+            }
+            
+            .question-container {
+                padding: 2rem;
+            }
+            
+            .question {
+                font-size: 1.5rem;
+            }
+            
+            .options {
+                gap: 1rem;
+            }
+            
+            .option {
+                padding: 1.5rem;
+            }
+            
+            .email-form {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .logo-img {
+                height: 60px;
+            }
+            
+            .impact-number {
+                font-size: 3rem;
+            }
+            
+            .pie-chart {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .pie-center {
+                width: 80px;
+                height: 80px;
+                font-size: 1.2rem;
+            }
+            
+            .gauge {
+                width: 160px;
+                height: 80px;
+            }
+            
+            .roi-number {
+                font-size: 3rem;
+            }
+            
+            .bar-chart {
+                height: 180px;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .header {
+                padding: 1.5rem 0;
+            }
+            
+            .hero {
+                padding: 3rem 0;
+            }
+            
+            .hero h1 { 
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .impact-section, .quiz-section, .results-section, .cta-section {
+                padding: 2.5rem 0;
+            }
+            
+            .impact-section h2, .quiz-header h2, .results-header h2, .cta-section h2 {
+                font-size: 1.8rem;
+            }
+            
+            .impact-card, .question-container, .chart-container {
+                padding: 1.5rem;
+            }
+            
+            .question {
+                font-size: 1.3rem;
+                margin-bottom: 2rem;
+            }
+            
+            .option {
+                padding: 1.2rem;
+            }
+            
+            .option strong {
+                font-size: 1rem;
+            }
+            
+            .impact-number {
+                font-size: 2.5rem;
+            }
+            
+            .impact-text {
+                font-size: 0.9rem;
+            }
+            
+            .primary-cta, .instagram-cta {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+            }
+            
+            .email-form h3 {
+                font-size: 1.8rem;
+            }
+            
+            .email-input {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .submit-button {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+                width: 100%;
+            }
+            
+            .logo-img {
+                height: 50px;
+            }
+            
+            .tagline {
+                font-size: 0.9rem;
+            }
+            
+            .pie-chart {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .pie-center {
+                width: 70px;
+                height: 70px;
+                font-size: 1.1rem;
+            }
+            
+            .gauge {
+                width: 140px;
+                height: 70px;
+            }
+            
+            .gauge-needle {
+                height: 55px;
+            }
+            
+            .roi-number {
+                font-size: 2.5rem;
+            }
+            
+            .efficiency-score {
+                font-size: 2rem;
+            }
+            
+            .bar-chart {
+                height: 150px;
+                gap: 0.8rem;
+            }
+            
+            .chart-title {
+                font-size: 1.1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .pie-legend {
+                gap: 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .legend-item {
+                gap: 0.3rem;
+            }
+            
+            .legend-color {
+                width: 10px;
+                height: 10px;
+            }
+            
+            .roi-description {
+                font-size: 0.8rem;
+            }
+            
+            .bar-label {
+                font-size: 0.8rem;
+                bottom: -25px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero h1 { 
+                font-size: 1.9rem;
+            }
+            
+            .impact-section h2, .quiz-header h2, .results-header h2, .cta-section h2 {
+                font-size: 1.6rem;
+            }
+            
+            .question {
+                font-size: 1.2rem;
+            }
+            
+            .impact-number {
+                font-size: 2.2rem;
+            }
+            
+            .roi-number {
+                font-size: 2.2rem;
+            }
+            
+            .efficiency-score {
+                font-size: 1.8rem;
+            }
+            
+            .email-form {
+                padding: 1.5rem;
+            }
+            
+            .email-form h3 {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Touch-friendly adjustments */
+        @media (hover: none) and (pointer: coarse) {
+            .option {
+                min-height: 60px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .primary-cta, .instagram-cta, .submit-button {
+                min-height: 48px;
+            }
+            
+            .email-input {
+                min-height: 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo-container">
+                <!-- Logo SVG integrado - Responsive -->
+                <svg class="logo-img" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                        <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#661EDA;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#320F6A;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#19A7A0;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#80DDDB;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <!-- Symbol -->
+                    <circle cx="40" cy="100" r="15" fill="url(#purpleGrad)"/>
+                    <path d="M 25 60 Q 70 30 115 60 Q 115 90 115 120 Q 70 150 25 120 Z" fill="url(#purpleGrad)" opacity="0.8"/>
+                    <path d="M 80 40 Q 125 10 170 40 Q 170 70 170 100 Q 125 130 80 100 Z" fill="url(#tealGrad)"/>
+                    <circle cx="90" cy="140" r="8" fill="url(#tealGrad)"/>
+                    
+                    <!-- Text - Responsive -->
+                    <text x="200" y="80" font-family="Quicksand, sans-serif" font-size="36" font-weight="600" fill="url(#purpleGrad)">Driven</text>
+                    <text x="340" y="80" font-family="Quicksand, sans-serif" font-size="24" font-weight="400" fill="url(#purpleGrad)">by</text>
+                    <text x="200" y="130" font-family="Quicksand, sans-serif" font-size="36" font-weight="600" fill="url(#tealGrad)">People</text>
+                    
+                    <!-- Mobile version - shown only on small screens -->
+                    <g class="mobile-logo" style="display: none;">
+                        <circle cx="40" cy="60" r="12" fill="url(#purpleGrad)"/>
+                        <path d="M 28 30 Q 65 10 102 30 Q 102 50 102 70 Q 65 90 28 70 Z" fill="url(#purpleGrad)" opacity="0.8"/>
+                        <path d="M 75 20 Q 112 5 149 20 Q 149 40 149 60 Q 112 80 75 60 Z" fill="url(#tealGrad)"/>
+                        <circle cx="82" cy="85" r="6" fill="url(#tealGrad)"/>
+                        <text x="180" y="50" font-family="Quicksand, sans-serif" font-size="28" font-weight="600" fill="url(#purpleGrad)">Driven</text>
+                        <text x="180" y="80" font-family="Quicksand, sans-serif" font-size="28" font-weight="600" fill="url(#tealGrad)">People</text>
+                    </g>
+                </svg>
+            </div>
+            <div class="tagline">Transformando organizaciones a través de las personas</div>
+        </header>
+
+        <section class="hero">
+            <h1>El Costo Real de la Ineficiencia</h1>
+            <p>Cada día que tu organización opera sin una gestión de proyectos optimizada, pierdes oportunidades de crecimiento, productividad y rentabilidad.</p>
+        </section>
+
+        <section class="impact-section">
+            <h2>Impacto Financiero Real</h2>
+            
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <div class="impact-number">68%</div>
+                    <div class="impact-text">de los proyectos fallan por falta de alineación estratégica</div>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-number">$2.5M</div>
+                    <div class="impact-text">pérdida promedio anual por ineficiencias operativas</div>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-number">45%</div>
+                    <div class="impact-text">del tiempo se desperdicia en reuniones improductivas</div>
+                </div>
+            </div>
+
+            <p class="impact-highlight">
+                Una gestión efectiva puede <span class="highlight-text">reducir costos hasta un 25%</span> y <span class="highlight-text">aumentar productividad en 30%</span>
+            </p>
+        </section>
+
+        <section class="quiz-section" id="quiz">
+            <div class="quiz-header">
+                <h2>Diagnóstico Inteligente</h2>
+                <p>Responde 3 preguntas estratégicas y descubre el perfil de madurez de tu organización</p>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+
+            <div class="question-container active" id="question1">
+                <div class="question">¿Cómo describes la alineación entre la estrategia corporativa y la ejecución de proyectos en tu organización?</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(1, 'high')">
+                        <strong>🎯 Excelente Alineación</strong>
+                        Los proyectos están directamente conectados con objetivos estratégicos y se revisan regularmente
+                    </div>
+                    <div class="option" onclick="selectOption(1, 'medium')">
+                        <strong>📊 Alineación Parcial</strong>
+                        Existe conexión estratégica pero falta claridad en la ejecución y seguimiento
+                    </div>
+                    <div class="option" onclick="selectOption(1, 'low')">
+                        <strong>🔴 Desconexión Estratégica</strong>
+                        Los proyectos operan de manera independiente sin clara conexión estratégica
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container" id="question2">
+                <div class="question">¿Cómo evalúas la colaboración y comunicación entre equipos en proyectos críticos?</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(2, 'high')">
+                        <strong>🤝 Colaboración Excelente</strong>
+                        Comunicación fluida, roles claros y trabajo en equipo efectivo
+                    </div>
+                    <div class="option" onclick="selectOption(2, 'medium')">
+                        <strong>⚡ Colaboración Intermitente</strong>
+                        Buena comunicación en algunos equipos, pero inconsistente entre áreas
+                    </div>
+                    <div class="option" onclick="selectOption(2, 'low')">
+                        <strong>🚧 Silos Organizacionales</strong>
+                        Comunicación limitada, roles ambiguos y falta de sincronización
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-container" id="question3">
+                <div class="question">¿Qué tan efectivos son tus procesos de gestión y seguimiento de proyectos?</div>
+                <div class="options">
+                    <div class="option" onclick="selectOption(3, 'high')">
+                        <strong>📈 Procesos Optimizados</strong>
+                        Metodologías claras, herramientas integradas y métricas de seguimiento efectivas
+                    </div>
+                    <div class="option" onclick="selectOption(3, 'medium')">
+                        <strong>🔧 Procesos en Desarrollo</strong>
+                        Algunas metodologías implementadas pero falta estandarización
+                    </div>
+                    <div class="option" onclick="selectOption(3, 'low')">
+                        <strong>⚠️ Procesos Ad-hoc</strong>
+                        Gestión reactiva, falta de estándares y herramientas desintegradas
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="results-section" id="results">
+            <div class="results-header">
+                <h2>Tu Perfil de Madurez</h2>
+                <p>Análisis detallado basado en tus respuestas</p>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <div class="chart-title">Eficiencia Operativa</div>
+                    <div class="chart">
+                        <div class="gauge">
+                            <div class="gauge-bg">
+                                <div class="gauge-fill" id="gauge-fill"></div>
+                            </div>
+                            <div class="gauge-needle"></div>
+                        </div>
+                        <div class="efficiency-score" id="efficiency-score">75%</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Distribución de Riesgos</div>
+                    <div class="chart">
+                        <div class="pie-chart">
+                            <div class="pie-center" id="risk-center">Medio</div>
+                        </div>
+                        <div class="pie-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #80DDDB;"></div>
+                                <span>Estratégico</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #661EDA;"></div>
+                                <span>Operativo</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background: #19A7A0;"></div>
+                                <span>Técnico</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">Potencial de Mejora</div>
+                    <div class="chart">
+                        <div class="bar-chart">
+                            <div class="bar" style="height: 80%; --bar-height: 80%;">
+                                <div class="bar-label">Estrategia</div>
+                            </div>
+                            <div class="bar" style="height: 60%; --bar-height: 60%;">
+                                <div class="bar-label">Colaboración</div>
+                            </div>
+                            <div class="bar" style="height: 90%; --bar-height: 90%;">
+                                <div class="bar-label">Procesos</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-title">ROI Proyectado</div>
+                    <div class="chart">
+                        <div class="roi-display">
+                            <div class="roi-number" id="roi-projection">+285%</div>
+                            <div class="roi-description">
+                                Incremento estimado con implementación de PMO
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="blur-overlay" id="blur-overlay">
+                <div class="email-form">
+                    <h3>🔓 Desbloquea tu Reporte</h3>
+                    <p>Obtén análisis detallado, recomendaciones personalizadas y roadmap de implementación</p>
+                    <input type="email" class="email-input" placeholder="tu.email@empresa.com" id="email-input" required>
+                    <br>
+                    <button class="submit-button" onclick="submitEmail()">
+                        <i class="fas fa-download"></i> Descargar Reporte
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Transforma tu Organización</h2>
+            <p>Únete a los líderes que ya están optimizando sus proyectos con metodologías probadas</p>
+            
+            <div class="cta-buttons">
+                <button class="primary-cta" onclick="document.getElementById('quiz').scrollIntoView({ behavior: 'smooth' });">
+                    <i class="fas fa-rocket"></i>
+                    Comenzar Diagnóstico
+                </button>
+                
+                <a href="https://instagram.com/drivenbypeople_" target="_blank" class="instagram-cta">
+                    <i class="fab fa-instagram"></i>
+                    @drivenbypeople_
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let answers = {};
+        let currentQuestion = 1;
+
+        function selectOption(questionNum, value) {
+            answers[questionNum] = value;
+            
+            const progress = document.getElementById('progress');
+            progress.style.width = (questionNum / 3 * 100) + '%';
+            
+            document.getElementById(`question${questionNum}`).classList.remove('active');
+            
+            if (questionNum < 3) {
+                setTimeout(() => {
+                    document.getElementById(`question${questionNum + 1}`).classList.add('active');
+                }, 300);
+                currentQuestion++;
+            } else {
+                setTimeout(() => {
+                    showResults();
+                }, 500);
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            calculateAndDisplayResults();
+            
+            setTimeout(() => {
+                document.getElementById('blur-overlay').style.display = 'flex';
+            }, 15000);
+        }
+
+        function calculateAndDisplayResults() {
+            let totalScore = 0;
+            Object.values(answers).forEach(answer => {
+                if (answer === 'high') totalScore += 85;
+                else if (answer === 'medium') totalScore += 65;
+                else totalScore += 35;
+            });
+            
+            const avgScore = Math.round(totalScore / 3);
+            document.getElementById('efficiency-score').textContent = avgScore + '%';
+            
+            const gaugeFill = document.getElementById('gauge-fill');
+            gaugeFill.style.width = avgScore + '%';
+            
+            const needle = document.querySelector('.gauge-needle');
+            const rotation = -90 + (avgScore / 100 * 180);
+            needle.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
+            
+            const riskLevel = avgScore > 75 ? 'Bajo' : avgScore > 50 ? 'Medio' : 'Alto';
+            document.getElementById('risk-center').textContent = riskLevel;
+            
+            const roiValue = Math.round(180 + (avgScore * 1.8));
+            document.getElementById('roi-projection').textContent = '+' + roiValue + '%';
+        }
+
+        function submitEmail() {
+            const email = document.getElementById('email-input').value;
+            if (email && email.includes('@')) {
+                document.getElementById('blur-overlay').style.display = 'none';
+                alert('¡Perfecto! Tu reporte ejecutivo ha sido enviado a ' + email + '\n\nNuestro equipo se contactará contigo en las próximas 24 horas.\n\n📱 Síguenos en @drivenbypeople_ para más insights.');
+            } else {
+                alert('Por favor ingresa un email válido');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.impact-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.animation = `fadeIn 0.6s ease forwards`;
+                }, index * 200);
+            });
+            
+            // Improve mobile experience
+            if (window.innerWidth <= 768) {
+                // Add touch feedback for options
+                const options = document.querySelectorAll('.option');
+                options.forEach(option => {
+                    option.addEventListener('touchstart', function() {
+                        this.style.transform = 'scale(0.98)';
+                    });
+                    
+                    option.addEventListener('touchend', function() {
+                        this.style.transform = '';
+                    });
+                });
+                
+                // Optimize blur timing for mobile
+                const originalShowResults = window.showResults;
+                window.showResults = function() {
+                    document.getElementById('quiz').style.display = 'none';
+                    document.getElementById('results').style.display = 'block';
+                    
+                    calculateAndDisplayResults();
+                    
+                    // Longer time on mobile for better UX
+                    setTimeout(() => {
+                        document.getElementById('blur-overlay').style.display = 'flex';
+                    }, 20000);
+                };
+            }
+            
+            // Smooth scroll polyfill for older browsers
+            if (!('scrollBehavior' in document.documentElement.style)) {
+                const smoothScrollTo = (element) => {
+                    element.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                };
+                
+                document.querySelector('.primary-cta').addEventListener('click', function(e) {
+                    e.preventDefault();
+                    smoothScrollTo(document.getElementById('quiz'));
+                });
+            }
+        });
+    </script>
+</body>
+</html>
