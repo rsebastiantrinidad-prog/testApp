@@ -1459,10 +1459,10 @@
             
             document.getElementById(`question${questionNum}`).classList.remove('active');
             
-            if (questionNum < 20) {
+            if (questionNum < 3) {
                 setTimeout(() => {
                     document.getElementById(`question${questionNum + 1}`).classList.add('active');
-                }, 300);
+                }, 3000);
                 currentQuestion++;
             } else {
                 setTimeout(() => {
