@@ -87,17 +87,68 @@
             line-height: 1.1;
         }
 
+        .hero h1 span {
+            color: #19A7A0;
+            position: relative;
+        }
+
         .hero p {
             font-size: 1.6rem;
             color: #666666;
             margin-bottom: 3rem;
-            max-width: 700px;
+            max-width: 800px;
             margin-left: auto;
             margin-right: auto;
             font-weight: 500;
+            line-height: 1.8;
         }
 
-        /* Impact Section */
+        /* Personal Touch Section */
+        .personal-touch {
+            padding: 4rem 0;
+            background: #F8F9FF;
+            text-align: center;
+            border-top: 1px solid #E0E0E0;
+            border-bottom: 1px solid #E0E0E0;
+        }
+        
+        .personal-message {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.3rem;
+            color: #333333;
+            font-style: italic;
+            line-height: 1.8;
+            position: relative;
+            padding: 0 2rem;
+        }
+        
+        .personal-message::before,
+        .personal-message::after {
+            content: '"';
+            font-size: 3rem;
+            color: #19A7A0;
+            opacity: 0.3;
+            position: absolute;
+        }
+        
+        .personal-message::before {
+            left: 0;
+            top: -10px;
+        }
+        
+        .personal-message::after {
+            right: 0;
+            bottom: -30px;
+        }
+        
+        .message-author {
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            color: #661EDA;
+            font-weight: 600;
+            font-style: normal;
+        }
         .impact-section {
             padding: 5rem 0;
             background: #FFFFFF;
@@ -368,7 +419,7 @@
 
         .results-blur-overlay.blurred .charts-grid {
             filter: blur(10px);
-            transition: filter 3s ease;
+            transition: filter 10s ease;
         }
 
         .results-blur-overlay.revealed .charts-grid {
@@ -424,7 +475,73 @@
             position: relative;
         }
 
-        /* CTA Section */
+        /* Countdown Timer - Subtle Visual Only */
+        .countdown-ring {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            z-index: 1000;
+            display: none;
+            pointer-events: none;
+        }
+
+        .countdown-ring.active {
+            display: block;
+            animation: fadeInRing 0.3s ease;
+        }
+
+        @keyframes fadeInRing {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .countdown-ring svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+
+        .countdown-ring circle {
+            fill: none;
+            stroke-width: 4;
+        }
+
+        .countdown-ring .ring-bg {
+            stroke: rgba(240, 240, 240, 0.3);
+        }
+
+        .countdown-ring .ring-progress {
+            stroke: url(#gradient);
+            stroke-dasharray: 377;
+            stroke-dashoffset: 0;
+            transition: stroke-dashoffset 6s linear;
+            filter: drop-shadow(0 0 10px rgba(102, 30, 218, 0.3));
+        }
+
+        .countdown-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(255, 255, 255, 0.4) 100%);
+            z-index: 999;
+            display: none;
+            pointer-events: none;
+        }
+
+        .countdown-overlay.active {
+            display: block;
+            animation: subtlePulse 6s ease;
+        }
+
+        @keyframes subtlePulse {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.3; }
+        }
         .cta-section {
             background: linear-gradient(135deg, #661EDA 0%, #19A7A0 100%);
             padding: 5rem 0;
@@ -764,6 +881,189 @@
             color: #661EDA;
             text-align: center;
             margin-top: 1rem;
+        }
+
+        /* New Professional Chart Styles */
+        .performance-metrics {
+            padding: 1rem 0;
+        }
+
+        .metric-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            gap: 1rem;
+        }
+
+        .metric-label {
+            flex: 0 0 140px;
+            font-size: 0.9rem;
+            color: #666666;
+            font-weight: 500;
+        }
+
+        .metric-bar {
+            flex: 1;
+            height: 20px;
+            background: #F0F0F0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .metric-fill {
+            height: 100%;
+            border-radius: 10px;
+            animation: growWidth 2s ease forwards;
+            position: relative;
+        }
+
+        .metric-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
+            animation: shine 2s ease infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .metric-value {
+            flex: 0 0 40px;
+            text-align: right;
+            font-weight: 600;
+            color: #333333;
+            font-size: 0.95rem;
+        }
+
+        .efficiency-matrix {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .matrix-quadrant {
+            background: #F8F9FF;
+            border: 1px solid #E0E0E0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .matrix-quadrant:hover,
+        .matrix-quadrant.active {
+            background: linear-gradient(135deg, rgba(102, 30, 218, 0.1), rgba(25, 167, 160, 0.1));
+            border-color: #80DDDB;
+            transform: scale(1.05);
+        }
+
+        .quadrant-value {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #661EDA;
+            margin-bottom: 0.3rem;
+        }
+
+        .quadrant-label {
+            font-size: 0.85rem;
+            color: #666666;
+            font-weight: 500;
+        }
+
+        .trend-chart {
+            padding: 1rem;
+            position: relative;
+        }
+
+        .trend-line {
+            width: 100%;
+            height: 150px;
+            position: relative;
+        }
+
+        .trend-line svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .trend-label {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: #19A7A0;
+            font-weight: 600;
+        }
+
+        .roi-timeline {
+            margin-top: 2rem;
+        }
+
+        .timeline-phases {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        .timeline-phases::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 2rem;
+            right: 2rem;
+            height: 2px;
+            background: #E0E0E0;
+            transform: translateY(-50%);
+        }
+
+        .phase {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .phase-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 3px solid #E0E0E0;
+            transition: all 0.3s ease;
+        }
+
+        .phase.active .phase-dot {
+            background: #661EDA;
+            border-color: #661EDA;
+            box-shadow: 0 0 15px rgba(102, 30, 218, 0.4);
+        }
+
+        .phase-label {
+            font-size: 0.85rem;
+            color: #666666;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .phase.active .phase-label {
+            color: #661EDA;
+            font-weight: 600;
+        }
+
+        @keyframes growWidth {
+            from { width: 0; }
         }
 
         @keyframes fadeIn {
@@ -1211,46 +1511,52 @@
                     </g>
                 </svg>
             </div>
-            <div class="tagline">Transformando organizaciones a través de las personas</div>
+            <div class="tagline">Porque detrás de cada proyecto hay personas que se comunican</div>
         </header>
 
         <section class="hero">
-            <h1>El Costo Real de la Ineficiencia</h1>
-            <p>Cada día que tu organización opera sin una gestión de proyectos optimizada, pierdes oportunidades de crecimiento, productividad y rentabilidad.</p>
+            <h1>Sabemos lo que <span>sientes</span></h1>
+            <p>Ese agotamiento de lidiar con proyectos que nunca terminan a tiempo. La frustración de ver cómo tu equipo trabaja duro pero los resultados no llegan... No estás solo.</p>
+        </section>
+
+        <section class="personal-touch">
+            <div class="personal-message">
+                Yo ya estuve ahí: equipos agotados, reuniones eternas y la frustración de correr en para lograr mis objetivos. Lo viví, lo sufrí… y lo transformé en propósito. Por eso creé Driven by People: para que ningún líder tenga que cargar solo con ese peso y pueda convertir el caos en claridad.
+                <div class="message-author">— Sebastián Trinidad, Fundador</div>
+            </div>
         </section>
 
         <section class="impact-section">
-            <h2>Impacto Financiero Real</h2>
+            <h2>No es tu culpa, pero sí tu oportunidad</h2>
             
             <div class="impact-grid">
                 <div class="impact-card">
-                    <div class="impact-number">68%</div>
-                    <div class="impact-text">de los proyectos fallan por falta de alineación estratégica</div>
+                    <div class="impact-number">+60%</div>
+                    <div class="impact-text">de las empresas sienten que sus proyectos están desconectados de la estrategia real, afectando la productividad y crecimiento sostenible. ()</div>
                 </div>
                 <div class="impact-card">
                     <div class="impact-number">$2.5M</div>
-                    <div class="impact-text">pérdida promedio anual por ineficiencias operativas</div>
+                    <div class="impact-text">es lo que una empresa mediana pierde cada año por no tener claridad en sus procesos</div>
                 </div>
                 <div class="impact-card">
                     <div class="impact-number">45%</div>
-                    <div class="impact-text">del tiempo se desperdicia en reuniones improductivas</div>
+                    <div class="impact-text">de tu semana se va en reuniones que no deberían existir</div>
                 </div>
             </div>
 
             <p class="impact-highlight">
-                Una gestión efectiva puede <span class="highlight-text">reducir costos hasta un 25%</span> y <span class="highlight-text">aumentar productividad en 30%</span>
+                Imagina recuperar <span class="highlight-text">10 horas semanales</span> y ver a tu equipo <span class="highlight-text">realmente motivado</span>
             </p>
         </section>
 
         <section class="quiz-section" id="quiz">
             <div class="quiz-inner">
                 <div class="quiz-header">
-                    <h2>Descubre Tu Potencial de Mejora</h2>
-                    <p>3 preguntas estratégicas para revelar oportunidades ocultas</p>
-                    <a href="https://calendly.com/rsebastian-trinidad/30min" target="_blank" class="quiz-cta-button">
-                        <i class="fas fa-chart-line"></i>
-                        Comienza Tu Diagnóstico
-                    </a>
+                    <h2>¿Qué tan clara es hoy tu gestión de proyectos?</h2>
+                    <p>Tres preguntas rápidas que mostrarán algunos datos que te resultarán interesantes</p>
+                    <button class="quiz-cta-button" id="start-quiz-btn">
+                        👉 Quiero Hacer el Test
+                    </button>
                 </div>
 
                 <div class="progress-bar" style="display: none;">
@@ -1258,55 +1564,55 @@
                 </div>
 
                 <div class="question-container" id="question1">
-                    <div class="question">¿Cómo describes la alineación entre la estrategia corporativa y la ejecución de proyectos en tu organización?</div>
+                    <div class="question">Cuando inicias un proyecto en tu equipo, ¿cómo aseguras que todos entiendan el objetivo real?</div>
                     <div class="options">
                         <div class="option" onclick="selectOption(1, 'high')">
-                            <strong>Excelente Alineación</strong>
-                            Los proyectos están directamente conectados con objetivos estratégicos y se revisan regularmente
+                            <strong>Tengo visibilidad total</strong>
+                            Definimos objetivos claros y medibles vinculados a la estrategia de la empresa, y nos aseguramos de que cada miembro entienda cómo contribuye.
                         </div>
                         <div class="option" onclick="selectOption(1, 'medium')">
-                            <strong>Alineación Parcial</strong>
-                            Existe conexión estratégica pero falta claridad en la ejecución y seguimiento
+                            <strong>Confío pero verifico</strong>
+                            Establecemos metas generales y vamos ajustando sobre la marcha según vayan surgiendo problemas.
                         </div>
                         <div class="option" onclick="selectOption(1, 'low')">
-                            <strong>Desconexión Estratégica</strong>
-                            Los proyectos operan de manera independiente sin clara conexión estratégica
+                            <strong>Es una caja negra</strong>
+                            Confiamos en que el equipo ya sabe qué hacer y avanzamos sin perder tiempo en definir objetivos.
                         </div>
                     </div>
                 </div>
 
                 <div class="question-container" id="question2">
-                    <div class="question">¿Cómo evalúas la colaboración y comunicación entre equipos en proyectos críticos?</div>
+                    <div class="question">Durante la ejecución, ¿cómo controlas el avance del proyecto?</div>
                     <div class="options">
                         <div class="option" onclick="selectOption(2, 'high')">
-                            <strong>Colaboración Excelente</strong>
-                            Comunicación fluida, roles claros y trabajo en equipo efectivo
+                            <strong>Proceso claro y eficiente</strong>
+                            Utilizamos indicadores y tableros de seguimiento visibles para todos, revisados en reuniones cortas y efectivas.
                         </div>
                         <div class="option" onclick="selectOption(2, 'medium')">
-                            <strong>Colaboración Intermitente</strong>
-                            Buena comunicación en algunos equipos, pero inconsistente entre áreas
+                            <strong>Un seguimiento necesario</strong>
+                            El seguimiento se hace en reuniones semanales extensas donde cada uno comenta su avance.
                         </div>
                         <div class="option" onclick="selectOption(2, 'low')">
-                            <strong>Silos Organizacionales</strong>
-                            Comunicación limitada, roles ambiguos y falta de sincronización
+                            <strong>Soy reactivo</strong>
+                            Solo revisamos el avance cuando algo falla o el cliente se queja.
                         </div>
                     </div>
                 </div>
 
                 <div class="question-container" id="question3">
-                    <div class="question">¿Qué tan efectivos son tus procesos de gestión y seguimiento de proyectos?</div>
+                    <div class="question">¿Cómo gestionas la carga de trabajo y prioridades en tu equipo?</div>
                     <div class="options">
                         <div class="option" onclick="selectOption(3, 'high')">
-                            <strong>Procesos Optimizados</strong>
-                            Metodologías claras, herramientas integradas y métricas de seguimiento efectivas
+                            <strong>Decisiones basadas en datos</strong>
+                            Priorizamos tareas según impacto estratégico y capacidad del equipo, redistribuyendo recursos cuando es necesario.
                         </div>
                         <div class="option" onclick="selectOption(3, 'medium')">
-                            <strong>Procesos en Desarrollo</strong>
-                            Algunas metodologías implementadas pero falta estandarización
+                            <strong>El que grita más fuerte gana</strong>
+                            Todos toman varias tareas a la vez y vamos resolviendo según urgencias.
                         </div>
                         <div class="option" onclick="selectOption(3, 'low')">
-                            <strong>Procesos Ad-hoc</strong>
-                            Gestión reactiva, falta de estándares y herramientas desintegradas
+                            <strong>Todo es urgente</strong>
+                            Cada uno decide qué hacer y cuándo, confiamos en que se organicen solos.
                         </div>
                     </div>
                 </div>
@@ -1315,14 +1621,28 @@
 
         <section class="results-section" id="results">
             <div class="results-header">
-                <h2>Tu Perfil de Madurez</h2>
-                <p>Análisis detallado basado en tus respuestas</p>
+                <h2>Aquí está la verdad sobre tu situación</h2>
+                <p>Estos números cuentan tu historia. Míralos con atención.</p>
             </div>
+
+            <div class="countdown-ring" id="countdown-ring">
+                <svg>
+                    <defs>
+                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#661EDA;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#19A7A0;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="ring-bg" cx="60" cy="60" r="60"></circle>
+                    <circle class="ring-progress" cx="60" cy="60" r="60" id="ring-progress"></circle>
+                </svg>
+            </div>
+            <div class="countdown-overlay" id="countdown-overlay"></div>
 
             <div class="results-blur-overlay" id="results-blur">
                 <div class="charts-grid">
                     <div class="chart-container">
-                        <div class="chart-title">Eficiencia Operativa</div>
+                        <div class="chart-title">Índice de Madurez Organizacional</div>
                         <div class="chart">
                             <div class="gauge">
                                 <div class="gauge-bg">
@@ -1335,52 +1655,130 @@
                     </div>
 
                     <div class="chart-container">
-                        <div class="chart-title">Distribución de Riesgos</div>
+                        <div class="chart-title">Distribución de Capacidades</div>
                         <div class="chart">
                             <div class="pie-chart">
-                                <div class="pie-center" id="risk-center">Medio</div>
+                                <div class="pie-center" id="risk-center">Balanceado</div>
                             </div>
                             <div class="pie-legend">
                                 <div class="legend-item">
                                     <div class="legend-color" style="background: #80DDDB;"></div>
-                                    <span>Estratégico</span>
+                                    <span>Estrategia</span>
                                 </div>
                                 <div class="legend-item">
                                     <div class="legend-color" style="background: #661EDA;"></div>
-                                    <span>Operativo</span>
+                                    <span>Ejecución</span>
                                 </div>
                                 <div class="legend-item">
                                     <div class="legend-color" style="background: #19A7A0;"></div>
-                                    <span>Técnico</span>
+                                    <span>Innovación</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="chart-container">
-                        <div class="chart-title">Potencial de Mejora</div>
+                        <div class="chart-title">Métricas de Rendimiento</div>
                         <div class="chart">
-                            <div class="bar-chart">
-                                <div class="bar" style="height: 80%; --bar-height: 80%;">
-                                    <div class="bar-label">Estrategia</div>
+                            <div class="performance-metrics">
+                                <div class="metric-row">
+                                    <span class="metric-label">Velocidad de Entrega</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" style="width: 65%; background: #80DDDB;"></div>
+                                    </div>
+                                    <span class="metric-value">65%</span>
                                 </div>
-                                <div class="bar" style="height: 60%; --bar-height: 60%;">
-                                    <div class="bar-label">Colaboración</div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Calidad del Código</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" style="width: 72%; background: #661EDA;"></div>
+                                    </div>
+                                    <span class="metric-value">72%</span>
                                 </div>
-                                <div class="bar" style="height: 90%; --bar-height: 90%;">
-                                    <div class="bar-label">Procesos</div>
+                                <div class="metric-row">
+                                    <span class="metric-label">Satisfacción del Equipo</span>
+                                    <div class="metric-bar">
+                                        <div class="metric-fill" style="width: 58%; background: #19A7A0;"></div>
+                                    </div>
+                                    <span class="metric-value">58%</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="chart-container">
-                        <div class="chart-title">ROI Proyectado</div>
+                        <div class="chart-title">Eficiencia Operacional</div>
+                        <div class="chart">
+                            <div class="efficiency-matrix">
+                                <div class="matrix-quadrant active" data-quadrant="1">
+                                    <div class="quadrant-value">85%</div>
+                                    <div class="quadrant-label">Planificación</div>
+                                </div>
+                                <div class="matrix-quadrant" data-quadrant="2">
+                                    <div class="quadrant-value">62%</div>
+                                    <div class="quadrant-label">Ejecución</div>
+                                </div>
+                                <div class="matrix-quadrant" data-quadrant="3">
+                                    <div class="quadrant-value">71%</div>
+                                    <div class="quadrant-label">Monitoreo</div>
+                                </div>
+                                <div class="matrix-quadrant active" data-quadrant="4">
+                                    <div class="quadrant-value">89%</div>
+                                    <div class="quadrant-label">Optimización</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-title">Tendencia de Productividad</div>
+                        <div class="chart">
+                            <div class="trend-chart">
+                                <div class="trend-line">
+                                    <svg viewBox="0 0 300 150">
+                                        <polyline
+                                            points="10,130 60,110 110,100 160,75 210,60 260,45 290,30"
+                                            fill="none"
+                                            stroke="url(#trendGradient)"
+                                            stroke-width="3"
+                                        />
+                                        <defs>
+                                            <linearGradient id="trendGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" style="stop-color:#661EDA;stop-opacity:0.8" />
+                                                <stop offset="100%" style="stop-color:#19A7A0;stop-opacity:1" />
+                                            </linearGradient>
+                                        </defs>
+                                        <circle cx="290" cy="30" r="5" fill="#19A7A0"/>
+                                    </svg>
+                                </div>
+                                <div class="trend-label">+35% proyectado en 90 días</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container">
+                        <div class="chart-title">ROI Potencial</div>
                         <div class="chart">
                             <div class="roi-display">
-                                <div class="roi-number" id="roi-projection">+285%</div>
+                                <div class="roi-number" id="roi-projection">3.2x</div>
                                 <div class="roi-description">
-                                    Incremento estimado con implementación de PMO
+                                    Retorno sobre inversión proyectado
+                                </div>
+                                <div class="roi-timeline">
+                                    <div class="timeline-phases">
+                                        <div class="phase active">
+                                            <span class="phase-dot"></span>
+                                            <span class="phase-label">Análisis</span>
+                                        </div>
+                                        <div class="phase">
+                                            <span class="phase-dot"></span>
+                                            <span class="phase-label">Implementación</span>
+                                        </div>
+                                        <div class="phase">
+                                            <span class="phase-dot"></span>
+                                            <span class="phase-label">Resultados</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1390,40 +1788,40 @@
         </section>
 
         <section class="final-cta-section" id="final-cta">
-            <h3>Tu Transformación Comienza Ahora</h3>
+            <h3>Tu diagnóstico completo está listo</h3>
             
             <div class="persuasive-message">
-                <p>El 92% de las organizaciones que implementan nuestras metodologías logran resultados medibles en los primeros 90 días</p>
+                <p>Has identificado las áreas exactas donde tu liderazgo puede brillar. Ahora tienes dos opciones: seguir con la frustración diaria o tomar acción hoy mismo.</p>
             </div>
             
-            <p>Has descubierto exactamente dónde tu organización puede mejorar. Cada día sin actuar representa oportunidades perdidas y costos acumulados. Nuestros expertos han ayudado a más de 150 organizaciones a transformar sus operaciones, generando un retorno promedio de 3.5x sobre la inversión.</p>
+            <p>En tu sesión estratégica personalizada de 30 minutos, recibirás tu diagnóstico completo con un plan de acción específico para tu situación. Sin compromisos, sin ventas agresivas. Solo claridad y soluciones reales de alguien que entiende exactamente por lo que estás pasando.</p>
             
             <div class="final-cta-buttons">
                 <a href="https://calendly.com/rsebastian-trinidad/30min" target="_blank" class="agenda-cta">
-                    <i class="fas fa-calendar-check"></i>
-                    Reserva Tu Consulta Estratégica
+                    <i class="fas fa-unlock"></i>
+                    Accede a Tu Diagnóstico Completo
                 </a>
                 
                 <a href="https://instagram.com/drivenbypeople_" target="_blank" class="final-instagram-cta">
                     <i class="fab fa-instagram"></i>
-                    Únete a Nuestra Comunidad
+                    Conecta con Otros Líderes
                 </a>
             </div>
         </section>
 
         <section class="cta-section">
-            <h2>Transforma tu Organización</h2>
-            <p>Únete a los líderes que ya están optimizando sus proyectos con metodologías probadas</p>
+            <h2>No tienes que hacer esto solo</h2>
+            <p>Cientos de líderes ya encontraron la claridad que buscaban. Tu turno puede ser hoy.</p>
             
             <div class="cta-buttons">
                 <a href="https://calendly.com/rsebastian-trinidad/30min" target="_blank" class="primary-cta">
-                    <i class="fas fa-chart-line"></i>
-                    Agenda Tu Diagnóstico
+                    <i class="fas fa-compass"></i>
+                    Encuentra Tu Camino
                 </a>
                 
                 <a href="https://instagram.com/drivenbypeople_" target="_blank" class="instagram-cta">
                     <i class="fab fa-instagram"></i>
-                    @drivenbypeople_
+                    Historias reales de transformación
                 </a>
             </div>
         </section>
@@ -1433,9 +1831,12 @@
         let answers = {};
         let currentQuestion = 1;
         let quizStarted = false;
+        let countdownInterval;
+        let mouseHovered = false;
+        let countdownStarted = false;
 
         // Handle quiz start button
-        document.querySelector('.quiz-cta-button').addEventListener('click', function(e) {
+        document.getElementById('start-quiz-btn').addEventListener('click', function(e) {
             e.preventDefault();
             if (!quizStarted) {
                 startQuiz();
@@ -1462,7 +1863,7 @@
             if (questionNum < 3) {
                 setTimeout(() => {
                     document.getElementById(`question${questionNum + 1}`).classList.add('active');
-                }, 3000);
+                }, 300);
                 currentQuestion++;
             } else {
                 setTimeout(() => {
@@ -1475,33 +1876,80 @@
             document.getElementById('quiz').style.display = 'none';
             document.getElementById('results').style.display = 'block';
             
-            // Apply blur initially
-            document.getElementById('results-blur').classList.add('blurred');
-            
             calculateAndDisplayResults();
             
-            // Remove blur after 3 seconds
+            // Show results for 10 seconds before enabling interaction
             setTimeout(() => {
-                document.getElementById('results-blur').classList.add('revealed');
-                document.getElementById('results-blur').classList.remove('blurred');
+                setupCountdownTrigger();
             }, 3000);
+        }
+
+        function setupCountdownTrigger() {
+            const chartContainers = document.querySelectorAll('.chart-container');
             
-            // Show final CTA after blur is removed
+            chartContainers.forEach(container => {
+                container.addEventListener('mouseenter', function() {
+                    if (!countdownStarted && !mouseHovered) {
+                        mouseHovered = true;
+                        startCountdown();
+                    }
+                });
+            });
+        }
+
+        function startCountdown() {
+            countdownStarted = true;
+            const ring = document.getElementById('countdown-ring');
+            const overlay = document.getElementById('countdown-overlay');
+            const ringProgress = document.getElementById('ring-progress');
+            
+            ring.classList.add('active');
+            overlay.classList.add('active');
+            
+            // Start the circular countdown animation
+            setTimeout(() => {
+                ringProgress.style.strokeDashoffset = '377';
+            }, 100);
+            
+            // After 6 seconds, blur results and show CTA
+            setTimeout(() => {
+                ring.classList.remove('active');
+                overlay.classList.remove('active');
+                blurResultsAndShowCTA();
+            }, 6000);
+        }
+
+        function blurResultsAndShowCTA() {
+            document.getElementById('results-blur').classList.add('blurred');
+            
             setTimeout(() => {
                 document.getElementById('final-cta').style.display = 'block';
                 document.getElementById('final-cta').scrollIntoView({ behavior: 'smooth' });
-            }, 3500);
+            }, 500);
         }
 
         function calculateAndDisplayResults() {
             let totalScore = 0;
-            Object.values(answers).forEach(answer => {
-                if (answer === 'high') totalScore += 85;
-                else if (answer === 'medium') totalScore += 65;
-                else totalScore += 35;
-            });
+            let visibilityScore = 0;
+            let processScore = 0;
+            let priorityScore = 0;
             
-            const avgScore = Math.round(totalScore / 3);
+            // Calculate scores based on answers
+            if (answers[1] === 'high') visibilityScore = 85;
+            else if (answers[1] === 'medium') visibilityScore = 60;
+            else visibilityScore = 35;
+            
+            if (answers[2] === 'high') processScore = 85;
+            else if (answers[2] === 'medium') processScore = 60;
+            else processScore = 35;
+            
+            if (answers[3] === 'high') priorityScore = 85;
+            else if (answers[3] === 'medium') priorityScore = 60;
+            else priorityScore = 35;
+            
+            totalScore = (visibilityScore + processScore + priorityScore) / 3;
+            
+            const avgScore = Math.round(totalScore);
             document.getElementById('efficiency-score').textContent = avgScore + '%';
             
             const gaugeFill = document.getElementById('gauge-fill');
@@ -1511,11 +1959,32 @@
             const rotation = -90 + (avgScore / 100 * 180);
             needle.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
             
-            const riskLevel = avgScore > 75 ? 'Bajo' : avgScore > 50 ? 'Medio' : 'Alto';
-            document.getElementById('risk-center').textContent = riskLevel;
+            // Set capacity level
+            const capacityLevel = avgScore > 70 ? 'Óptimo' : avgScore > 50 ? 'Balanceado' : 'En Desarrollo';
+            document.getElementById('risk-center').textContent = capacityLevel;
             
-            const roiValue = Math.round(180 + (avgScore * 1.8));
-            document.getElementById('roi-projection').textContent = '+' + roiValue + '%';
+            // Update performance metrics
+            const metricFills = document.querySelectorAll('.metric-fill');
+            metricFills[0].style.width = (visibilityScore - 10 + Math.random() * 20) + '%';
+            metricFills[1].style.width = (processScore - 5 + Math.random() * 15) + '%';
+            metricFills[2].style.width = (priorityScore - 15 + Math.random() * 20) + '%';
+            
+            // Update metric values
+            const metricValues = document.querySelectorAll('.metric-value');
+            metricValues[0].textContent = Math.round(visibilityScore - 10 + Math.random() * 20) + '%';
+            metricValues[1].textContent = Math.round(processScore - 5 + Math.random() * 15) + '%';
+            metricValues[2].textContent = Math.round(priorityScore - 15 + Math.random() * 20) + '%';
+            
+            // Update efficiency matrix quadrants
+            const quadrants = document.querySelectorAll('.quadrant-value');
+            quadrants[0].textContent = Math.round(85 + Math.random() * 10) + '%';
+            quadrants[1].textContent = Math.round(60 + Math.random() * 15) + '%';
+            quadrants[2].textContent = Math.round(70 + Math.random() * 10) + '%';
+            quadrants[3].textContent = Math.round(85 + Math.random() * 10) + '%';
+            
+            // Calculate ROI based on current inefficiencies
+            const roiMultiplier = 2 + (100 - avgScore) / 50;
+            document.getElementById('roi-projection').textContent = roiMultiplier.toFixed(1) + 'x';
         }
 
         document.addEventListener('DOMContentLoaded', function() {
