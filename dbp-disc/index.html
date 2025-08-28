@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Driven by People - Human Systems Integration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Colores principales del manual de marca */
+            --primary: #661EDA;      /* Violeta principal */
+            --secondary: #18A7A0;    /* Teal principal */
+            --violet-dark: #320F6A;  /* Violeta oscuro */
+            --violet-light: #9163EA; /* Violeta claro */
+            --violet-mid: #6363EB;   /* Violeta medio */
+            --teal-dark: #26514F;    /* Verde oscuro */
+            --teal-light: #D7FFFB;   /* Cyan muy claro */
+            --teal-mid: #80DDD6;     /* Teal medio */
+            --light: #E1E6FF;        /* Azul muy claro */
+            --white: #FFFFFF;
+            --black: #000000;
+            --gray: #666666;
+            --gray-dark: #4D4D4D;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: var(--white);
+            color: var(--violet-dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Loading Screen con Logo DP */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1s, visibility 1s;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-logo {
+            width: 150px;
+            height: 150px;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        .loader-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            padding: 15px 50px;
+            box-shadow: 0 2px 30px rgba(102, 30, 218, 0.08);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+        }
+
+        .logo-symbol {
+            width: 45px;
+            height: 45px;
+        }
+
+        .logo-text {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo-text .driven {
+            color: var(--primary);
+        }
+
+        .logo-text .people {
+            color: var(--secondary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--violet-dark);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Sections */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 50px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--white) 0%, var(--light) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(102, 30, 218, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(24, 167, 160, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 800;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.5s;
+            line-height: 0.95;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            color: var(--violet-dark);
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.7s;
+            font-weight: 400;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 20px 55px;
+            background: linear-gradient(135deg, var(--primary), var(--violet-mid));
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards 0.9s;
+            box-shadow: 0 15px 35px rgba(102, 30, 218, 0.25);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 45px rgba(102, 30, 218, 0.35);
+            background: linear-gradient(135deg, var(--violet-mid), var(--secondary));
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Problem Section */
+        .problem {
+            background: linear-gradient(180deg, var(--white) 0%, var(--teal-light) 100%);
+        }
+
+        .section-title {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--violet-dark);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+
+        .section-title.visible {
+            animation: fadeInDown 0.8s forwards;
+        }
+
+        .section-title span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes fadeInDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 35px;
+            margin-top: 60px;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 45px 35px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(102, 30, 218, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+            cursor: pointer;
+            border-top: 4px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .problem-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .problem-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .problem-card.visible {
+            animation: cardReveal 0.6s forwards;
+        }
+
+        @keyframes cardReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .problem-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(102, 30, 218, 0.15);
+        }
+
+        .problem-card h3 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .problem-card p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        .problem-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        .problem-card:nth-child(1) .problem-icon { animation-delay: 0s; }
+        .problem-card:nth-child(2) .problem-icon { animation-delay: 0.2s; }
+        .problem-card:nth-child(3) .problem-icon { animation-delay: 0.4s; }
+        .problem-card:nth-child(4) .problem-icon { animation-delay: 0.6s; }
+        .problem-card:nth-child(5) .problem-icon { animation-delay: 0.8s; }
+        .problem-card:nth-child(6) .problem-icon { animation-delay: 1s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Solution Section */
+        .solution {
+            background: white;
+            position: relative;
+        }
+
+        .solution-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .solution-text h2 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--violet-dark);
+            line-height: 1.1;
+        }
+
+        .solution-text h2 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .solution-text p {
+            font-size: 1.3rem;
+            color: var(--gray);
+            margin-bottom: 25px;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .solution-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .circle-diagram {
+            width: 100%;
+            max-width: 500px;
+            height: 500px;
+            position: relative;
+        }
+
+        .center-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            box-shadow: 0 25px 50px rgba(102, 30, 218, 0.3);
+            animation: pulse 3s infinite;
+            font-family: 'Smooch Sans', sans-serif;
+        }
+
+        .orbit-circle {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: white;
+            border: 3px solid var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--violet-dark);
+            box-shadow: 0 10px 25px rgba(24, 167, 160, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .orbit-circle:hover {
+            transform: scale(1.15);
+            box-shadow: 0 15px 35px rgba(24, 167, 160, 0.3);
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .orbit-circle:nth-child(2) {
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .orbit-circle:nth-child(3) {
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+        }
+
+        .orbit-circle:nth-child(4) {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .orbit-circle:nth-child(5) {
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+        }
+
+        /* Roles Section */
+        .roles {
+            background: linear-gradient(180deg, var(--teal-light) 0%, var(--white) 100%);
+            padding: 120px 50px;
+        }
+
+        .roles-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .role-card {
+            background: white;
+            padding: 60px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(102, 30, 218, 0.1);
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .role-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+
+        .role-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .role-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(102, 30, 218, 0.15);
+        }
+
+        .role-title {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .role-subtitle {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .role-description {
+            font-size: 1.15rem;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .role-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill-tag {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, rgba(102, 30, 218, 0.08), rgba(24, 167, 160, 0.08));
+            border-radius: 25px;
+            font-size: 0.95rem;
+            color: var(--violet-dark);
+            border: 1px solid rgba(102, 30, 218, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* Process Section */
+        .process {
+            background: white;
+            padding: 120px 50px;
+        }
+
+        .process-timeline {
+            position: relative;
+            margin-top: 80px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .timeline-item.visible {
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 45px;
+            background: linear-gradient(135deg, rgba(102, 30, 218, 0.03), rgba(24, 167, 160, 0.03));
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(102, 30, 218, 0.08);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(102, 30, 218, 0.1);
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 30, 218, 0.15);
+            background: white;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+        }
+
+        .timeline-number {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(102, 30, 218, 0.3);
+        }
+
+        .timeline-content h3 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .timeline-content p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        /* Results Section */
+        .results {
+            background: linear-gradient(135deg, var(--violet-dark), var(--primary));
+            color: white;
+            text-align: center;
+        }
+
+        .results .section-title {
+            color: white;
+            margin-bottom: 60px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .metric-card {
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .metric-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .metric-number {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--secondary), var(--teal-dark));
+            padding: 100px 50px;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: clamp(3rem, 5vw, 4.5rem);
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: white;
+            line-height: 1.1;
+        }
+
+        .cta-section p {
+            font-size: 1.5rem;
+            margin-bottom: 50px;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 20px 55px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--secondary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(50, 15, 106, 0.9);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 50px;
+            border-radius: 30px;
+            width: 80%;
+            max-width: 800px;
+            animation: slideUp 0.4s;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .close {
+            color: var(--gray);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: var(--primary);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            section {
+                padding: 80px 30px;
+            }
+
+            .solution-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+            }
+
+            .timeline-content {
+                width: 100%;
+            }
+
+            .timeline-line {
+                left: 30px;
+            }
+
+            .timeline-number {
+                left: 30px;
+            }
+
+            .roles-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .logo-text {
+                font-size: 1.5rem;
+            }
+
+            .logo-symbol {
+                width: 35px;
+                height: 35px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-logo">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <!-- Logo dP simplificado -->
+                <circle cx="60" cy="60" r="8" fill="#661EDA"/>
+                <path d="M 30 80 Q 30 50, 60 50 Q 90 50, 90 80 Q 90 110, 60 110 Q 30 110, 30 80" fill="none" stroke="#661EDA" stroke-width="8"/>
+                <rect x="100" y="40" width="8" height="80" fill="#661EDA"/>
+                <path d="M 140 40 Q 170 40, 170 70 Q 170 100, 140 100" fill="none" stroke="#18A7A0" stroke-width="8"/>
+                <circle cx="140" cy="120" r="8" fill="#18A7A0"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="logo">
+                <div class="logo-symbol">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="30" cy="30" r="4" fill="#661EDA"/>
+                        <path d="M 15 40 Q 15 25, 30 25 Q 45 25, 45 40 Q 45 55, 30 55 Q 15 55, 15 40" fill="none" stroke="#661EDA" stroke-width="4"/>
+                        <rect x="50" y="20" width="4" height="40" fill="#661EDA"/>
+                        <path d="M 70 20 Q 85 20, 85 35 Q 85 50, 70 50" fill="none" stroke="#18A7A0" stroke-width="4"/>
+                        <circle cx="70" cy="60" r="4" fill="#18A7A0"/>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <span class="driven">Driven</span><span class="people">by People</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#hero">Inicio</a></li>
+                <li><a href="#problem">El Desafío</a></li>
+                <li><a href="#solution">Solución</a></li>
+                <li><a href="#roles">Especialistas</a></li>
+                <li><a href="#process">Proceso</a></li>
+                <li><a href="#results">Resultados</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Sincronizamos<br>Personas y Sistemas</h1>
+                <p class="subtitle">Where Human Potential Meets Operational Excellence</p>
+                <a href="#contact" class="cta-button">Descubre tu Potencial</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="problem" id="problem">
+        <div class="container">
+            <h2 class="section-title reveal">¿Te <span>suena familiar</span>?</h2>
+            <div class="problem-grid">
+                <div class="problem-card reveal">
+                    <div class="problem-icon">💎</div>
+                    <h3>Talento sin Performance</h3>
+                    <p>Tienes gente brillante pero los resultados no llegan. Algo no está sincronizado.</p>
+                </div>
+                <div class="problem-card reveal">
+                    <div class="problem-icon">🎯</div>
+                    <h3>Proyectos que Fallan</h3>
+                    <p>Tus iniciativas estratégicas naufragan. No es el plan, es el fit personas-roles.</p>
+                </div>
+                <div class="problem-card reveal">
+                    <div class="problem-icon">⚡</div>
+                    <h3>Transformación Estancada</h3>
+                    <p>La digitalización no avanza. Estás digitalizando procesos, no mindsets.</p>
+                </div>
+                <div class="problem-card reveal">
+                    <div class="problem-icon">🔄</div>
+                    <h3>Alta Rotación</h3>
+                    <p>Pierdes talento clave constantemente. El problema es el desajuste perfil-cultura.</p>
+                </div>
+                <div class="problem-card reveal">
+                    <div class="problem-icon">⚙️</div>
+                    <h3>Equipos Desincronizados</h3>
+                    <p>Mucho conflicto, poca colaboración. Perfiles incompatibles trabajando juntos.</p>
+                </div>
+                <div class="problem-card reveal">
+                    <div class="problem-icon">📈</div>
+                    <h3>Crecimiento sin Escala</h3>
+                    <p>Al crecer, pierdes agilidad. No tienes sistemas que escalen con las personas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section class="solution" id="solution">
+        <div class="container">
+            <div class="solution-content">
+                <div class="solution-text reveal">
+                    <h2>La <span>Sincronización</span> que Transforma</h2>
+                    <p>No vendemos consultoría. Vendemos <span class="highlight">sincronización organizacional</span>.</p>
+                    <p>Combinamos el poder del <span class="highlight">DISC profiling</span> con arquitectura de sistemas para crear organizaciones que funcionan como organismos vivos de alto rendimiento.</p>
+                    <p>Cada persona en su zona de genio. Cada proceso amplificando ese talento.</p>
+                </div>
+                <div class="solution-visual reveal">
+                    <div class="circle-diagram">
+                        <div class="center-circle">DISC</div>
+                        <div class="orbit-circle" onclick="showModal('D')">Dominante</div>
+                        <div class="orbit-circle" onclick="showModal('I')">Influyente</div>
+                        <div class="orbit-circle" onclick="showModal('S')">Estable</div>
+                        <div class="orbit-circle" onclick="showModal('C')">Concienzudo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roles Section -->
+    <section class="roles" id="roles">
+        <div class="container">
+            <h2 class="section-title reveal">Nuestros <span>Especialistas</span></h2>
+            <div class="roles-container">
+                <div class="role-card reveal">
+                    <h3 class="role-title">Talent Catalyst Specialist</h3>
+                    <p class="role-subtitle">El Activador del Potencial Humano</p>
+                    <p class="role-description">
+                        No solo identifica talento, sino que CATALIZA su transformación. Como un catalizador químico, acelera reacciones que naturalmente tomarían años. Detecta los puntos de apalancamiento en cada persona y equipo para multiplicar su impacto.
+                    </p>
+                    <div class="role-skills">
+                        <span class="skill-tag">RRHH Estratégico</span>
+                        <span class="skill-tag">Coaching Ontológico</span>
+                        <span class="skill-tag">DISC Profiling</span>
+                        <span class="skill-tag">Transformación Cultural</span>
+                        <span class="skill-tag">Desarrollo de Talento</span>
+                    </div>
+                </div>
+                <div class="role-card reveal">
+                    <h3 class="role-title">Strategic Operations Architect</h3>
+                    <p class="role-subtitle">El Diseñador de Sistemas de Alto Rendimiento</p>
+                    <p class="role-description">
+                        No solo optimiza procesos, sino que ARQUITECTA SISTEMAS vivos que se adaptan. Como un arquitecto que diseña considerando flujos, luz y movimiento, diseña operaciones considerando perfiles humanos, energía y momentum organizacional.
+                    </p>
+                    <div class="role-skills">
+                        <span class="skill-tag">Gestión de Operaciones</span>
+                        <span class="skill-tag">PMI & Agile</span>
+                        <span class="skill-tag">Diseño de Procesos</span>
+                        <span class="skill-tag">Arquitectura Organizacional</span>
+                        <span class="skill-tag">Transformación Digital</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process" id="process">
+        <div class="container">
+            <h2 class="section-title reveal">Nuestro <span>Proceso</span> de Sincronización</h2>
+            <div class="process-timeline">
+                <div class="timeline-line"></div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <h3>Deep Scan</h3>
+                        <p>Assessment DISC completo + Mapeo de procesos. Radiografía humana-operacional de tu organización en 2 semanas.</p>
+                    </div>
+                    <div class="timeline-number">1</div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <h3>Design Sprint</h3>
+                        <p>Co-diseñamos intervenciones quirúrgicas. Prototipamos con equipo piloto y ajustamos en tiempo real durante 1 mes.</p>
+                    </div>
+                    <div class="timeline-number">2</div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <h3>Implementation</h3>
+                        <p>Rollout por oleadas con formación de agentes internos. Instalamos la nueva forma de trabajar en 3-6 meses.</p>
+                    </div>
+                    <div class="timeline-number">3</div>
+                </div>
+                <div class="timeline-item reveal">
+                    <div class="timeline-content">
+                        <h3>Scale & Sustain</h3>
+                        <p>Sistema de monitoreo continuo. Tu organización funciona como un organismo de alto rendimiento autosostenible.</p>
+                    </div>
+                    <div class="timeline-number">4</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results" id="results">
+        <div class="container">
+            <h2 class="section-title reveal">Resultados que <span>Hablan</span></h2>
+            <div class="metrics-grid">
+                <div class="metric-card reveal">
+                    <div class="metric-number" data-target="87">0</div>
+                    <div class="metric-label">% Mejora en Performance</div>
+                </div>
+                <div class="metric-card reveal">
+                    <div class="metric-number" data-target="60">0</div>
+                    <div class="metric-label">% Reducción de Conflictos</div>
+                </div>
+                <div class="metric-card reveal">
+                    <div class="metric-number" data-target="95">0</div>
+                    <div class="metric-label">% Retención Talento Clave</div>
+                </div>
+                <div class="metric-card reveal">
+                    <div class="metric-number" data-target="4">0</div>
+                    <div class="metric-label">X Velocidad de Adopción</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <h2 class="reveal">¿Cuánto te está costando que tu gente brillante no funcione bien junta?</h2>
+            <p class="reveal">Transformamos fricciones en flujos y conflictos en resultados.</p>
+            <div class="cta-buttons reveal">
+                <a href="#" class="btn-primary" onclick="showContactModal()">Agenda una Conversación</a>
+                <a href="#" class="btn-secondary" onclick="showDemoModal()">Solicita un Diagnóstico</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        // Hide loader after page loads
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Reveal animations on scroll
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(element => {
+                const windowHeight = window.innerHeight;
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < windowHeight - elementVisible) {
+                    element.classList.add('active');
+                    
+                    // Special handling for skill tags
+                    if (element.classList.contains('role-card')) {
+                        const tags = element.querySelectorAll('.skill-tag');
+                        tags.forEach((tag, index) => {
+                            tag.style.animationDelay = `${index * 0.1}s`;
+                        });
+                    }
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        reveal(); // Check on load
+
+        // Animate numbers
+        function animateNumbers() {
+            const numbers = document.querySelectorAll('.metric-number');
+            
+            numbers.forEach(number => {
+                const target = parseInt(number.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const updateNumber = () => {
+                    current += increment;
+                    if (current < target) {
+                        number.textContent = Math.ceil(current);
+                        requestAnimationFrame(updateNumber);
+                    } else {
+                        number.textContent = target;
+                        if (number.textContent === '4') {
+                            number.textContent = '4x';
+                        } else {
+                            number.textContent = target + '%';
+                        }
+                    }
+                };
+                
+                // Start animation when visible
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateNumber();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                });
+                
+                observer.observe(number);
+            });
+        }
+
+        animateNumbers();
+
+        // Modal functions
+        function showModal(profile) {
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            const profileData = {
+                'D': {
+                    title: 'Perfil Dominante',
+                    description: 'Orientado a resultados, decisivo, competitivo. Ideal para roles de liderazgo rápido y toma de decisiones bajo presión.',
+                    strengths: ['Decisión rápida', 'Orientación a resultados', 'Liderazgo natural', 'Manejo de crisis'],
+                    challenges: ['Puede ser muy directo', 'Impaciencia con detalles', 'Tendencia a controlar']
+                },
+                'I': {
+                    title: 'Perfil Influyente',
+                    description: 'Entusiasta, optimista, sociable. Excelente para roles que requieren influencia, creatividad y colaboración.',
+                    strengths: ['Comunicación persuasiva', 'Creatividad', 'Construcción de relaciones', 'Energía contagiosa'],
+                    challenges: ['Falta de seguimiento', 'Evita conflictos', 'Puede ser desorganizado']
+                },
+                'S': {
+                    title: 'Perfil Estable',
+                    description: 'Paciente, leal, colaborador. Perfecto para roles que requieren consistencia, soporte y trabajo en equipo.',
+                    strengths: ['Trabajo en equipo', 'Paciencia', 'Lealtad', 'Escucha activa'],
+                    challenges: ['Resistencia al cambio', 'Dificultad para decir no', 'Evita confrontación']
+                },
+                'C': {
+                    title: 'Perfil Concienzudo',
+                    description: 'Analítico, preciso, sistemático. Ideal para roles que requieren precisión, análisis y control de calidad.',
+                    strengths: ['Atención al detalle', 'Pensamiento analítico', 'Alta calidad', 'Planificación'],
+                    challenges: ['Parálisis por análisis', 'Perfeccionismo', 'Crítico con errores']
+                }
+            };
+            
+            const data = profileData[profile];
+            modalBody.innerHTML = `
+                <h2 style="color: var(--primary); margin-bottom: 20px; font-family: 'Smooch Sans', sans-serif; font-size: 2.5rem;">${data.title}</h2>
+                <p style="font-size: 1.2rem; color: var(--gray); line-height: 1.8; margin-bottom: 30px;">${data.description}</p>
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: var(--secondary); margin-bottom: 15px;">Fortalezas Clave</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        ${data.strengths.map(s => `<li style="padding: 12px; background: linear-gradient(135deg, rgba(102, 30, 218, 0.05), rgba(24, 167, 160, 0.05)); margin-bottom: 10px; border-radius: 15px; border-left: 3px solid var(--secondary);">✓ ${s}</li>`).join('')}
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: var(--secondary); margin-bottom: 15px;">Áreas de Desarrollo</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        ${data.challenges.map(c => `<li style="padding: 12px; background: linear-gradient(135deg, rgba(102, 30, 218, 0.05), rgba(24, 167, 160, 0.05)); margin-bottom: 10px; border-radius: 15px; border-left: 3px solid var(--primary);">→ ${c}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        function showContactModal() {
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            modalBody.innerHTML = `
+                <h2 style="color: var(--primary); margin-bottom: 30px; font-family: 'Smooch Sans', sans-serif; font-size: 2.5rem;">Iniciemos la Conversación</h2>
+                <form style="display: flex; flex-direction: column; gap: 20px;">
+                    <input type="text" placeholder="Nombre completo" style="padding: 15px; border: 2px solid var(--light); border-radius: 15px; font-size: 1.1rem; font-family: 'Quicksand', sans-serif;">
+                    <input type="email" placeholder="Email corporativo" style="padding: 15px; border: 2px solid var(--light); border-radius: 15px; font-size: 1.1rem; font-family: 'Quicksand', sans-serif;">
+                    <input type="text" placeholder="Empresa" style="padding: 15px; border: 2px solid var(--light); border-radius: 15px; font-size: 1.1rem; font-family: 'Quicksand', sans-serif;">
+                    <select style="padding: 15px; border: 2px solid var(--light); border-radius: 15px; font-size: 1.1rem; font-family: 'Quicksand', sans-serif;">
+                        <option>¿Cuál es tu principal desafío?</option>
+                        <option>Talento sin performance</option>
+                        <option>Proyectos que fallan</option>
+                        <option>Transformación estancada</option>
+                        <option>Alta rotación</option>
+                        <option>Equipos desincronizados</option>
+                        <option>Crecimiento sin escala</option>
+                    </select>
+                    <textarea placeholder="Cuéntanos más sobre tu situación..." style="padding: 15px; border: 2px solid var(--light); border-radius: 15px; font-size: 1.1rem; min-height: 120px; resize: vertical; font-family: 'Quicksand', sans-serif;"></textarea>
+                    <button type="submit" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 18px; border: none; border-radius: 50px; font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s; font-family: 'Quicksand', sans-serif;">Enviar Mensaje</button>
+                </form>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        function showDemoModal() {
+            const modal = document.getElementById('modal');
+            const modalBody = document.getElementById('modal-body');
+            
+            modalBody.innerHTML = `
+                <h2 style="color: var(--primary); margin-bottom: 30px; font-family: 'Smooch Sans', sans-serif; font-size: 2.5rem;">Solicita tu Diagnóstico Gratuito</h2>
+                <p style="font-size: 1.2rem; color: var(--gray); margin-bottom: 30px;">Recibe un análisis inicial de sincronización personas-sistemas para tu organización.</p>
+                <form style="display: flex; flex-direction: column; gap: 20px;">
+                    <input type="text" placeholder="Nombre completo" style="padding: 15px; border: 2px solid var(--light); border-radius: 15px; font-size: 1.1rem; font-family: 'Quicksand', sans-serif;">
+                    <input type="email" placeholder="Email corporativo" style="padding: 15px; border: 2px solid var(--light); border-radius: 15px; font-size: 1.1rem; font-family: 'Quicksand', sans-serif;">
+                    <input type="text" placeholder="Empresa" style="padding: 15px; border: 2px solid var(--light); border-radius: 15px; font-size: 1.1rem; font-family: 'Quicksand', sans-serif;">
+                    <input type="text" placeholder="Tamaño del equipo" style="padding: 15px; border: 2px solid var(--light); border-radius: 15px; font-size: 1.1rem; font-family: 'Quicksand', sans-serif;">
+                    <select style="padding: 15px; border: 2px solid var(--light); border-radius: 15px; font-size: 1.1rem; font-family: 'Quicksand', sans-serif;">
+                        <option>Industria</option>
+                        <option>Tecnología</option>
+                        <option>Servicios Financieros</option>
+                        <option>Retail</option>
+                        <option>Manufactura</option>
+                        <option>Salud</option>
+                        <option>Educación</option>
+                        <option>Otro</option>
+                    </select>
+                    <button type="submit" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 18px; border: none; border-radius: 50px; font-size: 1.2rem; font-weight: 600; cursor: pointer; transition: all 0.3s; font-family: 'Quicksand', sans-serif;">Solicitar Diagnóstico</button>
+                </form>
+            `;
+            
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Problem cards animation
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.problem-card').forEach(card => {
+            cardObserver.observe(card);
+        });
+
+        // Section title animation
+        const titleObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.section-title').forEach(title => {
+            titleObserver.observe(title);
+        });
+
+        // Timeline animation
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            timelineObserver.observe(item);
+        });
+    </script>
+</body>
+</html>
