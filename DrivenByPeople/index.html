@@ -2,11 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <meta name="description" content="Transforma tu gestión de proyectos con Driven by People. Diagnóstico inteligente y soluciones personalizadas para líderes.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Driven by People - Strategic Project Intelligence">
     <meta name="theme-color" content="#661EDA">
-    <title>Driven by People - Transforma tu Gestión de Proyectos</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Driven by People - Strategic Project Intelligence</title>
     <link href="https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@100;200;300;400;500;600;700;800;900&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -15,1856 +14,1143 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #661EDA;
+            --secondary: #19A7A0;
+            --dark: #0A0A0A;
+            --light: #FAFAFA;
+            --gray: #888888;
+            --gray-light: #F5F5F5;
+            --max-width: 1400px;
+        }
+
         body {
-            font-family: 'Quicksand', sans-serif;
-            background: #FFFFFF;
-            color: #333333;
-            line-height: 1.7;
+            font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
             overflow-x: hidden;
-            scroll-behavior: smooth;
-            font-size: 18px;
+            font-size: 16px;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .container {
-            max-width: 1200px;
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(250, 250, 250, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(250, 250, 250, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
+        }
+
+        .nav-container {
+            max-width: var(--max-width);
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        /* Header */
-        .header {
-            padding: 2rem 0;
-            text-align: center;
-            background: #FFFFFF;
-            border-bottom: 1px solid #F0F0F0;
-        }
-
-        .logo-container {
-            display: inline-block;
-            margin-bottom: 1rem;
-        }
-
-        .logo-img {
-            height: 80px;
-            width: auto;
-            max-width: 100%;
-        }
-
-        /* Logo responsive behavior */
-        @media (max-width: 480px) {
-            .logo-img .mobile-logo {
-                display: block !important;
-            }
-            
-            .logo-img text:not(.mobile-logo text) {
-                display: none;
-            }
-            
-            .logo-img g:not(.mobile-logo) {
-                display: none;
-            }
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            color: #666666;
+        .logo {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 1.8rem;
             font-weight: 500;
+            letter-spacing: -0.02em;
+            color: var(--primary);
         }
 
-        /* Hero Section */
+        .nav-cta {
+            background: var(--dark);
+            color: var(--light);
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 2px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
         .hero {
-            text-align: center;
-            padding: 6rem 0;
-            background: linear-gradient(135deg, #F8F9FF 0%, #F0FFFE 100%);
+            margin-top: 80px;
+            padding: 8rem 2rem;
+            max-width: var(--max-width);
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero h1 {
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            color: #661EDA;
-            line-height: 1.1;
-        }
-
-        .hero h1 span {
-            color: #19A7A0;
-            position: relative;
-        }
-
-        .hero p {
-            font-size: 1.6rem;
-            color: #666666;
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(3rem, 7vw, 6rem);
+            font-weight: 300;
+            line-height: 0.95;
+            letter-spacing: -0.03em;
             margin-bottom: 3rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 500;
-            line-height: 1.8;
+            color: var(--dark);
         }
 
-        /* Personal Touch Section */
-        .personal-touch {
-            padding: 4rem 0;
-            background: #F8F9FF;
-            text-align: center;
-            border-top: 1px solid #E0E0E0;
-            border-bottom: 1px solid #E0E0E0;
-        }
-        
-        .personal-message {
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 1.3rem;
-            color: #333333;
-            font-style: italic;
-            line-height: 1.8;
+        .hero h1 .accent {
+            font-weight: 400;
             position: relative;
-            padding: 0 2rem;
-        }
-        
-        .personal-message::before,
-        .personal-message::after {
-            content: '"';
-            font-size: 3rem;
-            color: #19A7A0;
-            opacity: 0.3;
-            position: absolute;
-        }
-        
-        .personal-message::before {
-            left: 0;
-            top: -10px;
-        }
-        
-        .personal-message::after {
-            right: 0;
-            bottom: -30px;
-        }
-        
-        .message-author {
-            margin-top: 2rem;
-            font-size: 1.1rem;
-            color: #661EDA;
-            font-weight: 600;
-            font-style: normal;
-        }
-        .impact-section {
-            padding: 5rem 0;
-            background: #FFFFFF;
+            display: inline-block;
         }
 
-        .impact-section h2 {
-            font-family: 'Smooch Sans', sans-serif;
-            text-align: center;
-            font-size: 3.2rem;
-            margin-bottom: 3rem;
-            color: #19A7A0;
-            font-weight: 600;
-        }
-
-        .impact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .impact-card {
-            background: #FFFFFF;
-            border: 2px solid #F0F0F0;
-            border-radius: 16px;
-            padding: 2.5rem 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .impact-card:hover {
-            transform: translateY(-8px);
-            border-color: #80DDDB;
-            box-shadow: 0 8px 30px rgba(25, 167, 160, 0.1);
-        }
-
-        .impact-number {
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 4rem;
-            font-weight: 800;
-            color: #661EDA;
-            margin-bottom: 1rem;
-        }
-
-        .impact-text {
-            font-size: 1.15rem;
-            color: #666666;
-            font-weight: 500;
-        }
-
-        .impact-highlight {
-            text-align: center;
-            font-size: 1.5rem;
-            color: #333333;
-            margin-top: 3rem;
-            font-weight: 500;
-        }
-
-        .highlight-text {
-            color: #19A7A0;
-            font-weight: 700;
-        }
-
-        /* Quiz Section - Ultra Prominent with Animations */
-        .quiz-section {
-            background: linear-gradient(135deg, #661EDA 0%, #19A7A0 100%);
-            padding: 6rem 0;
-            position: relative;
-            overflow: hidden;
-            margin: 4rem 0;
-            border-radius: 40px;
-            box-shadow: 0 20px 60px rgba(102, 30, 218, 0.3);
-        }
-
-        .quiz-section::before {
+        .hero h1 .accent::after {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.6s ease;
         }
 
-        .quiz-section::after {
+        .hero.active h1 .accent::after {
+            transform: scaleX(1);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            font-weight: 300;
+            color: var(--gray);
+            max-width: 600px;
+            margin-bottom: 4rem;
+            letter-spacing: 0.01em;
+        }
+
+        .metrics-strip {
+            background: var(--dark);
+            padding: 3rem 2rem;
+            overflow: hidden;
+        }
+
+        .metrics-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+
+        .metric {
+            text-align: center;
+            color: var(--light);
+        }
+
+        .metric-value {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 200;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .metric:nth-child(2) .metric-value { animation-delay: 0.1s; }
+        .metric:nth-child(3) .metric-value { animation-delay: 0.2s; }
+        .metric:nth-child(4) .metric-value { animation-delay: 0.3s; }
+
+        .metric-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        .metric-label-desc {
+            font-size: 0.70rem;
+            letter-spacing: 0.1em;
+            opacity: 0.6;
+            font-weight: 500;
+        }
+
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .problem-section {
+            padding: 8rem 2rem;
+            max-width: var(--max-width);
+            margin: 0 auto;
+        }
+
+        .section-header {
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 2px;
+        }
+
+        .problem-card {
+            background: var(--light);
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .problem-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.05) 75%),
-                        linear-gradient(45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%, transparent 75%, rgba(255, 255, 255, 0.05) 75%);
-            background-size: 30px 30px;
-            background-position: 0 0, 15px 15px;
-            animation: shimmer 3s linear infinite;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
         }
 
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .problem-card:hover::before {
+            transform: scaleX(1);
         }
 
-        @keyframes shimmer {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(30px); }
+        .problem-card:hover {
+            background: var(--gray-light);
         }
 
-        .quiz-inner {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 30px;
-            padding: 4rem;
-            margin: 0 2rem;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        .problem-number {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 4rem;
+            font-weight: 200;
+            color: var(--primary);
+            opacity: 0.2;
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
         }
 
-        .quiz-header {
+        .problem-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .problem-description {
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        .assessment-section {
+            background: linear-gradient(180deg, var(--gray-light) 0%, var(--light) 100%);
+            padding: 8rem 2rem;
+        }
+
+        .assessment-container {
+            max-width: 900px;
+            margin: 0 auto;
             text-align: center;
+        }
+
+        .assessment-header h2 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+        }
+
+        .assessment-header p {
+            font-size: 1.1rem;
+            color: var(--gray);
             margin-bottom: 4rem;
         }
 
-        .quiz-header h2 {
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 4.5rem;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #661EDA 0%, #19A7A0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            font-weight: 700;
-            animation: titlePulse 2s ease-in-out infinite;
+        .start-assessment-btn {
+            background: var(--dark);
+            color: var(--light);
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 2px;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
         }
 
-        @keyframes titlePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
+        .start-assessment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
 
-        .quiz-header p {
-            color: #333333;
-            font-size: 1.6rem;
-            font-weight: 600;
-            padding: 1.5rem 3rem;
-            background: linear-gradient(135deg, #F8F9FF 0%, #F0FFFE 100%);
-            border-radius: 50px;
-            display: inline-block;
-            border: 3px solid #19A7A0;
-            box-shadow: 0 6px 20px rgba(25, 167, 160, 0.2);
+        .assessment-questions {
+            display: none;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        .quiz-cta-button {
-            display: inline-block;
-            margin-top: 2rem;
-            background: linear-gradient(135deg, #661EDA 0%, #19A7A0 100%);
-            color: #FFFFFF;
-            padding: 1.5rem 3rem;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            text-decoration: none;
+        .assessment-questions.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .progress-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 4rem;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(102, 30, 218, 0.3);
-            animation: bounce 2s infinite;
         }
 
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-10px); }
-            60% { transform: translateY(-5px); }
-        }
-
-        .quiz-cta-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 12px 35px rgba(102, 30, 218, 0.4);
+        .progress-dot.active {
+            background: var(--primary);
+            transform: scale(1.5);
         }
 
         .question-container {
             display: none;
-            animation: fadeIn 0.5s ease;
-            background: #FFFFFF;
-            border-radius: 20px;
-            padding: 3rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            text-align: left;
         }
 
         .question-container.active {
             display: block;
+            animation: slideIn 0.4s ease;
         }
 
-        .question {
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 2.2rem;
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .question-title {
+            font-size: 1.8rem;
+            font-weight: 400;
             margin-bottom: 3rem;
-            text-align: center;
-            color: #333333;
-            font-weight: 500;
+            color: var(--dark);
+            line-height: 1.4;
         }
 
-        .options {
-            display: grid;
-            gap: 1.5rem;
-            max-width: 700px;
+        .answer-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .answer-option {
+            background: var(--light);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .answer-option::before {
+            content: '';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .answer-option:hover {
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .answer-option:hover::before {
+            border-color: var(--primary);
+        }
+
+        .answer-label {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .answer-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+        .results-section {
+            display: none;
+            padding: 6rem 2rem;
+            max-width: var(--max-width);
             margin: 0 auto;
         }
 
-        .option {
-            background: #FFFFFF;
-            border: 2px solid #F0F0F0;
-            border-radius: 12px;
-            padding: 2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: left;
-            font-size: 1.1rem;
-        }
-
-        .option:hover {
-            border-color: #80DDDB;
-            background: #F0FFFE;
-            transform: translateX(8px);
-        }
-
-        .option strong {
-            color: #661EDA;
-            font-size: 1.3rem;
+        .results-section.active {
             display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(102, 30, 218, 0.1);
-            border-radius: 4px;
-            margin: 3rem auto;
-            overflow: hidden;
-            max-width: 400px;
-        }
-
-        .progress {
-            height: 100%;
-            background: linear-gradient(90deg, #661EDA 0%, #19A7A0 100%);
-            border-radius: 4px;
-            transition: width 0.5s ease;
-            width: 33.33%;
-        }
-
-        /* Results Section */
-        .results-section {
-            display: none;
-            padding: 5rem 0;
-            background: #FFFFFF;
-            opacity: 0;
-            animation: fadeInResults 0.5s ease forwards;
-        }
-
-        @keyframes fadeInResults {
-            to { opacity: 1; }
-        }
-
-        .results-blur-overlay {
-            position: relative;
-        }
-
-        .results-blur-overlay.blurred .charts-grid {
-            filter: blur(10px);
-            transition: filter 10s ease;
-        }
-
-        .results-blur-overlay.revealed .charts-grid {
-            filter: blur(0);
+            animation: fadeIn 0.6s ease;
         }
 
         .results-header {
             text-align: center;
-            margin-bottom: 4rem;
+            margin-bottom: 5rem;
         }
 
         .results-header h2 {
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 3.5rem;
-            color: #661EDA;
-            font-weight: 600;
+            font-family: 'Quicksand', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
             margin-bottom: 1rem;
+            color: var(--dark);
         }
 
-        .results-header p {
-            color: #666666;
-            font-size: 1.4rem;
-            font-weight: 400;
-        }
-
-        .charts-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .chart-container {
-            background: #FFFFFF;
-            border: 1px solid #F0F0F0;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-            position: relative;
-        }
-
-        .chart-title {
+        .maturity-score {
             font-family: 'Smooch Sans', sans-serif;
-            font-size: 1.5rem;
+            font-size: clamp(4rem, 8vw, 6rem);
+            font-weight: 200;
+            color: var(--primary);
+            margin: 2rem 0;
+        }
+
+        .score-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .dashboard-card {
+            background: var(--light);
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 2.5rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .card-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray);
             margin-bottom: 2rem;
-            color: #333333;
-            text-align: center;
             font-weight: 500;
         }
 
-        .chart {
-            height: 280px;
+        .performance-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .performance-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .performance-label {
+            flex: 0 0 120px;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        .performance-bar-bg {
+            flex: 1;
+            height: 4px;
+            background: rgba(0, 0, 0, 0.05);
             position: relative;
+            overflow: hidden;
         }
 
-        /* Countdown Timer - Subtle Visual Only */
-        .countdown-ring {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-            z-index: 1000;
-            display: none;
-            pointer-events: none;
-        }
-
-        .countdown-ring.active {
-            display: block;
-            animation: fadeInRing 0.3s ease;
-        }
-
-        @keyframes fadeInRing {
-            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
-
-        .countdown-ring svg {
-            transform: rotate(-90deg);
-            width: 100%;
-            height: 100%;
-        }
-
-        .countdown-ring circle {
-            fill: none;
-            stroke-width: 4;
-        }
-
-        .countdown-ring .ring-bg {
-            stroke: rgba(240, 240, 240, 0.3);
-        }
-
-        .countdown-ring .ring-progress {
-            stroke: url(#gradient);
-            stroke-dasharray: 377;
-            stroke-dashoffset: 0;
-            transition: stroke-dashoffset 6s linear;
-            filter: drop-shadow(0 0 10px rgba(102, 30, 218, 0.3));
-        }
-
-        .countdown-overlay {
-            position: fixed;
+        .performance-bar-fill {
+            position: absolute;
+            left: 0;
             top: 0;
+            height: 100%;
+            background: var(--primary);
+            transition: width 1.5s ease;
+            width: 0;
+        }
+
+        .performance-value {
+            flex: 0 0 50px;
+            text-align: right;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .radar-chart {
+            width: 100%;
+            height: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .timeline-chart {
+            position: relative;
+            height: 200px;
+        }
+
+        .timeline-line {
+            position: absolute;
+            bottom: 50%;
             left: 0;
             right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, transparent 0%, rgba(255, 255, 255, 0.4) 100%);
-            z-index: 999;
-            display: none;
-            pointer-events: none;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
         }
 
-        .countdown-overlay.active {
-            display: block;
-            animation: subtlePulse 6s ease;
-        }
-
-        @keyframes subtlePulse {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 0.3; }
-        }
-        .cta-section {
-            background: linear-gradient(135deg, #661EDA 0%, #19A7A0 100%);
-            padding: 5rem 0;
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 3.5rem;
-            color: #FFFFFF;
-            margin-bottom: 1rem;
-            font-weight: 600;
-        }
-
-        .cta-section p {
-            font-size: 1.4rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 3rem;
-            font-weight: 400;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .cta-buttons {
+        .timeline-points {
             display: flex;
-            gap: 2rem;
-            justify-content: center;
+            justify-content: space-between;
+            height: 100%;
             align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .primary-cta {
-            background: #FFFFFF;
-            border: none;
-            padding: 1.3rem 2.8rem;
-            border-radius: 50px;
-            color: #661EDA;
-            font-size: 1.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        .primary-cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .instagram-cta {
-            color: #FFFFFF;
-            text-decoration: none;
-            font-size: 1.1rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1.1rem 2.2rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        .instagram-cta:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #FFFFFF;
-            transform: translateY(-3px);
-        }
-
-        /* Final CTA Section */
-        .final-cta-section {
-            display: none;
-            background: linear-gradient(135deg, #661EDA 0%, #19A7A0 100%);
-            padding: 5rem 0;
-            text-align: center;
-            border-radius: 30px;
-            margin: 4rem 0;
-            animation: slideUp 0.5s ease;
-            box-shadow: 0 15px 40px rgba(102, 30, 218, 0.2);
-        }
-
-        .final-cta-section h3 {
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            color: #FFFFFF;
-            font-weight: 600;
-        }
-
-        .final-cta-section p {
-            font-size: 1.4rem;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 3rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 500;
-            line-height: 1.7;
-        }
-
-        .persuasive-message {
-            background: rgba(255, 255, 255, 0.15);
-            border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem auto 3rem;
-            max-width: 600px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .persuasive-message p {
-            color: #FFFFFF;
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .final-cta-buttons {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .agenda-cta {
-            background: #FFFFFF;
-            border: none;
-            padding: 1.6rem 3.5rem;
-            border-radius: 50px;
-            color: #661EDA;
-            font-size: 1.3rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            font-family: 'Quicksand', sans-serif;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .agenda-cta:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-            background: #F8F9FF;
-        }
-
-        .final-instagram-cta {
-            color: #FFFFFF;
-            text-decoration: none;
-            font-size: 1.2rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            padding: 1.3rem 2.8rem;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            border-radius: 50px;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            font-family: 'Quicksand', sans-serif;
-        }
-
-        .final-instagram-cta:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #FFFFFF;
-            transform: translateY(-3px);
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Chart styles */
-        .bar-chart {
-            display: flex;
-            align-items: flex-end;
-            height: 220px;
-            gap: 1.5rem;
-            padding: 1rem 0;
-        }
-
-        .bar {
-            flex: 1;
-            background: #80DDDB;
-            border-radius: 6px 6px 0 0;
-            position: relative;
-            animation: growUp 1.5s ease;
-        }
-
-        .bar:nth-child(2) {
-            background: #661EDA;
-        }
-
-        .bar:nth-child(3) {
-            background: #19A7A0;
-        }
-
-        .bar-label {
-            position: absolute;
-            bottom: -35px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 1rem;
-            color: #666666;
-            font-weight: 500;
-        }
-
-        .pie-chart {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: conic-gradient(
-                #80DDDB 0deg 120deg,
-                #661EDA 120deg 240deg,
-                #19A7A0 240deg 360deg
-            );
-            margin: 0 auto;
             position: relative;
         }
 
-        .pie-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            background: #FFFFFF;
-            border-radius: 50%;
+        .timeline-point {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #333333;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .pie-legend {
-            text-align: center;
-            margin-top: 1.5rem;
-            font-size: 1rem;
-            color: #666666;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
+            flex-direction: column;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .legend-color {
+        .timeline-dot {
             width: 12px;
             height: 12px;
             border-radius: 50%;
-        }
-
-        .gauge {
-            width: 180px;
-            height: 90px;
+            background: var(--light);
+            border: 2px solid rgba(0, 0, 0, 0.2);
             position: relative;
-            margin: 2rem auto;
+            z-index: 2;
+            transition: all 0.3s ease;
         }
 
-        .gauge-bg {
-            width: 100%;
-            height: 100%;
-            border-radius: 90px 90px 0 0;
-            background: #F0F0F0;
-            position: relative;
-            overflow: hidden;
+        .timeline-point.active .timeline-dot {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.3);
         }
 
-        .gauge-fill {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 100%;
-            background: #80DDDB;
-            border-radius: 90px 90px 0 0;
-            transition: width 2s ease;
-        }
-
-        .gauge-needle {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform-origin: bottom center;
-            width: 2px;
-            height: 70px;
-            background: #333333;
-            border-radius: 1px;
-            transform: translateX(-50%) rotate(-45deg);
-            animation: needleMove 2s ease;
-        }
-
-        .roi-display {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
-        .roi-number {
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 4rem;
-            font-weight: 800;
-            color: #19A7A0;
-        }
-
-        .roi-description {
-            color: #666666;
+        .timeline-label {
+            font-size: 0.8rem;
+            color: var(--gray);
             text-align: center;
-            margin-top: 1rem;
-            font-weight: 400;
-            font-size: 1rem;
         }
 
-        .efficiency-score {
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            color: #661EDA;
+        .unlock-section {
+            display: none;
+            background: var(--dark);
+            color: var(--light);
+            padding: 8rem 2rem;
             text-align: center;
-            margin-top: 1rem;
+            margin-top: 6rem;
         }
 
-        /* New Professional Chart Styles */
-        .performance-metrics {
-            padding: 1rem 0;
+        .unlock-section.active {
+            display: block;
+            animation: fadeIn 0.6s ease;
         }
 
-        .metric-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1.2rem;
-            gap: 1rem;
+        .unlock-container {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        .metric-label {
-            flex: 0 0 140px;
-            font-size: 0.9rem;
-            color: #666666;
-            font-weight: 500;
+        .unlock-title {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
         }
 
-        .metric-bar {
-            flex: 1;
-            height: 20px;
-            background: #F0F0F0;
-            border-radius: 10px;
-            overflow: hidden;
+        .unlock-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+            line-height: 1.8;
         }
 
-        .metric-fill {
-            height: 100%;
-            border-radius: 10px;
-            animation: growWidth 2s ease forwards;
-            position: relative;
-        }
-
-        .metric-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
-            animation: shine 2s ease infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .metric-value {
-            flex: 0 0 40px;
-            text-align: right;
-            font-weight: 600;
-            color: #333333;
-            font-size: 0.95rem;
-        }
-
-        .efficiency-matrix {
+        .unlock-features {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .unlock-feature {
             padding: 1rem;
         }
 
-        .matrix-quadrant {
-            background: #F8F9FF;
-            border: 1px solid #E0E0E0;
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .matrix-quadrant:hover,
-        .matrix-quadrant.active {
-            background: linear-gradient(135deg, rgba(102, 30, 218, 0.1), rgba(25, 167, 160, 0.1));
-            border-color: #80DDDB;
-            transform: scale(1.05);
-        }
-
-        .quadrant-value {
-            font-family: 'Smooch Sans', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #661EDA;
-            margin-bottom: 0.3rem;
-        }
-
-        .quadrant-label {
-            font-size: 0.85rem;
-            color: #666666;
-            font-weight: 500;
-        }
-
-        .trend-chart {
-            padding: 1rem;
-            position: relative;
-        }
-
-        .trend-line {
-            width: 100%;
-            height: 150px;
-            position: relative;
-        }
-
-        .trend-line svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .trend-label {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 1.1rem;
-            color: #19A7A0;
-            font-weight: 600;
-        }
-
-        .roi-timeline {
-            margin-top: 2rem;
-        }
-
-        .timeline-phases {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            padding: 0 1rem;
-        }
-
-        .timeline-phases::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 2rem;
-            right: 2rem;
-            height: 2px;
-            background: #E0E0E0;
-            transform: translateY(-50%);
-        }
-
-        .phase {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-            position: relative;
-            z-index: 1;
-        }
-
-        .phase-dot {
-            width: 20px;
-            height: 20px;
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
-            background: #FFFFFF;
-            border: 3px solid #E0E0E0;
-            transition: all 0.3s ease;
         }
 
-        .phase.active .phase-dot {
-            background: #661EDA;
-            border-color: #661EDA;
-            box-shadow: 0 0 15px rgba(102, 30, 218, 0.4);
+        .feature-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
         }
 
-        .phase-label {
-            font-size: 0.85rem;
-            color: #666666;
+        .unlock-cta {
+            background: var(--light);
+            color: var(--dark);
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 2px;
+            font-size: 1rem;
             font-weight: 500;
-            white-space: nowrap;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .phase.active .phase-label {
-            color: #661EDA;
-            font-weight: 600;
+        .unlock-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
         }
 
-        @keyframes growWidth {
-            from { width: 0; }
+        footer {
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .footer-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
         }
 
-        @keyframes growUp {
-            from { height: 0; }
-            to { height: var(--bar-height, 100%); }
+        .footer-logo {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--primary);
+            margin-bottom: 1rem;
         }
 
-        @keyframes needleMove {
-            from { transform: translateX(-50%) rotate(-90deg); }
-            to { transform: translateX(-50%) rotate(-45deg); }
+        .footer-text {
+            font-size: 0.9rem;
+            color: var(--gray);
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            body {
-                font-size: 16px;
-            }
-            
-            .container {
-                padding: 0 15px;
-            }
-            
-            .charts-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-            
-            .impact-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
-            
-            .hero h1 {
-                font-size: 4rem;
-            }
-            
-            .hero p {
-                font-size: 1.4rem;
-            }
-            
-            .quiz-header h2 {
-                font-size: 3.5rem;
-            }
-            
-            .quiz-inner {
-                margin: 0 1rem;
-                padding: 3rem;
-            }
+        .blur-overlay {
+            position: relative;
+        }
+
+        .blur-overlay.blurred .dashboard-grid {
+            filter: blur(8px);
+            pointer-events: none;
+            transition: filter 0.6s ease;
         }
 
         @media (max-width: 768px) {
-            body {
-                font-size: 16px;
-            }
-            
-            .hero {
-                padding: 4rem 0;
-            }
-            
-            .hero h1 { 
-                font-size: 3.5rem;
-                line-height: 1.1;
-            }
-            
-            .hero p {
-                font-size: 1.3rem;
-            }
-            
-            .tagline {
-                font-size: 1.1rem;
-            }
-            
-            .impact-section, .quiz-section, .results-section, .cta-section, .final-cta-section {
-                padding: 3rem 0;
-            }
-            
-            .impact-section h2, .results-header h2, .cta-section h2 {
-                font-size: 2.8rem;
-            }
-            
-            .quiz-header h2 {
-                font-size: 3rem;
-            }
-            
-            .final-cta-section h3 {
-                font-size: 2.5rem;
-            }
-            
-            .charts-grid { 
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .impact-grid { 
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .cta-buttons, .final-cta-buttons { 
-                flex-direction: column; 
-                gap: 1rem;
-            }
-            
-            .question-container {
-                padding: 2rem;
-            }
-            
-            .question {
-                font-size: 1.9rem;
-            }
-            
-            .options {
-                gap: 1rem;
-            }
-            
-            .option {
-                padding: 1.5rem;
-                font-size: 1rem;
-            }
-            
-            .option strong {
-                font-size: 1.2rem;
-            }
-            
-            .logo-img {
-                height: 60px;
-            }
-            
-            .impact-number {
-                font-size: 3.5rem;
-            }
-            
-            .impact-text {
-                font-size: 1.05rem;
-            }
-            
-            .impact-highlight {
-                font-size: 1.3rem;
-            }
-            
-            .pie-chart {
-                width: 160px;
-                height: 160px;
-            }
-            
-            .pie-center {
-                width: 80px;
-                height: 80px;
-                font-size: 1.3rem;
-            }
-            
-            .gauge {
-                width: 160px;
-                height: 80px;
-            }
-            
-            .roi-number {
-                font-size: 3.5rem;
-            }
-            
-            .bar-chart {
-                height: 180px;
-                gap: 1rem;
-            }
-            
-            .chart-title {
-                font-size: 1.3rem;
-            }
-            
-            .quiz-header p {
-                font-size: 1.4rem;
-                padding: 1.2rem 2rem;
-            }
-            
-            .quiz-cta-button {
-                font-size: 1.2rem;
-                padding: 1.3rem 2.5rem;
-            }
-            
-            .quiz-inner {
-                padding: 2.5rem;
-            }
+            .hero h1 { font-size: 3rem; }
+            .metrics-container { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+            .problem-grid { grid-template-columns: 1fr; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .nav-container { padding: 1rem; }
+            .hero { padding: 4rem 1rem; }
+            .assessment-header h2 { font-size: 2.5rem; }
+            .maturity-score { font-size: 4rem; }
         }
 
-        @media (max-width: 480px) {
-            body {
-                font-size: 15px;
-            }
-            
-            .container {
-                padding: 0 10px;
-            }
-            
-            .header {
-                padding: 1.5rem 0;
-            }
-            
-            .hero {
-                padding: 3rem 0;
-            }
-            
-            .hero h1 { 
-                font-size: 2.8rem;
-            }
-            
-            .hero p {
-                font-size: 1.2rem;
-            }
-            
-            .tagline {
-                font-size: 1rem;
-            }
-            
-            .impact-section, .quiz-section, .results-section, .cta-section, .final-cta-section {
-                padding: 2.5rem 0;
-            }
-            
-            .impact-section h2, .results-header h2, .cta-section h2 {
-                font-size: 2.3rem;
-            }
-            
-            .quiz-header h2 {
-                font-size: 2.5rem;
-            }
-            
-            .final-cta-section h3 {
-                font-size: 2.1rem;
-            }
-            
-            .impact-card, .question-container, .chart-container {
-                padding: 1.5rem;
-            }
-            
-            .question {
-                font-size: 1.6rem;
-                margin-bottom: 2rem;
-            }
-            
-            .option {
-                padding: 1.2rem;
-                font-size: 0.95rem;
-            }
-            
-            .option strong {
-                font-size: 1.1rem;
-            }
-            
-            .impact-number {
-                font-size: 3rem;
-            }
-            
-            .impact-text {
-                font-size: 1rem;
-            }
-            
-            .impact-highlight {
-                font-size: 1.2rem;
-            }
-            
-            .primary-cta, .instagram-cta, .agenda-cta, .final-instagram-cta {
-                padding: 1rem 1.8rem;
-                font-size: 1rem;
-                width: 100%;
-                max-width: 280px;
-                justify-content: center;
-            }
-            
-            .logo-img {
-                height: 50px;
-            }
-            
-            .pie-chart {
-                width: 140px;
-                height: 140px;
-            }
-            
-            .pie-center {
-                width: 70px;
-                height: 70px;
-                font-size: 1.2rem;
-            }
-            
-            .gauge {
-                width: 140px;
-                height: 70px;
-            }
-            
-            .gauge-needle {
-                height: 55px;
-            }
-            
-            .roi-number {
-                font-size: 3rem;
-            }
-            
-            .efficiency-score {
-                font-size: 2.5rem;
-            }
-            
-            .bar-chart {
-                height: 150px;
-                gap: 0.8rem;
-            }
-            
-            .chart-title {
-                font-size: 1.2rem;
-                margin-bottom: 1.5rem;
-            }
-            
-            .pie-legend {
-                gap: 0.5rem;
-                font-size: 0.9rem;
-            }
-            
-            .legend-item {
-                gap: 0.3rem;
-            }
-            
-            .legend-color {
-                width: 10px;
-                height: 10px;
-            }
-            
-            .roi-description {
-                font-size: 0.9rem;
-            }
-            
-            .bar-label {
-                font-size: 0.9rem;
-                bottom: -25px;
-            }
-            
-            .quiz-header p {
-                font-size: 1.2rem;
-                padding: 1rem 1.5rem;
-            }
-            
-            .quiz-cta-button {
-                font-size: 1.1rem;
-                padding: 1.2rem 2rem;
-            }
-            
-            .quiz-inner {
-                margin: 0 0.5rem;
-                padding: 2rem 1.5rem;
-            }
-            
-            .final-cta-section p,
-            .persuasive-message p {
-                font-size: 1.2rem;
-            }
-            
-            .cta-section p {
-                font-size: 1.2rem;
-            }
-        }
-
-        @media (max-width: 360px) {
-            body {
-                font-size: 14px;
-            }
-            
-            .hero h1 { 
-                font-size: 2.4rem;
-            }
-            
-            .impact-section h2, .quiz-header h2, .results-header h2, .cta-section h2 {
-                font-size: 2rem;
-            }
-            
-            .final-cta-section h3 {
-                font-size: 1.9rem;
-            }
-            
-            .question {
-                font-size: 1.4rem;
-            }
-            
-            .impact-number {
-                font-size: 2.5rem;
-            }
-            
-            .roi-number {
-                font-size: 2.5rem;
-            }
-            
-            .efficiency-score {
-                font-size: 2rem;
-            }
-        }
-
-        /* Touch-friendly adjustments */
-        @media (hover: none) and (pointer: coarse) {
-            .option {
-                min-height: 60px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            
-            .primary-cta, .instagram-cta, .quiz-cta-button, .agenda-cta, .final-instagram-cta {
-                min-height: 48px;
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <div class="logo-container">
-                <!-- Logo SVG integrado - Responsive -->
-                <svg class="logo-img" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-                    <defs>
-                        <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#661EDA;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#320F6A;stop-opacity:1" />
-                        </linearGradient>
-                        <linearGradient id="tealGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" style="stop-color:#19A7A0;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#80DDDB;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <!-- Symbol -->
-                    <circle cx="40" cy="100" r="15" fill="url(#purpleGrad)"/>
-                    <path d="M 25 60 Q 70 30 115 60 Q 115 90 115 120 Q 70 150 25 120 Z" fill="url(#purpleGrad)" opacity="0.8"/>
-                    <path d="M 80 40 Q 125 10 170 40 Q 170 70 170 100 Q 125 130 80 100 Z" fill="url(#tealGrad)"/>
-                    <circle cx="90" cy="140" r="8" fill="url(#tealGrad)"/>
-                    
-                    <!-- Text - Responsive -->
-                    <text x="200" y="80" font-family="Quicksand, sans-serif" font-size="36" font-weight="600" fill="url(#purpleGrad)">Driven</text>
-                    <text x="340" y="80" font-family="Quicksand, sans-serif" font-size="24" font-weight="400" fill="url(#purpleGrad)">by</text>
-                    <text x="200" y="130" font-family="Quicksand, sans-serif" font-size="36" font-weight="600" fill="url(#tealGrad)">People</text>
-                    
-                    <!-- Mobile version - shown only on small screens -->
-                    <g class="mobile-logo" style="display: none;">
-                        <circle cx="40" cy="60" r="12" fill="url(#purpleGrad)"/>
-                        <path d="M 28 30 Q 65 10 102 30 Q 102 50 102 70 Q 65 90 28 70 Z" fill="url(#purpleGrad)" opacity="0.8"/>
-                        <path d="M 75 20 Q 112 5 149 20 Q 149 40 149 60 Q 112 80 75 60 Z" fill="url(#tealGrad)"/>
-                        <circle cx="82" cy="85" r="6" fill="url(#tealGrad)"/>
-                        <text x="180" y="50" font-family="Quicksand, sans-serif" font-size="28" font-weight="600" fill="url(#purpleGrad)">Driven</text>
-                        <text x="180" y="80" font-family="Quicksand, sans-serif" font-size="28" font-weight="600" fill="url(#tealGrad)">People</text>
-                    </g>
-                </svg>
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo">Driven by People</div>
+            <button class="nav-cta" onclick="scrollToAssessment()">Comenzar Assessment</button>
+        </div>
+    </nav>
+
+    <section class="hero" id="hero">
+        <h1>
+            La diferencia entre el caos<br>
+            y la <span class="accent">excelencia operativa</span><br>
+            es medible
+        </h1>
+        <p class="hero-subtitle">
+            Transformamos la gestión de proyectos en ventaja competitiva 
+            para líderes ambiciosos.
+        </p>
+    </section>
+
+    <section class="metrics-strip">
+        <div class="metrics-container">
+            <div class="metric">
+                <div class="metric-value">30-45%</div>
+                <div class="metric-label">Reducción de tiempos críticos</div>
+                <div class="metric-label-desc">Un proceso clave en 8–12 semanas con estandarización + automatización. Menos espera, menos retrabajo (Mayor caja).</div>
             </div>
-            <div class="tagline">Porque detrás de cada proyecto hay personas que se comunican</div>
-        </header>
-
-        <section class="hero">
-            <h1>Sabemos lo que <span>sientes</span></h1>
-            <p>Ese agotamiento de lidiar con proyectos que nunca terminan a tiempo. La frustración de ver cómo tu equipo trabaja duro pero los resultados no llegan... No estás solo.</p>
-        </section>
-
-        <section class="personal-touch">
-            <div class="personal-message">
-                Yo ya estuve ahí: equipos agotados, reuniones eternas y la frustración de correr en para lograr mis objetivos. Lo viví, lo sufrí… y lo transformé en propósito. Por eso creé Driven by People: para que ningún líder tenga que cargar solo con ese peso y pueda convertir el caos en claridad.
-                <div class="message-author">— Sebastián Trinidad, Fundador</div>
+            <div class="metric">
+                <div class="metric-value">85-95%</div>
+                <div class="metric-label">Entregas en fecha</div>
+                <div class="metric-label-desc">Previsibilidad real: los hitos se cumplen y dejas de “adivinar” estado de tus proyectos. Escalar requiere calendario que se respeta, no voluntarismo.</div>
             </div>
-        </section>
+            <div class="metric">
+                <div class="metric-value">25–40%</div>
+                <div class="metric-label">Reuniones mas asertivas</div>
+                <div class="metric-label-desc">Conversaciones que terminan en acuerdos claros. Menos vueltas, más avance semanal.</div>
+            </div>
+            <div class="metric">
+                <div class="metric-value">18–30%</div>
+                <div class="metric-label">1:1 sostenidos por los líderes</div>
+                <div class="metric-label-desc">Cadencia real de liderazgo: foco, apoyo y accountability semanal.</div>
+            </div>
+        </div>
+    </section>
 
-        <section class="impact-section">
-            <h2>No es tu culpa, pero sí tu oportunidad</h2>
-            
-            <div class="impact-grid">
-                <div class="impact-card">
-                    <div class="impact-number">+60%</div>
-                    <div class="impact-text">de las empresas sienten que sus proyectos están desconectados de la estrategia real, afectando la productividad y crecimiento sostenible. ()</div>
-                </div>
-                <div class="impact-card">
-                    <div class="impact-number">$2.5M</div>
-                    <div class="impact-text">es lo que una empresa mediana pierde cada año por no tener claridad en sus procesos</div>
-                </div>
-                <div class="impact-card">
-                    <div class="impact-number">45%</div>
-                    <div class="impact-text">de tu semana se va en reuniones que no deberían existir</div>
-                </div>
+    <section class="problem-section">
+        <div class="section-header">
+            <h2>El costo invisible de la ineficiencia</h2>
+            <p>Cada día sin optimización es capital perdido. Los números no mienten.</p>
+        </div>
+        
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="problem-number">01</div>
+                <h3 class="problem-title">Desalineación Estratégica</h3>
+                <p class="problem-description">
+                    El 68% de las iniciativas fracasan por falta de claridad en objetivos. 
+                    Equipos trabajando duro en direcciones opuestas.
+                </p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-number">02</div>
+                <h3 class="problem-title">Pérdida de Velocidad</h3>
+                <p class="problem-description">
+                    12 horas semanales en reuniones improductivas. 
+                    La burocracia mata la innovación antes de nacer.
+                </p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-number">03</div>
+                <h3 class="problem-title">Talento Subutilizado</h3>
+                <p class="problem-description">
+                    Teams brillantes ejecutando tareas mediocres. 
+                    El 40% del potencial humano desperdiciado en procesos obsoletos.
+                </p>
+            </div>
+            <div class="problem-card">
+                <div class="problem-number">04</div>
+                <h3 class="problem-title">Métricas Vanidosas</h3>
+                <p class="problem-description">
+                    KPIs que no conectan con resultados reales. 
+                    Decisiones basadas en intuición, no en data.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="assessment-section" id="assessment">
+        <div class="assessment-container">
+            <div class="assessment-header" id="assessment-intro">
+                <h2>Assessment de Madurez Organizacional</h2>
+                <p>
+                    Tres minutos para identificar exactamente dónde está perdiendo 
+                    dinero su organización. Sin rodeos. Solo data.
+                </p>
+                <button class="start-assessment-btn" onclick="startAssessment()">
+                    Iniciar Diagnóstico
+                </button>
             </div>
 
-            <p class="impact-highlight">
-                Imagina recuperar <span class="highlight-text">10 horas semanales</span> y ver a tu equipo <span class="highlight-text">realmente motivado</span>
+            <div class="assessment-questions" id="assessment-questions">
+                <div class="progress-indicator">
+                    <div class="progress-dot active" id="dot1"></div>
+                    <div class="progress-dot" id="dot2"></div>
+                    <div class="progress-dot" id="dot3"></div>
+                </div>
+
+                <div class="question-container active" id="q1">
+                    <h3 class="question-title">
+                        ¿Cómo define y comunica los objetivos estratégicos de cada proyecto?
+                    </h3>
+                    <div class="answer-options">
+                        <div class="answer-option" onclick="selectAnswer(1, 'advanced')">
+                            <div class="answer-label">Framework Estructurado</div>
+                            <div class="answer-description">
+                                OKRs cascadeados, KPIs en tiempo real, dashboards ejecutivos con 
+                                visibilidad completa del impacto financiero.
+                            </div>
+                        </div>
+                        <div class="answer-option" onclick="selectAnswer(1, 'intermediate')">
+                            <div class="answer-label">Proceso Definido</div>
+                            <div class="answer-description">
+                                Objetivos documentados, revisiones periódicas, pero sin 
+                                integración completa con métricas de negocio.
+                            </div>
+                        </div>
+                        <div class="answer-option" onclick="selectAnswer(1, 'basic')">
+                            <div class="answer-label">Aproximación Tradicional</div>
+                            <div class="answer-description">
+                                Comunicación verbal, ajustes sobre la marcha, 
+                                confianza en la experiencia del equipo.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container" id="q2">
+                    <h3 class="question-title">
+                        ¿Qué nivel de visibilidad tiene sobre el progreso en tiempo real?
+                    </h3>
+                    <div class="answer-options">
+                        <div class="answer-option" onclick="selectAnswer(2, 'advanced')">
+                            <div class="answer-label">Inteligencia Predictiva</div>
+                            <div class="answer-description">
+                                Analytics avanzados, predicción de desvíos, alertas automáticas 
+                                con recomendaciones de acción basadas en IA.
+                            </div>
+                        </div>
+                        <div class="answer-option" onclick="selectAnswer(2, 'intermediate')">
+                            <div class="answer-label">Monitoreo Regular</div>
+                            <div class="answer-description">
+                                Reportes semanales, reuniones de status, identificación 
+                                reactiva de problemas cuando surgen.
+                            </div>
+                        </div>
+                        <div class="answer-option" onclick="selectAnswer(2, 'basic')">
+                            <div class="answer-label">Visibilidad Limitada</div>
+                            <div class="answer-description">
+                                Actualización cuando hay problemas críticos, 
+                                dependencia de la comunicación informal.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-container" id="q3">
+                    <h3 class="question-title">
+                        ¿Cómo optimiza la asignación de recursos y prioridades?
+                    </h3>
+                    <div class="answer-options">
+                        <div class="answer-option" onclick="selectAnswer(3, 'advanced')">
+                            <div class="answer-label">Optimización Dinámica</div>
+                            <div class="answer-description">
+                                Algoritmos de asignación, capacity planning en tiempo real, 
+                                priorización basada en valor económico agregado.
+                            </div>
+                        </div>
+                        <div class="answer-option" onclick="selectAnswer(3, 'intermediate')">
+                            <div class="answer-label">Gestión Matricial</div>
+                            <div class="answer-description">
+                                Priorización por urgencia/importancia, ajustes manuales 
+                                basados en demanda del cliente y capacidad disponible.
+                            </div>
+                        </div>
+                        <div class="answer-option" onclick="selectAnswer(3, 'basic')">
+                            <div class="answer-label">Asignación Reactiva</div>
+                            <div class="answer-description">
+                                Recursos asignados por disponibilidad, prioridades 
+                                cambian según presión del momento.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="results-section" id="results">
+        <div class="results-header">
+            <h2>Diagnóstico de Madurez Organizacional</h2>
+            <div class="maturity-score" id="maturity-score">73</div>
+            <div class="score-label">ÍNDICE DE EXCELENCIA OPERATIVA</div>
+        </div>
+
+        <div class="blur-overlay" id="results-blur">
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="card-title">Métricas de Rendimiento</div>
+                    <div class="performance-bars">
+                        <div class="performance-item">
+                            <span class="performance-label">Estrategia</span>
+                            <div class="performance-bar-bg">
+                                <div class="performance-bar-fill" id="bar-strategy" style="background: var(--primary);"></div>
+                            </div>
+                            <span class="performance-value" id="val-strategy">75%</span>
+                        </div>
+                        <div class="performance-item">
+                            <span class="performance-label">Ejecución</span>
+                            <div class="performance-bar-bg">
+                                <div class="performance-bar-fill" id="bar-execution" style="background: var(--secondary);"></div>
+                            </div>
+                            <span class="performance-value" id="val-execution">68%</span>
+                        </div>
+                        <div class="performance-item">
+                            <span class="performance-label">Visibilidad</span>
+                            <div class="performance-bar-bg">
+                                <div class="performance-bar-fill" id="bar-visibility" style="background: linear-gradient(90deg, var(--primary), var(--secondary));"></div>
+                            </div>
+                            <span class="performance-value" id="val-visibility">82%</span>
+                        </div>
+                        <div class="performance-item">
+                            <span class="performance-label">Optimización</span>
+                            <div class="performance-bar-bg">
+                                <div class="performance-bar-fill" id="bar-optimization" style="background: var(--primary);"></div>
+                            </div>
+                            <span class="performance-value" id="val-optimization">71%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-title">Capacidades Organizacionales</div>
+                    <div class="radar-chart">
+                        <svg viewBox="0 0 300 250" style="width: 100%; height: 100%;">
+                            <g transform="translate(150,125)">
+                                <polygon points="0,-80 76,-25 47,65 -47,65 -76,-25" 
+                                        fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+                                <polygon points="0,-60 57,-19 35,49 -35,49 -57,-19" 
+                                        fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+                                <polygon points="0,-40 38,-12 24,32 -24,32 -38,-12" 
+                                        fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+                                <polygon points="0,-20 19,-6 12,16 -12,16 -19,-6" 
+                                        fill="none" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+                                
+                                <polygon id="radar-data" points="0,-60 57,-19 35,49 -35,49 -57,-19" 
+                                        fill="url(#radarGradient)" opacity="0.3" stroke="var(--primary)" stroke-width="2"/>
+                                
+                                <text x="0" y="-90" text-anchor="middle" font-size="12" fill="var(--gray)">Liderazgo</text>
+                                <text x="85" y="-25" text-anchor="start" font-size="12" fill="var(--gray)">Procesos</text>
+                                <text x="55" y="80" text-anchor="middle" font-size="12" fill="var(--gray)">Tecnología</text>
+                                <text x="-55" y="80" text-anchor="middle" font-size="12" fill="var(--gray)">Cultura</text>
+                                <text x="-85" y="-25" text-anchor="end" font-size="12" fill="var(--gray)">Datos</text>
+                            </g>
+                            <defs>
+                                <linearGradient id="radarGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:var(--primary);stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:var(--secondary);stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-title">Proyección de Mejora</div>
+                    <div class="timeline-chart">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-points">
+                            <div class="timeline-point active">
+                                <span class="timeline-dot"></span>
+                                <span class="timeline-label">Actual<br>73%</span>
+                            </div>
+                            <div class="timeline-point">
+                                <span class="timeline-dot"></span>
+                                <span class="timeline-label">30 días<br>81%</span>
+                            </div>
+                            <div class="timeline-point">
+                                <span class="timeline-dot"></span>
+                                <span class="timeline-label">60 días<br>87%</span>
+                            </div>
+                            <div class="timeline-point">
+                                <span class="timeline-dot"></span>
+                                <span class="timeline-label">90 días<br>92%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-title">ROI Potencial Identificado</div>
+                    <div style="text-align: center; padding: 2rem 0;">
+                        <div style="font-family: 'Smooch Sans', sans-serif; font-size: 4rem; font-weight: 200; color: var(--secondary);">
+                            €1.8M
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--gray); margin-top: 0.5rem;">
+                            Ahorro anual proyectado
+                        </div>
+                        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(0,0,0,0.1);">
+                            <div style="display: flex; justify-content: space-around; text-align: center;">
+                                <div>
+                                    <div style="font-size: 1.5rem; font-weight: 500; color: var(--dark);">3.2x</div>
+                                    <div style="font-size: 0.8rem; color: var(--gray);">ROI Año 1</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 1.5rem; font-weight: 500; color: var(--dark);">45%</div>
+                                    <div style="font-size: 0.8rem; color: var(--gray);">↓ Tiempo ciclo</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="unlock-section" id="unlock">
+        <div class="unlock-container">
+            <h2 class="unlock-title">Su diagnóstico completo está listo</h2>
+            <p class="unlock-subtitle">
+                Hemos identificado oportunidades específicas de mejora valoradas en €1.8M anuales. 
+                Acceda al informe ejecutivo detallado con su roadmap personalizado de transformación.
             </p>
-        </section>
-
-        <section class="quiz-section" id="quiz">
-            <div class="quiz-inner">
-                <div class="quiz-header">
-                    <h2>¿Qué tan clara es hoy tu gestión de proyectos?</h2>
-                    <p>Tres preguntas rápidas que mostrarán algunos datos que te resultarán interesantes</p>
-                    <button class="quiz-cta-button" id="start-quiz-btn">
-                        👉 Quiero Hacer el Test
-                    </button>
-                </div>
-
-                <div class="progress-bar" style="display: none;">
-                    <div class="progress" id="progress"></div>
-                </div>
-
-                <div class="question-container" id="question1">
-                    <div class="question">Cuando inicias un proyecto en tu equipo, ¿cómo aseguras que todos entiendan el objetivo real?</div>
-                    <div class="options">
-                        <div class="option" onclick="selectOption(1, 'high')">
-                            <strong>Tengo visibilidad total</strong>
-                            Definimos objetivos claros y medibles vinculados a la estrategia de la empresa, y nos aseguramos de que cada miembro entienda cómo contribuye.
-                        </div>
-                        <div class="option" onclick="selectOption(1, 'medium')">
-                            <strong>Confío pero verifico</strong>
-                            Establecemos metas generales y vamos ajustando sobre la marcha según vayan surgiendo problemas.
-                        </div>
-                        <div class="option" onclick="selectOption(1, 'low')">
-                            <strong>Es una caja negra</strong>
-                            Confiamos en que el equipo ya sabe qué hacer y avanzamos sin perder tiempo en definir objetivos.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="question-container" id="question2">
-                    <div class="question">Durante la ejecución, ¿cómo controlas el avance del proyecto?</div>
-                    <div class="options">
-                        <div class="option" onclick="selectOption(2, 'high')">
-                            <strong>Proceso claro y eficiente</strong>
-                            Utilizamos indicadores y tableros de seguimiento visibles para todos, revisados en reuniones cortas y efectivas.
-                        </div>
-                        <div class="option" onclick="selectOption(2, 'medium')">
-                            <strong>Un seguimiento necesario</strong>
-                            El seguimiento se hace en reuniones semanales extensas donde cada uno comenta su avance.
-                        </div>
-                        <div class="option" onclick="selectOption(2, 'low')">
-                            <strong>Soy reactivo</strong>
-                            Solo revisamos el avance cuando algo falla o el cliente se queja.
-                        </div>
-                    </div>
-                </div>
-
-                <div class="question-container" id="question3">
-                    <div class="question">¿Cómo gestionas la carga de trabajo y prioridades en tu equipo?</div>
-                    <div class="options">
-                        <div class="option" onclick="selectOption(3, 'high')">
-                            <strong>Decisiones basadas en datos</strong>
-                            Priorizamos tareas según impacto estratégico y capacidad del equipo, redistribuyendo recursos cuando es necesario.
-                        </div>
-                        <div class="option" onclick="selectOption(3, 'medium')">
-                            <strong>El que grita más fuerte gana</strong>
-                            Todos toman varias tareas a la vez y vamos resolviendo según urgencias.
-                        </div>
-                        <div class="option" onclick="selectOption(3, 'low')">
-                            <strong>Todo es urgente</strong>
-                            Cada uno decide qué hacer y cuándo, confiamos en que se organicen solos.
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="results-section" id="results">
-            <div class="results-header">
-                <h2>Aquí está la verdad sobre tu situación</h2>
-                <p>Estos números cuentan tu historia. Míralos con atención.</p>
-            </div>
-
-            <div class="countdown-ring" id="countdown-ring">
-                <svg>
-                    <defs>
-                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#661EDA;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#19A7A0;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <circle class="ring-bg" cx="60" cy="60" r="60"></circle>
-                    <circle class="ring-progress" cx="60" cy="60" r="60" id="ring-progress"></circle>
-                </svg>
-            </div>
-            <div class="countdown-overlay" id="countdown-overlay"></div>
-
-            <div class="results-blur-overlay" id="results-blur">
-                <div class="charts-grid">
-                    <div class="chart-container">
-                        <div class="chart-title">Índice de Madurez Organizacional</div>
-                        <div class="chart">
-                            <div class="gauge">
-                                <div class="gauge-bg">
-                                    <div class="gauge-fill" id="gauge-fill"></div>
-                                </div>
-                                <div class="gauge-needle"></div>
-                            </div>
-                            <div class="efficiency-score" id="efficiency-score">75%</div>
-                        </div>
-                    </div>
-
-                    <div class="chart-container">
-                        <div class="chart-title">Distribución de Capacidades</div>
-                        <div class="chart">
-                            <div class="pie-chart">
-                                <div class="pie-center" id="risk-center">Balanceado</div>
-                            </div>
-                            <div class="pie-legend">
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #80DDDB;"></div>
-                                    <span>Estrategia</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #661EDA;"></div>
-                                    <span>Ejecución</span>
-                                </div>
-                                <div class="legend-item">
-                                    <div class="legend-color" style="background: #19A7A0;"></div>
-                                    <span>Innovación</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="chart-container">
-                        <div class="chart-title">Métricas de Rendimiento</div>
-                        <div class="chart">
-                            <div class="performance-metrics">
-                                <div class="metric-row">
-                                    <span class="metric-label">Velocidad de Entrega</span>
-                                    <div class="metric-bar">
-                                        <div class="metric-fill" style="width: 65%; background: #80DDDB;"></div>
-                                    </div>
-                                    <span class="metric-value">65%</span>
-                                </div>
-                                <div class="metric-row">
-                                    <span class="metric-label">Calidad del Código</span>
-                                    <div class="metric-bar">
-                                        <div class="metric-fill" style="width: 72%; background: #661EDA;"></div>
-                                    </div>
-                                    <span class="metric-value">72%</span>
-                                </div>
-                                <div class="metric-row">
-                                    <span class="metric-label">Satisfacción del Equipo</span>
-                                    <div class="metric-bar">
-                                        <div class="metric-fill" style="width: 58%; background: #19A7A0;"></div>
-                                    </div>
-                                    <span class="metric-value">58%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="chart-container">
-                        <div class="chart-title">Eficiencia Operacional</div>
-                        <div class="chart">
-                            <div class="efficiency-matrix">
-                                <div class="matrix-quadrant active" data-quadrant="1">
-                                    <div class="quadrant-value">85%</div>
-                                    <div class="quadrant-label">Planificación</div>
-                                </div>
-                                <div class="matrix-quadrant" data-quadrant="2">
-                                    <div class="quadrant-value">62%</div>
-                                    <div class="quadrant-label">Ejecución</div>
-                                </div>
-                                <div class="matrix-quadrant" data-quadrant="3">
-                                    <div class="quadrant-value">71%</div>
-                                    <div class="quadrant-label">Monitoreo</div>
-                                </div>
-                                <div class="matrix-quadrant active" data-quadrant="4">
-                                    <div class="quadrant-value">89%</div>
-                                    <div class="quadrant-label">Optimización</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="chart-container">
-                        <div class="chart-title">Tendencia de Productividad</div>
-                        <div class="chart">
-                            <div class="trend-chart">
-                                <div class="trend-line">
-                                    <svg viewBox="0 0 300 150">
-                                        <polyline
-                                            points="10,130 60,110 110,100 160,75 210,60 260,45 290,30"
-                                            fill="none"
-                                            stroke="url(#trendGradient)"
-                                            stroke-width="3"
-                                        />
-                                        <defs>
-                                            <linearGradient id="trendGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                <stop offset="0%" style="stop-color:#661EDA;stop-opacity:0.8" />
-                                                <stop offset="100%" style="stop-color:#19A7A0;stop-opacity:1" />
-                                            </linearGradient>
-                                        </defs>
-                                        <circle cx="290" cy="30" r="5" fill="#19A7A0"/>
-                                    </svg>
-                                </div>
-                                <div class="trend-label">+35% proyectado en 90 días</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="chart-container">
-                        <div class="chart-title">ROI Potencial</div>
-                        <div class="chart">
-                            <div class="roi-display">
-                                <div class="roi-number" id="roi-projection">3.2x</div>
-                                <div class="roi-description">
-                                    Retorno sobre inversión proyectado
-                                </div>
-                                <div class="roi-timeline">
-                                    <div class="timeline-phases">
-                                        <div class="phase active">
-                                            <span class="phase-dot"></span>
-                                            <span class="phase-label">Análisis</span>
-                                        </div>
-                                        <div class="phase">
-                                            <span class="phase-dot"></span>
-                                            <span class="phase-label">Implementación</span>
-                                        </div>
-                                        <div class="phase">
-                                            <span class="phase-dot"></span>
-                                            <span class="phase-label">Resultados</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="final-cta-section" id="final-cta">
-            <h3>Tu diagnóstico completo está listo</h3>
             
-            <div class="persuasive-message">
-                <p>Has identificado las áreas exactas donde tu liderazgo puede brillar. Ahora tienes dos opciones: seguir con la frustración diaria o tomar acción hoy mismo.</p>
+            <div class="unlock-features">
+                <div class="unlock-feature">
+                    <div class="feature-icon"></div>
+                    <p class="feature-text">Análisis detallado de 27 dimensiones</p>
+                </div>
+                <div class="unlock-feature">
+                    <div class="feature-icon"></div>
+                    <p class="feature-text">Benchmarking contra líderes del sector</p>
+                </div>
+                <div class="unlock-feature">
+                    <div class="feature-icon"></div>
+                    <p class="feature-text">Roadmap de 90 días con quick wins</p>
+                </div>
+                <div class="unlock-feature">
+                    <div class="feature-icon"></div>
+                    <p class="feature-text">Sesión estratégica 1:1 con experto senior</p>
+                </div>
             </div>
             
-            <p>En tu sesión estratégica personalizada de 30 minutos, recibirás tu diagnóstico completo con un plan de acción específico para tu situación. Sin compromisos, sin ventas agresivas. Solo claridad y soluciones reales de alguien que entiende exactamente por lo que estás pasando.</p>
-            
-            <div class="final-cta-buttons">
-                <a href="https://calendly.com/rsebastian-trinidad/30min" target="_blank" class="agenda-cta">
-                    <i class="fas fa-unlock"></i>
-                    Accede a Tu Diagnóstico Completo
-                </a>
-                
-                <a href="https://instagram.com/drivenbypeople_" target="_blank" class="final-instagram-cta">
-                    <i class="fab fa-instagram"></i>
-                    Conecta con Otros Líderes
-                </a>
-            </div>
-        </section>
+            <a href="https://calendly.com/rsebastian-trinidad/30min" target="_blank" class="unlock-cta">
+                Acceder al Diagnóstico Completo
+            </a>
+        </div>
+    </section>
 
-        <section class="cta-section">
-            <h2>No tienes que hacer esto solo</h2>
-            <p>Cientos de líderes ya encontraron la claridad que buscaban. Tu turno puede ser hoy.</p>
-            
-            <div class="cta-buttons">
-                <a href="https://calendly.com/rsebastian-trinidad/30min" target="_blank" class="primary-cta">
-                    <i class="fas fa-compass"></i>
-                    Encuentra Tu Camino
-                </a>
-                
-                <a href="https://instagram.com/drivenbypeople_" target="_blank" class="instagram-cta">
-                    <i class="fab fa-instagram"></i>
-                    Historias reales de transformación
-                </a>
-            </div>
-        </section>
-    </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">Driven by People</div>
+            <p class="footer-text">Strategic Project Intelligence</p>
+        </div>
+    </footer>
 
     <script>
-        let answers = {};
         let currentQuestion = 1;
-        let quizStarted = false;
-        let countdownInterval;
-        let mouseHovered = false;
-        let countdownStarted = false;
+        let answers = {};
+        let assessmentStarted = false;
 
-        // Handle quiz start button
-        document.getElementById('start-quiz-btn').addEventListener('click', function(e) {
-            e.preventDefault();
-            if (!quizStarted) {
-                startQuiz();
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
             }
         });
 
-        function startQuiz() {
-            quizStarted = true;
-            document.querySelector('.quiz-header').style.display = 'none';
-            document.querySelector('.progress-bar').style.display = 'block';
-            document.getElementById('question1').classList.add('active');
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('hero').classList.add('active');
+            }, 100);
+        });
+
+        function scrollToAssessment() {
+            document.getElementById('assessment').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
         }
 
-        function selectOption(questionNum, value) {
-            if (!quizStarted) return;
+        function startAssessment() {
+            assessmentStarted = true;
+            document.getElementById('assessment-intro').style.display = 'none';
+            document.getElementById('assessment-questions').classList.add('active');
+        }
+
+        function selectAnswer(questionNum, value) {
+            if (!assessmentStarted) return;
             
             answers[questionNum] = value;
             
-            const progress = document.getElementById('progress');
-            progress.style.width = (questionNum / 3 * 100) + '%';
+            if (questionNum < 3) {
+                document.getElementById(`dot${questionNum + 1}`).classList.add('active');
+            }
             
-            document.getElementById(`question${questionNum}`).classList.remove('active');
+            document.getElementById(`q${questionNum}`).classList.remove('active');
             
             if (questionNum < 3) {
                 setTimeout(() => {
-                    document.getElementById(`question${questionNum + 1}`).classList.add('active');
+                    currentQuestion++;
+                    document.getElementById(`q${currentQuestion}`).classList.add('active');
                 }, 300);
-                currentQuestion++;
             } else {
                 setTimeout(() => {
                     showResults();
@@ -1873,143 +1159,75 @@
         }
 
         function showResults() {
-            document.getElementById('quiz').style.display = 'none';
-            document.getElementById('results').style.display = 'block';
+            document.getElementById('assessment').style.display = 'none';
             
-            calculateAndDisplayResults();
-            
-            // Show results for 10 seconds before enabling interaction
-            setTimeout(() => {
-                setupCountdownTrigger();
-            }, 3000);
-        }
-
-        function setupCountdownTrigger() {
-            const chartContainers = document.querySelectorAll('.chart-container');
-            
-            chartContainers.forEach(container => {
-                container.addEventListener('mouseenter', function() {
-                    if (!countdownStarted && !mouseHovered) {
-                        mouseHovered = true;
-                        startCountdown();
-                    }
-                });
-            });
-        }
-
-        function startCountdown() {
-            countdownStarted = true;
-            const ring = document.getElementById('countdown-ring');
-            const overlay = document.getElementById('countdown-overlay');
-            const ringProgress = document.getElementById('ring-progress');
-            
-            ring.classList.add('active');
-            overlay.classList.add('active');
-            
-            // Start the circular countdown animation
-            setTimeout(() => {
-                ringProgress.style.strokeDashoffset = '377';
-            }, 100);
-            
-            // After 6 seconds, blur results and show CTA
-            setTimeout(() => {
-                ring.classList.remove('active');
-                overlay.classList.remove('active');
-                blurResultsAndShowCTA();
-            }, 6000);
-        }
-
-        function blurResultsAndShowCTA() {
-            document.getElementById('results-blur').classList.add('blurred');
-            
-            setTimeout(() => {
-                document.getElementById('final-cta').style.display = 'block';
-                document.getElementById('final-cta').scrollIntoView({ behavior: 'smooth' });
-            }, 500);
-        }
-
-        function calculateAndDisplayResults() {
             let totalScore = 0;
+            let strategyScore = 0;
+            let executionScore = 0;
             let visibilityScore = 0;
-            let processScore = 0;
-            let priorityScore = 0;
+            let optimizationScore = 0;
             
-            // Calculate scores based on answers
-            if (answers[1] === 'high') visibilityScore = 85;
-            else if (answers[1] === 'medium') visibilityScore = 60;
-            else visibilityScore = 35;
+            const scoreMap = {
+                'advanced': 90,
+                'intermediate': 65,
+                'basic': 40
+            };
             
-            if (answers[2] === 'high') processScore = 85;
-            else if (answers[2] === 'medium') processScore = 60;
-            else processScore = 35;
+            strategyScore = scoreMap[answers[1]] || 65;
+            visibilityScore = scoreMap[answers[2]] || 65;
+            optimizationScore = scoreMap[answers[3]] || 65;
+            executionScore = Math.round((strategyScore + visibilityScore) / 2);
             
-            if (answers[3] === 'high') priorityScore = 85;
-            else if (answers[3] === 'medium') priorityScore = 60;
-            else priorityScore = 35;
+            totalScore = Math.round((strategyScore + executionScore + visibilityScore + optimizationScore) / 4);
             
-            totalScore = (visibilityScore + processScore + priorityScore) / 3;
+            document.getElementById('maturity-score').textContent = totalScore;
             
-            const avgScore = Math.round(totalScore);
-            document.getElementById('efficiency-score').textContent = avgScore + '%';
+            setTimeout(() => {
+                document.getElementById('bar-strategy').style.width = strategyScore + '%';
+                document.getElementById('val-strategy').textContent = strategyScore + '%';
+                
+                document.getElementById('bar-execution').style.width = executionScore + '%';
+                document.getElementById('val-execution').textContent = executionScore + '%';
+                
+                document.getElementById('bar-visibility').style.width = visibilityScore + '%';
+                document.getElementById('val-visibility').textContent = visibilityScore + '%';
+                
+                document.getElementById('bar-optimization').style.width = optimizationScore + '%';
+                document.getElementById('val-optimization').textContent = optimizationScore + '%';
+            }, 500);
             
-            const gaugeFill = document.getElementById('gauge-fill');
-            gaugeFill.style.width = avgScore + '%';
+            updateRadarChart(strategyScore, executionScore, visibilityScore, optimizationScore);
             
-            const needle = document.querySelector('.gauge-needle');
-            const rotation = -90 + (avgScore / 100 * 180);
-            needle.style.transform = `translateX(-50%) rotate(${rotation}deg)`;
+            document.getElementById('results').classList.add('active');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
             
-            // Set capacity level
-            const capacityLevel = avgScore > 70 ? 'Óptimo' : avgScore > 50 ? 'Balanceado' : 'En Desarrollo';
-            document.getElementById('risk-center').textContent = capacityLevel;
-            
-            // Update performance metrics
-            const metricFills = document.querySelectorAll('.metric-fill');
-            metricFills[0].style.width = (visibilityScore - 10 + Math.random() * 20) + '%';
-            metricFills[1].style.width = (processScore - 5 + Math.random() * 15) + '%';
-            metricFills[2].style.width = (priorityScore - 15 + Math.random() * 20) + '%';
-            
-            // Update metric values
-            const metricValues = document.querySelectorAll('.metric-value');
-            metricValues[0].textContent = Math.round(visibilityScore - 10 + Math.random() * 20) + '%';
-            metricValues[1].textContent = Math.round(processScore - 5 + Math.random() * 15) + '%';
-            metricValues[2].textContent = Math.round(priorityScore - 15 + Math.random() * 20) + '%';
-            
-            // Update efficiency matrix quadrants
-            const quadrants = document.querySelectorAll('.quadrant-value');
-            quadrants[0].textContent = Math.round(85 + Math.random() * 10) + '%';
-            quadrants[1].textContent = Math.round(60 + Math.random() * 15) + '%';
-            quadrants[2].textContent = Math.round(70 + Math.random() * 10) + '%';
-            quadrants[3].textContent = Math.round(85 + Math.random() * 10) + '%';
-            
-            // Calculate ROI based on current inefficiencies
-            const roiMultiplier = 2 + (100 - avgScore) / 50;
-            document.getElementById('roi-projection').textContent = roiMultiplier.toFixed(1) + 'x';
+            setTimeout(() => {
+                document.getElementById('results-blur').classList.add('blurred');
+                document.getElementById('unlock').classList.add('active');
+                document.getElementById('unlock').scrollIntoView({ behavior: 'smooth' });
+            }, 5000);
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const cards = document.querySelectorAll('.impact-card');
-            cards.forEach((card, index) => {
-                setTimeout(() => {
-                    card.style.animation = `fadeIn 0.6s ease forwards`;
-                }, index * 200);
-            });
+        function updateRadarChart(strategy, execution, visibility, optimization) {
+            const maxRadius = 80;
+            const angles = [-90, -18, 54, 126, 198].map(a => a * Math.PI / 180);
+            const values = [
+                strategy / 100,
+                execution / 100,
+                visibility / 100,
+                optimization / 100,
+                (strategy + execution) / 200
+            ];
             
-            // Improve mobile experience
-            if (window.innerWidth <= 768) {
-                // Add touch feedback for options
-                const options = document.querySelectorAll('.option');
-                options.forEach(option => {
-                    option.addEventListener('touchstart', function() {
-                        this.style.transform = 'scale(0.98)';
-                    });
-                    
-                    option.addEventListener('touchend', function() {
-                        this.style.transform = '';
-                    });
-                });
-            }
-        });
+            const points = angles.map((angle, i) => {
+                const radius = maxRadius * values[i];
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
+                return `${x},${y}`;
+            }).join(' ');
+            
+            document.getElementById('radar-data').setAttribute('points', points);
+        }
     </script>
 </body>
 </html>
