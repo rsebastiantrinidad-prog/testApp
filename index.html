@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evolve — Seeds & Branches</title>
+    <title>Rocbird - Staff Augmentation</title>
     <style>
         * {
             margin: 0;
@@ -12,1108 +12,1077 @@
         }
 
         :root {
-            --papel: #f8f6f0;
-            --grafito: #2a2a2a;
-            --salvia: #8fbc8f;
-            --musgo: #4a5d23;
-            --oliva: #6b8e23;
-            --cedro: #8b4513;
-            --arena: #c7b377;
-            --carbon: #1a1a1a;
-            --gris-suave: #6a6a6a;
-            --verde-claro: #b8d4b8;
+            --dark-bg: #1B2838;
+            --darker-bg: #141B24;
+            --cyan: #00BCD4;
+            --cyan-light: #4DD0E1;
+            --yellow: #FFD54F;
+            --yellow-bright: #FFC107;
+            --text-white: #FFFFFF;
+            --text-gray: #B0BEC5;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --border-light: rgba(255, 255, 255, 0.1);
         }
 
         body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background: linear-gradient(135deg, var(--papel) 0%, #f0f0e8 100%);
-            color: var(--grafito);
-            line-height: 1.8;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
+            color: var(--text-white);
             overflow-x: hidden;
         }
 
-        /* Barra de progreso mejorada */
-        .progress-container {
+        /* Progress Indicator */
+        .progress-indicator {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
+            right: 0;
             height: 4px;
-            background: rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.1);
             z-index: 1000;
         }
 
         .progress-bar {
-            width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, var(--salvia), var(--musgo), var(--oliva));
+            background: linear-gradient(90deg, var(--cyan), var(--cyan-light));
+            width: 0%;
             transition: width 0.3s ease;
         }
 
-        /* Botón de imprimir mejorado */
-        .print-button {
+        /* Navigation Dots */
+        .nav-dots {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--papel);
-            border: 2px solid var(--musgo);
-            color: var(--musgo);
-            padding: 12px 20px;
-            font-family: inherit;
-            font-size: 13px;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 15px 0;
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 100;
-            border-radius: 30px;
-            backdrop-filter: blur(10px);
-        }
-
-        .print-button:hover {
-            background: var(--musgo);
-            color: var(--papel);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(74, 93, 35, 0.3);
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 80px 40px 120px;
             position: relative;
         }
 
-        /* Header interactivo */
-        .header {
-            text-align: center;
-            margin-bottom: 100px;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 1.2s ease forwards;
-            position: relative;
+        .nav-dot.active {
+            background: var(--cyan);
+            transform: scale(1.3);
         }
 
-        .title {
-            font-size: clamp(2.5rem, 8vw, 4rem);
-            font-weight: normal;
-            color: var(--carbon);
-            margin-bottom: 20px;
-            letter-spacing: -2px;
-            cursor: pointer;
-            transition: all 0.4s ease;
+        .nav-dot:hover::before {
+            content: attr(data-title);
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--dark-bg);
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: nowrap;
+            font-size: 12px;
+            border: 1px solid var(--border-light);
         }
 
-        .title:hover {
-            color: var(--musgo);
-            transform: scale(1.02);
-        }
-
-        .subtitle {
-            font-size: clamp(1rem, 4vw, 1.3rem);
-            color: var(--gris-suave);
-            font-weight: normal;
-            font-style: italic;
-            opacity: 0;
-            animation: fadeIn 1s ease forwards 0.5s;
-        }
-
-        /* Secciones interactivas con mejores márgenes */
+        /* Sections */
         .section {
-            margin-bottom: 80px;
+            min-height: 100vh;
+            padding: 80px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(50px);
             transition: all 0.8s ease;
-            position: relative;
-            padding: 0 20px; /* Agregado margen interno */
         }
 
-        .section.visible {
+        .section.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-        .section-title {
-            font-size: clamp(1.5rem, 5vw, 2.2rem);
-            color: var(--musgo);
-            margin-bottom: 30px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-left: 10px; /* Margen izquierdo */
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
         }
 
-        .section-title:hover {
-            color: var(--oliva);
-            transform: translateX(10px);
-        }
-
-        .section-title::before {
-            content: '';
-            position: absolute;
-            left: -30px;
-            top: 50%;
-            width: 6px;
-            height: 6px;
-            background: var(--salvia);
-            border-radius: 50%;
-            transform: translateY(-50%) scale(0);
-            transition: transform 0.3s ease;
-        }
-
-        .section-title:hover::before {
-            transform: translateY(-50%) scale(1);
-        }
-
-        .content-text {
-            font-size: clamp(1.1rem, 3vw, 1.3rem);
-            line-height: 2.2;
-            margin-bottom: 40px;
-            margin-left: 15px; /* Margen izquierdo para el texto */
-            margin-right: 15px; /* Margen derecho para el texto */
-        }
-
-        .content-text p {
-            margin-bottom: 30px;
-        }
-
-        .highlight {
-            background: linear-gradient(120deg, transparent 0%, var(--verde-claro) 0%, var(--verde-claro) 100%, transparent 100%);
-            background-size: 0% 100%;
-            background-repeat: no-repeat;
-            transition: background-size 1s ease;
-            padding: 3px 6px;
-            cursor: pointer;
-        }
-
-        .highlight.animate {
-            background-size: 100% 100%;
-        }
-
-        /* Componente Seeds interactivo mejorado para móvil */
-        .seeds-demo {
-            background: rgba(255,255,255,0.6);
-            border: 1px solid var(--verde-claro);
-            border-radius: 15px;
-            padding: 30px 20px;
-            margin: 50px 0;
-            text-align: center;
-            position: relative;
-            backdrop-filter: blur(10px);
-        }
-
-        .demo-title {
-            font-size: clamp(0.9rem, 3vw, 1.1rem);
-            color: var(--musgo);
-            margin-bottom: 30px;
-            font-weight: 600;
-            padding: 0 10px; /* Margen para el título */
-        }
-
-        .seeds-container {
-            display: flex;
-            justify-content: space-around;
+        /* Hero Section */
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
             align-items: center;
-            margin: 30px 0;
-            position: relative;
-            flex-wrap: wrap;
-            gap: 15px;
         }
 
-        .interactive-seed {
-            width: clamp(18px, 5vw, 20px);
-            height: clamp(18px, 5vw, 20px);
-            background: var(--salvia);
-            border-radius: 50%;
+        .tagline {
+            font-size: 1.2rem;
+            color: var(--cyan);
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 30px;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .stat-box {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
             cursor: pointer;
-            transition: all 0.4s ease;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 188, 212, 0.1);
+            border-color: var(--cyan);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--yellow);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            text-transform: lowercase;
+        }
+
+        /* Logo Display */
+        .logo-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-container {
             position: relative;
-            z-index: 2;
-            flex-shrink: 0;
+            width: 350px;
+            height: 350px;
         }
 
-        .interactive-seed:hover {
-            background: var(--musgo);
-            transform: scale(1.5);
-            box-shadow: 0 0 20px rgba(143, 188, 143, 0.6);
-        }
-
-        .interactive-seed.active {
-            background: var(--oliva);
-            transform: scale(1.3);
-            animation: pulse 2s infinite;
-        }
-
-        .connection-line {
+        .logo-text {
             position: absolute;
             top: 50%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--salvia), var(--musgo));
-            transform: translateY(-50%) scaleX(0);
-            transform-origin: left;
-            transition: transform 0.8s ease;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3rem;
+            font-weight: 700;
+            z-index: 10;
         }
 
-        .connection-line.active {
-            transform: translateY(-50%) scaleX(1);
+        .logo-text::after {
+            content: "we create value from data";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--text-gray);
+            white-space: nowrap;
         }
 
-        /* Descripción de semillas con mejor margen */
-        #seed-description {
-            margin-top: 20px;
-            min-height: 50px;
-            color: var(--musgo);
-            font-style: italic;
-            padding: 0 15px; /* Márgenes laterales */
-            font-size: clamp(0.9rem, 2.5vw, 1rem);
+        .orbit-ring {
+            position: absolute;
+            border: 2px solid rgba(0, 188, 212, 0.2);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
         }
 
-        /* Componente Branches */
-        .branches-demo {
-            background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(107, 142, 35, 0.1));
-            border: 1px solid var(--cedro);
-            border-radius: 15px;
-            padding: 30px 20px;
-            margin: 50px 0;
+        .orbit-ring:nth-child(1) {
+            width: 100%;
+            height: 100%;
+            animation-delay: 0s;
+        }
+
+        .orbit-ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0.5s;
+        }
+
+        .orbit-ring:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.05); }
+        }
+
+        /* Benefits Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .benefit-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 40px 30px;
+            transition: all 0.3s ease;
             position: relative;
-        }
-
-        .growth-visualization {
-            height: clamp(150px, 30vw, 200px);
-            position: relative;
-            margin: 30px 0;
-            background: rgba(255,255,255,0.3);
-            border-radius: 10px;
             overflow: hidden;
         }
 
-        .trunk {
+        .benefit-card::before {
+            content: "";
             position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 4px;
-            background: var(--cedro);
-            transform: translateX(-50%) scaleY(0);
-            transform-origin: bottom;
-            animation: growTrunk 2s ease forwards 1s;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cyan), var(--cyan-light));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
         }
 
-        .branch-line {
-            position: absolute;
-            background: var(--musgo);
-            height: 2px;
-            transform-origin: left;
-            opacity: 0;
-            animation: growBranch 1s ease forwards;
+        .benefit-card:hover::before {
+            transform: scaleX(1);
         }
 
-        /* Métricas animadas mejoradas */
-        .metrics-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin: 60px 20px; /* Márgenes laterales */
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .metric-card {
-            background: rgba(255,255,255,0.8);
-            padding: 30px 20px;
-            border-radius: 12px;
-            text-align: center;
-            border: 1px solid var(--verde-claro);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
+        .benefit-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-white);
         }
 
-        .metric-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(143, 188, 143, 0.2);
-            background: rgba(255,255,255,0.95);
+        .benefit-description {
+            color: var(--cyan);
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
         }
 
-        .metric-number {
-            font-size: clamp(1.8rem, 6vw, 2.5rem);
-            font-weight: bold;
-            color: var(--musgo);
-            margin-bottom: 10px;
+        .benefit-detail {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            line-height: 1.6;
         }
 
-        .metric-label {
-            color: var(--gris-suave);
-            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
-            font-style: italic;
-        }
-
-        /* Timeline interactiva mejorada para móvil */
-        .timeline {
+        /* Process Timeline */
+        .process-timeline {
+            margin-top: 60px;
             position: relative;
-            margin: 80px 20px; /* Márgenes laterales */
-            padding: 40px 0;
         }
 
         .timeline-line {
             position: absolute;
-            left: 30px;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: linear-gradient(180deg, var(--salvia), var(--musgo), var(--oliva));
-            transform: scaleY(0);
-            transform-origin: top;
-            transition: transform 2s ease;
+            top: 30px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--cyan), var(--cyan-light));
+            z-index: 0;
         }
 
-        .timeline-line.active {
-            transform: scaleY(1);
+        .timeline-items {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            position: relative;
+            z-index: 1;
         }
 
         .timeline-item {
-            position: relative;
-            margin: 60px 0;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-            padding-left: 60px; /* Espacio para el dot */
-        }
-
-        .timeline-item.visible {
-            opacity: 1;
-        }
-
-        .timeline-content {
-            width: 100%;
-            padding: 25px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 12px;
-            border-left: 4px solid var(--salvia);
-            backdrop-filter: blur(10px);
-        }
-
-        .timeline-item:nth-child(even) .timeline-content {
-            border-left: 4px solid var(--musgo);
+            text-align: center;
         }
 
         .timeline-dot {
-            position: absolute;
-            left: 22px;
-            top: 50%;
-            width: 16px;
-            height: 16px;
-            background: var(--oliva);
+            width: 60px;
+            height: 60px;
+            background: var(--dark-bg);
+            border: 3px solid var(--cyan);
             border-radius: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.5s ease;
-            z-index: 2;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cyan);
+            transition: all 0.3s ease;
         }
 
-        .timeline-item.visible .timeline-dot {
-            transform: translate(-50%, -50%) scale(1);
+        .timeline-item:hover .timeline-dot {
+            background: var(--cyan);
+            color: var(--dark-bg);
+            transform: scale(1.1);
         }
 
-        /* Call to action elegante */
-        .cta-section {
-            text-align: center;
-            margin: 100px 20px 0; /* Márgenes laterales */
-            padding: 60px 30px;
-            background: linear-gradient(135deg, rgba(143, 188, 143, 0.1), rgba(74, 93, 35, 0.1));
-            border-radius: 20px;
-            border: 1px solid var(--verde-claro);
-        }
-
-        .cta-title {
-            font-size: clamp(1.5rem, 5vw, 2rem);
-            color: var(--carbon);
-            margin-bottom: 20px;
-        }
-
-        .evolve-button {
-            background: linear-gradient(135deg, var(--musgo), var(--oliva));
-            color: var(--papel);
-            border: none;
-            padding: 18px 40px;
-            font-size: clamp(1rem, 3vw, 1.1rem);
-            font-family: inherit;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            margin-top: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .evolve-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(74, 93, 35, 0.4);
-        }
-
-        .evolve-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .evolve-button:hover::before {
-            left: 100%;
-        }
-
-        /* Nueva sección inspiradora */
-        .inspiration-section {
-            margin: 80px 20px 60px; /* Márgenes laterales */
-            padding: 50px 30px;
-            background: linear-gradient(135deg, rgba(139, 69, 19, 0.05), rgba(143, 188, 143, 0.05));
-            border-radius: 20px;
-            border: 1px solid var(--arena);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .inspiration-title {
-            font-size: clamp(1.3rem, 4vw, 1.8rem);
-            color: var(--cedro);
-            margin-bottom: 30px;
-            text-align: center;
+        .timeline-title {
+            font-size: 1.2rem;
             font-weight: 600;
+            color: var(--cyan);
+            margin-bottom: 10px;
         }
 
-        .inspiration-text {
-            font-size: clamp(1rem, 3vw, 1.2rem);
-            line-height: 2;
-            text-align: center;
-            color: var(--grafito);
-            margin-bottom: 30px;
+        .timeline-description {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
 
-        .metaphor-grid {
+        /* Competitive Advantages */
+        .advantages-container {
+            margin-top: 60px;
+        }
+
+        .advantage-item {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: 80px 1fr;
             gap: 30px;
-            margin: 40px 0;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
         }
 
-        .metaphor-card {
-            background: rgba(255,255,255,0.7);
-            padding: 30px;
+        .advantage-item:hover {
+            transform: translateX(10px);
+            border-color: var(--cyan);
+        }
+
+        .advantage-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-light));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-bg);
+        }
+
+        .advantage-content h3 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: var(--text-white);
+        }
+
+        .advantage-content p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Client Logos */
+        .clients-showcase {
+            margin-top: 60px;
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .client-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
             border-radius: 15px;
-            text-align: center;
-            border-left: 4px solid var(--salvia);
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--text-gray);
             transition: all 0.3s ease;
             cursor: pointer;
         }
 
-        .metaphor-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(143, 188, 143, 0.15);
-            border-left-color: var(--musgo);
+        .client-card:hover {
+            background: rgba(0, 188, 212, 0.1);
+            color: var(--text-white);
+            transform: scale(1.05);
+            border-color: var(--cyan);
         }
 
-        .metaphor-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
+        /* Testimonials */
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(0, 188, 212, 0.1), var(--card-bg));
+            border: 1px solid var(--cyan);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            position: relative;
         }
 
-        .metaphor-title {
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 4rem;
+            color: var(--cyan);
+            opacity: 0.3;
+        }
+
+        .testimonial-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-white);
+            margin-bottom: 25px;
+            padding-left: 30px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-left: 30px;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--yellow), var(--yellow-bright));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--dark-bg);
+        }
+
+        .author-info h4 {
+            color: var(--yellow);
+            margin-bottom: 5px;
             font-size: 1.1rem;
-            color: var(--musgo);
-            margin-bottom: 15px;
-            font-weight: 600;
         }
 
-        .metaphor-description {
-            font-size: 0.95rem;
-            color: var(--gris-suave);
-            line-height: 1.6;
+        .author-info p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
         }
 
-        /* Animaciones */
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Contact Section */
+        .contact-info {
+            background: linear-gradient(135deg, rgba(0, 188, 212, 0.2), var(--card-bg));
+            border: 2px solid var(--cyan);
+            border-radius: 30px;
+            padding: 60px;
+            text-align: center;
+            margin-top: 60px;
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
+        .contact-title {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
         }
 
-        @keyframes pulse {
-            0%, 100% { 
-                transform: scale(1.3);
-                box-shadow: 0 0 15px rgba(143, 188, 143, 0.4);
-            }
-            50% { 
-                transform: scale(1.5);
-                box-shadow: 0 0 25px rgba(143, 188, 143, 0.6);
-            }
+        .contact-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            margin-bottom: 40px;
         }
 
-        @keyframes growTrunk {
-            to {
-                height: 120px;
-                transform: translateX(-50%) scaleY(1);
-            }
+        .contact-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
         }
 
-        @keyframes growBranch {
-            to {
-                opacity: 1;
-                transform: scaleX(1);
-            }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-size: 1.1rem;
+            color: var(--text-white);
         }
 
-        @keyframes countUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--cyan);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-bg);
+            font-weight: 700;
         }
 
-        /* Responsive mejorado */
-        @media (max-width: 768px) {
-            .container {
-                padding: 60px 15px 80px;
-            }
-            
-            .section {
-                margin-bottom: 60px;
-                padding: 0 10px;
-            }
-            
-            .section-title {
-                margin-left: 5px;
-            }
+        /* Section Headers */
+        h2 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
 
-            .content-text {
-                margin-left: 10px;
-                margin-right: 10px;
-            }
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+        }
 
-            .print-button {
-                top: 10px;
-                right: 10px;
-                padding: 10px 15px;
-                font-size: 12px;
-            }
-            
-            .seeds-demo, .branches-demo, .inspiration-section {
-                padding: 25px 15px;
-                margin: 40px 0;
-            }
+        .highlight {
+            color: var(--cyan);
+        }
 
-            .seeds-container {
-                gap: 20px;
-            }
+        .highlight-yellow {
+            color: var(--yellow);
+        }
 
-            .connection-line {
-                display: none; /* Ocultar líneas en móvil para simplificar */
-            }
+        /* Interactive Elements */
+        .interactive-counter {
+            display: inline-block;
+            font-weight: 700;
+            color: var(--yellow);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
-            .timeline {
-                margin: 60px 10px;
-            }
+        .interactive-counter:hover {
+            transform: scale(1.1);
+            color: var(--yellow-bright);
+        }
 
-            .timeline-item {
-                padding-left: 50px;
-            }
-
-            .cta-section {
-                margin: 80px 10px 0;
-                padding: 40px 20px;
-            }
-
-            .metaphor-grid {
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
                 grid-template-columns: 1fr;
-                gap: 20px;
+                text-align: center;
             }
 
-            .metrics-container {
-                grid-template-columns: 1fr;
-                margin: 40px 10px;
-                gap: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 40px 10px 60px;
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .section {
-                padding: 0 5px;
+            .timeline-items {
+                grid-template-columns: repeat(2, 1fr);
             }
 
-            .content-text {
-                margin-left: 5px;
-                margin-right: 5px;
-            }
-
-            .seeds-container {
-                justify-content: center;
-                gap: 25px;
-            }
-
-            .interactive-seed {
-                width: 25px;
-                height: 25px;
-            }
-        }
-
-        @media print {
-            .print-button,
-            .progress-container,
-            .seeds-demo,
-            .branches-demo {
+            .nav-dots {
                 display: none;
             }
-            
-            body {
-                background: white;
-                color: black;
-            }
-            
+        }
+
+        @media (max-width: 768px) {
             .section {
-                opacity: 1;
-                transform: none;
-                padding: 0;
+                padding: 60px 20px;
             }
 
-            .content-text {
-                margin-left: 0;
-                margin-right: 0;
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-items {
+                grid-template-columns: 1fr;
+            }
+
+            .advantage-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .advantage-number {
+                margin: 0 auto;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Barra de progreso -->
-    <div class="progress-container">
-        <div class="progress-bar"></div>
+    <!-- Progress Indicator -->
+    <div class="progress-indicator">
+        <div class="progress-bar" id="progressBar"></div>
     </div>
-    
-    <!-- Botón de imprimir -->
-    <button class="print-button" onclick="window.print()">📄 Imprimir PDF</button>
-    
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1 class="title" onclick="resetDemo()">Evolve</h1>
-            <p class="subtitle">Seeds & Branches — La evolución organizacional se mide en eficiencia corporativa</p>
-        </header>
-        
-        <!-- Sección 1: El Problema -->
-        <section class="section">
-            <h2 class="section-title">El Dilema del Crecimiento</h2>
-            <div class="content-text">
-                <p>Toda gran empresa carga con un dilema. Los procesos que alguna vez fueron la base de su crecimiento, con el tiempo se vuelven demasiado pesados: aprobaciones lentas, tareas repetitivas, datos que viajan tarde y mal.</p>
-                <p>El tamaño, que ayer era ventaja, <span class="highlight">hoy se transforma en freno</span>.</p>
-            </div>
-        </section>
 
-        <!-- Sección 2: La Solución -->
-        <section class="section">
-            <h2 class="section-title">La Solución: Evolve</h2>
-            <div class="content-text">
-                <p><strong class="highlight">Evolve es la manera de romper ese ciclo.</strong></p>
-                <p>Funciona con una lógica simple y poderosa, basada en dos conceptos fundamentales:</p>
-            </div>
-        </section>
+    <!-- Navigation Dots -->
+    <div class="nav-dots">
+        <div class="nav-dot active" data-title="Inicio" onclick="scrollToSection(0)"></div>
+        <div class="nav-dot" data-title="Qué Ofrecemos" onclick="scrollToSection(1)"></div>
+        <div class="nav-dot" data-title="Proceso" onclick="scrollToSection(2)"></div>
+        <div class="nav-dot" data-title="Ventaja Competitiva" onclick="scrollToSection(3)"></div>
+        <div class="nav-dot" data-title="Clientes" onclick="scrollToSection(4)"></div>
+        <div class="nav-dot" data-title="Contacto" onclick="scrollToSection(5)"></div>
+    </div>
 
-        <!-- Demo interactivo de Seeds -->
-        <div class="seeds-demo section">
-            <div class="demo-title">Haz clic en las semillas para ver cómo evolucionan</div>
-            <div class="seeds-container">
-                <div class="interactive-seed" data-seed="1" onclick="activateSeed(1)"></div>
-                <div class="connection-line" id="line1" style="left: calc(25% - 10px); width: calc(25% - 10px);"></div>
-                <div class="interactive-seed" data-seed="2" onclick="activateSeed(2)"></div>
-                <div class="connection-line" id="line2" style="left: calc(50% - 10px); width: calc(25% - 10px);"></div>
-                <div class="interactive-seed" data-seed="3" onclick="activateSeed(3)"></div>
-                <div class="connection-line" id="line3" style="left: calc(75% - 10px); width: calc(25% - 10px);"></div>
-                <div class="interactive-seed" data-seed="4" onclick="activateSeed(4)"></div>
-            </div>
-            <div id="seed-description"></div>
-        </div>
-
-        <!-- Definiciones -->
-        <section class="section">
-            <div class="content-text">
-                <p><strong style="color: var(--salvia); font-size: 1.4rem;">Seeds</strong> → semillas de automatización. Intervenciones pequeñas, concretas y de impacto inmediato.</p>
-                <p><strong style="color: var(--musgo); font-size: 1.4rem;">Branches</strong> → ramas operativas. Cuando esas semillas se conectan, crecen en flujos completos que sostienen áreas enteras de la organización.</p>
-            </div>
-        </section>
-
-        <!-- El Valor -->
-        <section class="section">
-            <h2 class="section-title">El Poder de la Escala</h2>
-            <div class="content-text">
-                <p>El valor de <strong>Evolve</strong> está en cómo escala. Una semilla aislada resuelve un cuello de botella. Varias semillas unidas generan una rama que transforma un proceso completo.</p>
-                <p>Con el tiempo, la empresa descubre que su sistema ya no es el mismo: <span class="highlight">ahora funciona como un organismo vivo, ágil y resiliente</span>.</p>
-            </div>
-        </section>
-
-        <!-- Métricas del impacto -->
-        <div class="metrics-container section">
-            <div class="metric-card" onclick="animateNumber(this, 85)">
-                <div class="metric-number" data-target="85">85</div>
-                <div class="metric-label">% reducción en tiempo de aprobaciones</div>
-            </div>
-            <div class="metric-card" onclick="animateNumber(this, 60)">
-                <div class="metric-number" data-target="60">60</div>
-                <div class="metric-label">% menos tareas repetitivas</div>
-            </div>
-            <div class="metric-card" onclick="animateNumber(this, 3)">
-                <div class="metric-number" data-target="3">3x</div>
-                <div class="metric-label">más velocidad en decisiones</div>
+    <!-- Section 1: Hero -->
+    <section class="section active" id="section-0">
+        <div class="container">
+            <div class="hero-content">
+                <div>
+                    <p class="tagline">&lt; Conectando talento, impulsando innovación /&gt;</p>
+                    <h1>STAFF<br><span class="highlight">AUGMENTATION</span></h1>
+                    <p class="subtitle">
+                        En Rocbird, usamos las últimas tecnologías en Big Data e Inteligencia Artificial 
+                        para ayudar a las empresas a maximizar el valor de sus datos.
+                    </p>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <span class="stat-value interactive-counter" data-target="6">+6</span>
+                            <span class="stat-label">años de experiencia</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value interactive-counter" data-target="8">8</span>
+                            <span class="stat-label">NPS Score</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-value interactive-counter" data-target="80">80%</span>
+                            <span class="stat-label">equipo certificado</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="logo-visual">
+                    <div class="logo-container">
+                        <div class="orbit-ring"></div>
+                        <div class="orbit-ring"></div>
+                        <div class="orbit-ring"></div>
+                        <div class="logo-text">rocbird</div>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- Timeline de evolución -->
-        <div class="timeline section">
-            <div class="timeline-line" id="timelineLine"></div>
+    <!-- Section 2: Qué Ofrecemos -->
+    <section class="section" id="section-1">
+        <div class="container">
+            <h2>¿Qué <span class="highlight">ofrecemos</span>?</h2>
+            <p class="section-subtitle">Por qué elegir a Rocbird para Staff Augmentation</p>
             
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3 style="color: var(--musgo); margin-bottom: 15px;">Hoy: Un Seed</h3>
-                    <p>Intervención pequeña, concreta, impacto inmediato</p>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <h3 class="benefit-title">Talento de alta calidad</h3>
+                    <p class="benefit-description">Acceso directo a profesionales IT certificados</p>
+                    <p class="benefit-detail">
+                        Profesionales especializados en las últimas tecnologías, 
+                        con certificaciones actualizadas y experiencia comprobada.
+                    </p>
                 </div>
-                <div class="timeline-dot"></div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3 style="color: var(--musgo); margin-bottom: 15px;">Mañana: Un Branch</h3>
-                    <p>Las semillas se conectan, transforman procesos completos</p>
+                <div class="benefit-card">
+                    <h3 class="benefit-title">Flexibilidad</h3>
+                    <p class="benefit-description">Soluciones de staffing personalizadas</p>
+                    <p class="benefit-detail">
+                        Adaptamos nuestros servicios a tus necesidades específicas, 
+                        escalando equipos según la demanda del proyecto.
+                    </p>
                 </div>
-                <div class="timeline-dot"></div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-content">
-                    <h3 style="color: var(--musgo); margin-bottom: 15px;">Futuro: Un Ecosistema</h3>
-                    <p>Entramado de procesos que fluyen con naturalidad evolutiva</p>
+                <div class="benefit-card">
+                    <h3 class="benefit-title">Eficiencia de costos</h3>
+                    <p class="benefit-description">Talento de clase mundial a tarifas competitivas</p>
+                    <p class="benefit-detail">
+                        Optimización del presupuesto sin comprometer la calidad, 
+                        con modelos flexibles de contratación.
+                    </p>
                 </div>
-                <div class="timeline-dot"></div>
+                <div class="benefit-card">
+                    <h3 class="benefit-title">Ventaja horaria</h3>
+                    <p class="benefit-description">Trabajamos en UTC-3</p>
+                    <p class="benefit-detail">
+                        Facilitando la colaboración fluida con clientes de América del Norte, 
+                        con superposición horaria óptima.
+                    </p>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- El Método -->
-        <section class="section">
-            <h2 class="section-title">El Método Evolve</h2>
-            <div class="content-text">
-                <p>Este modelo no exige revoluciones súbitas ni apuestas ciegas. Se construye paso a paso, con resultados medibles en cada etapa.</p>
-                <p>Hoy un Seed, mañana un Branch, y en poco tiempo <span class="highlight">un entramado de procesos que fluyen con la naturalidad de algo que evoluciona por diseño</span>.</p>
+    <!-- Section 3: Proceso -->
+    <section class="section" id="section-2">
+        <div class="container">
+            <h2>¿Cómo <span class="highlight">trabajamos</span>?</h2>
+            <p class="section-subtitle">Un proceso sin fricciones</p>
+            
+            <div class="process-timeline">
+                <div class="timeline-line"></div>
+                <div class="timeline-items">
+                    <div class="timeline-item">
+                        <div class="timeline-dot">1</div>
+                        <h3 class="timeline-title">Análisis y diagnóstico estratégico</h3>
+                        <p class="timeline-description">
+                            Escucha activa, respuesta ágil y precisión milimétrica para identificar el talento IT ideal.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">2</div>
+                        <h3 class="timeline-title">Entrevistas personalizadas</h3>
+                        <p class="timeline-description">
+                            Match preciso entre habilidades técnicas, competencias blandas y cultura empresarial.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">3</div>
+                        <h3 class="timeline-title">Rápida gestión de onboarding</h3>
+                        <p class="timeline-description">
+                            Integración rápida y eficiente, permitiendo que el talento genere impacto desde el primer día.
+                        </p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot">4</div>
+                        <h3 class="timeline-title">Atención continua</h3>
+                        <p class="timeline-description">
+                            Sistema de feedback 360° con plan de desarrollo y seguimiento continuo.
+                        </p>
+                    </div>
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Nueva sección inspiradora sobre el naming -->
-        <div class="inspiration-section section">
-            <h2 class="inspiration-title">🌱 Por qué "Seeds & Branches"</h2>
-            <div class="inspiration-text">
-                <p><strong>Seeds & Branches</strong> no es solo un nombre: es una filosofía de transformación orgánica que refleja cómo evoluciona verdaderamente una organización.</p>
-            </div>
+    <!-- Section 4: Ventaja Competitiva -->
+    <section class="section" id="section-3">
+        <div class="container">
+            <h2>Ventaja <span class="highlight">competitiva</span></h2>
             
-            <div class="metaphor-grid">
-                <div class="metaphor-card">
-                    <div class="metaphor-icon">🌱</div>
-                    <div class="metaphor-title">Seeds: Pequeño Comienzo</div>
-                    <div class="metaphor-description">Como una semilla en la naturaleza, cada automatización comienza pequeña pero lleva dentro el potencial de transformación total.</div>
+            <div class="advantages-container">
+                <div class="advantage-item">
+                    <div class="advantage-number">1</div>
+                    <div class="advantage-content">
+                        <h3>Baja tasa de rotación</h3>
+                        <p>
+                            Contamos con la menor tasa de rotación en la industria, 
+                            lo que garantiza estabilidad y continuidad en tus proyectos.
+                        </p>
+                    </div>
                 </div>
-                
-                <div class="metaphor-card">
-                    <div class="metaphor-icon">🌿</div>
-                    <div class="metaphor-title">Growth: Conexión Natural</div>
-                    <div class="metaphor-description">Las mejoras no se imponen: crecen naturalmente, conectándose con otros procesos como las raíces bajo tierra.</div>
+                <div class="advantage-item">
+                    <div class="advantage-number">2</div>
+                    <div class="advantage-content">
+                        <h3>Talento de primer nivel</h3>
+                        <p>
+                            Argentina ocupa el primer lugar en América Latina en alfabetización 
+                            tecnológica (Coursera) y dominio del inglés (EF English Index).
+                        </p>
+                    </div>
                 </div>
-                
-                <div class="metaphor-card">
-                    <div class="metaphor-icon">🌳</div>
-                    <div class="metaphor-title">Branches: Expansión Orgánica</div>
-                    <div class="metaphor-description">Cada rama sostiene nuevas posibilidades, creando un ecosistema que se fortalece y expande por sí mismo.</div>
+                <div class="advantage-item">
+                    <div class="advantage-number">3</div>
+                    <div class="advantage-content">
+                        <h3>Alineación cultural</h3>
+                        <p>
+                            Nuestros ambientes de trabajo son equivalentes a los de las grandes 
+                            empresas IT de Estados Unidos, lo que facilita la integración.
+                        </p>
+                    </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Clientes y Testimonios -->
+    <section class="section" id="section-4">
+        <div class="container">
+            <h2>Confían en <span class="highlight">Rocbird</span></h2>
+            <p class="section-subtitle">Desde Argentina a todo el mundo</p>
             
-            <div class="inspiration-text" style="margin-top: 40px;">
-                <p style="font-size: 1.1rem; font-style: italic; color: var(--musgo);">
-                    "Porque la verdadera evolución no se fuerza: se cultiva. Semilla a semilla, rama a rama, 
-                    hasta que la organización misma se convierte en un jardín que florece por diseño."
+            <div class="clients-showcase">
+                <div class="clients-grid">
+                    <div class="client-card">BANCOR</div>
+                    <div class="client-card">NaranjaX</div>
+                    <div class="client-card">Kanda Software</div>
+                    <div class="client-card">GREENPEACE</div>
+                    <div class="client-card">Overactive</div>
+                    <div class="client-card">Kinetic Corp</div>
+                    <div class="client-card">KNIME</div>
+                    <div class="client-card">IEBS Digital School</div>
+                    <div class="client-card">Devlights</div>
+                    <div class="client-card">Atos</div>
+                    <div class="client-card">PlatformX Solutions</div>
+                    <div class="client-card">FUNDES</div>
+                </div>
+            </div>
+
+            <h2 style="margin-top: 80px;">Éxitos <span class="highlight">comprobados</span></h2>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">
+                    Los candidatos siempre se ajustan a nuestras necesidades, con gran apoyo y comunicación. 
+                    Nuestra asociación ha evolucionado permitiendo refinar la calidad de los candidatos.
                 </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">SR</div>
+                    <div class="author-info">
+                        <h4>Steve Rodriguez</h4>
+                        <p>Director de Operaciones Latam - Kanda Software</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="testimonial-text">
+                    Rocbird tiene un proceso específico para encontrar perfiles técnicos y entender nuestra cultura. 
+                    Los candidatos presentados cumplen técnicamente y culturalmente.
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">GF</div>
+                    <div class="author-info">
+                        <h4>Gabriel Fidalgo</h4>
+                        <p>Analista SR de Operaciones IT - NaranjaX</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="testimonial-text">
+                    Rocbird pone al cliente en el centro. Priorizan la entrega de valor complementando las 
+                    necesidades puntuales del negocio con su conocimiento y expertise en datos analítica.
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">LA</div>
+                    <div class="author-info">
+                        <h4>Lucía Arando</h4>
+                        <p>Data Management Lead - NaranjaX</p>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- El Impacto -->
-        <section class="section">
-            <h2 class="section-title">Más Allá de la Eficiencia</h2>
-            <div class="content-text">
-                <p>El impacto no es solo eficiencia. Es <strong>transformación cultural</strong>: equipos que trabajan con menos fricción, decisiones que se toman con más velocidad, una operación que recupera el ritmo perdido.</p>
+    <!-- Section 6: Contacto -->
+    <section class="section" id="section-5">
+        <div class="container">
+            <div class="contact-info">
+                <h2 class="contact-title">¿Listo para <span class="highlight-yellow">potenciar tu equipo</span>?</h2>
+                <p class="contact-subtitle">
+                    Hablemos sobre cómo podemos integrar talentos IT de primer nivel a tus proyectos y acelerar tu crecimiento.
+                </p>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">@</div>
+                        <span>gaston.vdg@rocbird.io</span>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <span>+54 379 440 9048</span>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">👤</div>
+                        <span>Gastón Di Giuseppe<br>COO | Co-Founder</span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 40px;">
+                    <p style="font-size: 1.5rem; color: var(--cyan);">rocbird.io</p>
+                </div>
             </div>
-        </section>
-
-        <!-- Conclusión -->
-        <div class="cta-section section">
-            <h2 class="cta-title">Evolve — Seeds & Branches</h2>
-            <p style="font-size: clamp(1rem, 3vw, 1.2rem); color: var(--gris-suave); margin-bottom: 20px;">
-                Porque la evolución no se impone: se cultiva.
-            </p>
-            <p style="font-size: clamp(1.1rem, 4vw, 1.4rem); color: var(--musgo); font-weight: 600;">
-                Semilla a semilla. Rama a rama.
-            </p>
-            <button class="evolve-button" onclick="showEvolutionSummary()">
-                Iniciar Evolución
-            </button>
         </div>
-    </div>
+    </section>
 
     <script>
-        let activeSeeds = new Set();
-        let seedDescriptions = {
-            1: "Automatización de aprobaciones • Reduce 3-5 días a 2 horas",
-            2: "Flujos de datos integrados • Información en tiempo real",
-            3: "Decisiones asistidas • IA para análisis predictivo", 
-            4: "Procesos adaptativos • Sistema que aprende y mejora"
-        };
-
-        // Inicializar valores de métricas correctamente
-        function initializeMetrics() {
-            // Establecer valores iniciales visibles
-            document.querySelector('[data-target="85"] .metric-number, [data-target="85"]').textContent = '85';
-            document.querySelector('[data-target="60"] .metric-number, [data-target="60"]').textContent = '60';  
-            document.querySelector('[data-target="3"] .metric-number, [data-target="3"]').textContent = '3x';
-            
-            // También asegurarse de que los valores estén en el DOM
-            const metrics = document.querySelectorAll('.metric-number');
-            metrics.forEach((metric, index) => {
-                const targets = [85, 60, 3];
-                const suffixes = ['', '', 'x'];
-                metric.textContent = targets[index] + suffixes[index];
-            });
-        }
-
-        // Barra de progreso
-        function updateProgressBar() {
-            const scrollTop = window.pageYOffset;
-            const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const progress = Math.max(0, Math.min(100, (scrollTop / documentHeight) * 100));
-            document.querySelector('.progress-bar').style.width = progress + '%';
-        }
-
-        // Animación de elementos al hacer scroll
-        function animateOnScroll() {
+        // Smooth scroll to sections
+        function scrollToSection(index) {
             const sections = document.querySelectorAll('.section');
-            const highlights = document.querySelectorAll('.highlight');
-            const timelineItems = document.querySelectorAll('.timeline-item');
-            const timelineLine = document.getElementById('timelineLine');
+            sections[index].scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Update active section and navigation
+        function updateActiveSection() {
+            const sections = document.querySelectorAll('.section');
+            const navDots = document.querySelectorAll('.nav-dot');
+            const scrollPosition = window.scrollY + window.innerHeight / 2;
             
             sections.forEach((section, index) => {
-                const rect = section.getBoundingClientRect();
-                const isVisible = rect.top < window.innerHeight * 0.8;
+                const top = section.offsetTop;
+                const bottom = top + section.offsetHeight;
                 
-                if (isVisible) {
-                    setTimeout(() => {
-                        section.classList.add('visible');
-                    }, index * 100);
-                }
-            });
-            
-            highlights.forEach((h, index) => {
-                const rect = h.getBoundingClientRect();
-                const isVisible = rect.top < window.innerHeight * 0.7;
-                
-                if (isVisible) {
-                    setTimeout(() => {
-                        h.classList.add('animate');
-                    }, 300);
-                }
-            });
-
-            // Timeline
-            timelineItems.forEach((item, index) => {
-                const rect = item.getBoundingClientRect();
-                const isVisible = rect.top < window.innerHeight * 0.8;
-                
-                if (isVisible) {
-                    setTimeout(() => {
-                        item.classList.add('visible');
-                        if (index === 0) {
-                            timelineLine.classList.add('active');
-                        }
-                    }, index * 300);
-                }
-            });
-        }
-
-        // Seeds interactivos
-        function activateSeed(seedNumber) {
-            const seed = document.querySelector(`[data-seed="${seedNumber}"]`);
-            const description = document.getElementById('seed-description');
-            
-            seed.classList.add('active');
-            activeSeeds.add(seedNumber);
-            
-            description.innerHTML = seedDescriptions[seedNumber];
-            
-            // Activar líneas de conexión (solo en desktop)
-            if (window.innerWidth > 768) {
-                if (activeSeeds.has(seedNumber - 1) || seedNumber === 1) {
-                    const line = document.getElementById(`line${seedNumber}`);
-                    if (line) {
-                        setTimeout(() => {
-                            line.classList.add('active');
-                        }, 300);
+                if (scrollPosition >= top && scrollPosition <= bottom) {
+                    // Update sections
+                    sections.forEach(s => s.classList.remove('active'));
+                    section.classList.add('active');
+                    
+                    // Update nav dots
+                    navDots.forEach(dot => dot.classList.remove('active'));
+                    if (navDots[index]) {
+                        navDots[index].classList.add('active');
                     }
+                    
+                    // Update progress bar
+                    const progress = ((index + 1) / sections.length) * 100;
+                    document.getElementById('progressBar').style.width = progress + '%';
                 }
-            }
-            
-            // Si todas las semillas están activas, mostrar mensaje especial
-            if (activeSeeds.size === 4) {
-                setTimeout(() => {
-                    description.innerHTML = "<strong>¡Branch completo!</strong> Las semillas se han conectado en un flujo operativo integral.";
-                }, 1500);
-            }
+            });
         }
 
-        // Crecimiento de ramas
-        function triggerGrowth() {
-            const visualization = document.querySelector('.growth-visualization');
-            const trunk = document.getElementById('mainTrunk');
-            
-            // Limpiar ramas existentes
-            const existingBranches = visualization.querySelectorAll('.branch-line');
-            existingBranches.forEach(branch => branch.remove());
-            
-            trunk.style.animation = 'none';
-            trunk.offsetHeight; // Trigger reflow
-            trunk.style.animation = 'growTrunk 2s ease forwards';
-            
-            // Crear ramas dinámicamente
-            setTimeout(() => {
-                for (let i = 0; i < 6; i++) {
-                    const branch = document.createElement('div');
-                    branch.className = 'branch-line';
-                    
-                    const angle = (Math.random() - 0.5) * 120; // -60 a 60 grados
-                    const length = 30 + Math.random() * 50; // Ajustado para móvil
-                    const bottom = 15 + i * 20; // Distribución vertical
-                    
-                    branch.style.cssText = `
-                        bottom: ${bottom}px;
-                        left: 50%;
-                        width: ${length}px;
-                        transform: translateX(-50%) rotate(${angle}deg) scaleX(0);
-                        animation-delay: ${i * 0.2}s;
-                    `;
-                    
-                    visualization.appendChild(branch);
-                }
-            }, 2000);
-        }
-
-        // Animación de números mejorada
-        function animateNumber(card, target) {
-            const numberEl = card.querySelector('.metric-number');
+        // Animate counters
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
             const duration = 2000;
-            const start = performance.now();
-            const initial = 0; // Siempre comenzar desde 0 para la animación
+            const step = target / (duration / 16);
+            let current = 0;
             
-            function updateNumber(currentTime) {
-                const elapsed = currentTime - start;
-                const progress = Math.min(elapsed / duration, 1);
-                const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
                 
-                const current = Math.floor(initial + (target - initial) * easeProgress);
-                numberEl.textContent = current + (target === 3 ? 'x' : '');
-                
-                if (progress < 1) {
-                    requestAnimationFrame(updateNumber);
+                if (element.textContent.includes('+')) {
+                    element.textContent = '+' + Math.floor(current);
+                } else if (element.textContent.includes('%')) {
+                    element.textContent = Math.floor(current) + '%';
                 } else {
-                    // Asegurar valor final correcto
-                    numberEl.textContent = target + (target === 3 ? 'x' : '');
+                    element.textContent = Math.floor(current);
                 }
-            }
-            
-            card.style.animation = 'countUp 0.6s ease forwards';
-            requestAnimationFrame(updateNumber);
+            }, 16);
         }
 
-        // Reset demo
-        function resetDemo() {
-            activeSeeds.clear();
-            document.querySelectorAll('.interactive-seed').forEach(seed => {
-                seed.classList.remove('active');
-            });
-            document.querySelectorAll('.connection-line').forEach(line => {
-                line.classList.remove('active');
-            });
-            document.getElementById('seed-description').innerHTML = '';
-            
-            // Reset métricas a sus valores reales
-            const targets = [85, 60, 3];
-            const suffixes = ['', '', 'x'];
-            document.querySelectorAll('.metric-number').forEach((num, index) => {
-                num.textContent = targets[index] + suffixes[index];
-            });
-        }
-
-        // Mostrar resumen de evolución
-        function showEvolutionSummary() {
-            const button = document.querySelector('.evolve-button');
-            const originalText = button.textContent;
-            
-            button.textContent = '🌱 Evolución activada';
-            button.style.background = 'linear-gradient(135deg, var(--oliva), var(--cedro))';
-            
-            setTimeout(() => {
-                button.textContent = originalText;
-                button.style.background = 'linear-gradient(135deg, var(--musgo), var(--oliva))';
-            }, 3000);
-            
-            // Activar automáticamente todas las semillas
-            setTimeout(() => {
-                for (let i = 1; i <= 4; i++) {
-                    setTimeout(() => activateSeed(i), i * 400);
+        // Initialize counters when visible
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    animateCounter(entry.target);
+                    entry.target.classList.add('animated');
                 }
-            }, 500);
+            });
+        }, { threshold: 0.5 });
 
-            // Animar todas las métricas
-            setTimeout(() => {
-                const metricCards = document.querySelectorAll('.metric-card');
-                const targets = [85, 60, 3];
-                metricCards.forEach((card, index) => {
-                    setTimeout(() => animateNumber(card, targets[index]), index * 600);
-                });
-            }, 1000);
-        }
-
-        // Event listeners
-        window.addEventListener('scroll', () => {
-            updateProgressBar();
-            animateOnScroll();
+        document.querySelectorAll('.interactive-counter').forEach(counter => {
+            counterObserver.observe(counter);
         });
 
+        // Scroll event listeners
+        window.addEventListener('scroll', updateActiveSection);
+        window.addEventListener('resize', updateActiveSection);
+
+        // Initialize on load
         window.addEventListener('load', () => {
-            initializeMetrics(); // Inicializar valores correctos
-            animateOnScroll();
+            updateActiveSection();
             
-            // Auto-demo después de cargar
-            setTimeout(() => {
-                triggerGrowth();
-            }, 3000);
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            document.querySelectorAll('.benefit-card, .timeline-item, .advantage-item, .client-card, .testimonial-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s ease';
+                observer.observe(el);
+            });
         });
 
-        // Suavizar el scroll
-        document.documentElement.style.scrollBehavior = 'smooth';
-
-        // Manejar resize para líneas de conexión
-        window.addEventListener('resize', () => {
-            if (window.innerWidth <= 768) {
-                document.querySelectorAll('.connection-line').forEach(line => {
-                    line.style.display = 'none';
-                });
-            } else {
-                document.querySelectorAll('.connection-line').forEach(line => {
-                    line.style.display = 'block';
-                });
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const sections = document.querySelectorAll('.section');
+            const currentIndex = Array.from(sections).findIndex(s => s.classList.contains('active'));
+            
+            if (e.key === 'ArrowDown' && currentIndex < sections.length - 1) {
+                scrollToSection(currentIndex + 1);
+            } else if (e.key === 'ArrowUp' && currentIndex > 0) {
+                scrollToSection(currentIndex - 1);
             }
         });
+
+        // Mouse wheel smooth scroll
+        let isScrolling = false;
+        window.addEventListener('wheel', (e) => {
+            if (!isScrolling) {
+                isScrolling = true;
+                setTimeout(() => {
+                    isScrolling = false;
+                }, 1000);
+                
+                const sections = document.querySelectorAll('.section');
+                const currentIndex = Array.from(sections).findIndex(s => s.classList.contains('active'));
+                
+                if (e.deltaY > 0 && currentIndex < sections.length - 1) {
+                    e.preventDefault();
+                    scrollToSection(currentIndex + 1);
+                } else if (e.deltaY < 0 && currentIndex > 0) {
+                    e.preventDefault();
+                    scrollToSection(currentIndex - 1);
+                }
+            }
+        }, { passive: false });
+
+        // Touch support for mobile
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const sections = document.querySelectorAll('.section');
+            const currentIndex = Array.from(sections).findIndex(s => s.classList.contains('active'));
+            
+            if (touchStartY - touchEndY > 50 && currentIndex < sections.length - 1) {
+                scrollToSection(currentIndex + 1);
+            } else if (touchEndY - touchStartY > 50 && currentIndex > 0) {
+                scrollToSection(currentIndex - 1);
+            }
+        }
     </script>
 </body>
 </html>
