@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rocbird - Staff Augmentation</title>
+    <title>Driven by People - Human Systems Integration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Smooch+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
         * {
             margin: 0;
             padding: 0;
@@ -12,1077 +15,1082 @@
         }
 
         :root {
-            --dark-bg: #1B2838;
-            --darker-bg: #141B24;
-            --cyan: #00BCD4;
-            --cyan-light: #4DD0E1;
-            --yellow: #FFD54F;
-            --yellow-bright: #FFC107;
-            --text-white: #FFFFFF;
-            --text-gray: #B0BEC5;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --border-light: rgba(255, 255, 255, 0.1);
+            --primary: #661EDA;
+            --secondary: #18A7A0;
+            --violet-dark: #320F6A;
+            --violet-light: #9163EA;
+            --violet-mid: #6363EB;
+            --teal-dark: #26514F;
+            --teal-light: #D7FFFB;
+            --teal-mid: #80DDD6;
+            --light: #E1E6FF;
+            --white: #FFFFFF;
+            --black: #000000;
+            --gray: #666666;
+            --gray-dark: #4D4D4D;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, var(--darker-bg) 0%, var(--dark-bg) 100%);
-            color: var(--text-white);
+            font-family: 'Quicksand', sans-serif;
+            background: var(--white);
+            color: var(--violet-dark);
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Progress Indicator */
-        .progress-indicator {
-            position: fixed;
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #FFFFFF 0%, var(--light) 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -10rem;
+            right: -10rem;
+            width: 24rem;
+            height: 24rem;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(102, 30, 218, 0.1) 0%, transparent 70%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -10rem;
+            left: -10rem;
+            width: 20rem;
+            height: 20rem;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(24, 167, 160, 0.1) 0%, transparent 70%);
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: clamp(3.5rem, 8vw, 7rem);
+            font-weight: 800;
+            margin-bottom: 2rem;
+            line-height: 0.95;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.5rem, 3vw, 3rem);
+            color: var(--violet-dark);
+            margin-bottom: 3rem;
+            font-weight: 300;
+            animation: fadeInUp 1s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.5rem 3.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--violet-mid));
+            color: white;
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            box-shadow: 0 15px 35px rgba(102, 30, 218, 0.25);
+            animation: fadeInUp 1s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 20px 45px rgba(102, 30, 218, 0.35);
+            background: linear-gradient(135deg, var(--violet-mid), var(--secondary));
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Problems Section */
+        .problems {
+            padding: 5rem 2rem;
+            background: linear-gradient(180deg, #FFFFFF 0%, var(--teal-light) 100%);
+        }
+
+        .section-title {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: clamp(3rem, 6vw, 6rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--violet-dark);
+            text-align: center;
+        }
+
+        .section-title .gradient {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .problems-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 4rem auto 0;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(102, 30, 218, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .problem-card.visible {
+            animation: cardReveal 0.6s forwards;
+        }
+
+        @keyframes cardReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .problem-card::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             right: 0;
             height: 4px;
-            background: rgba(255, 255, 255, 0.1);
-            z-index: 1000;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
         }
 
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--cyan), var(--cyan-light));
-            width: 0%;
-            transition: width 0.3s ease;
+        .problem-card:hover::before {
+            transform: scaleX(1);
         }
 
-        /* Navigation Dots */
-        .nav-dots {
-            position: fixed;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 100;
+        .problem-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(102, 30, 218, 0.15);
         }
 
-        .nav-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            margin: 15px 0;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+        .problem-icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1.5rem;
+            color: var(--secondary);
+            animation: bounce 2s infinite;
         }
 
-        .nav-dot.active {
-            background: var(--cyan);
-            transform: scale(1.3);
+        .problem-card:nth-child(1) .problem-icon { animation-delay: 0s; }
+        .problem-card:nth-child(2) .problem-icon { animation-delay: 0.2s; }
+        .problem-card:nth-child(3) .problem-icon { animation-delay: 0.4s; }
+        .problem-card:nth-child(4) .problem-icon { animation-delay: 0.6s; }
+        .problem-card:nth-child(5) .problem-icon { animation-delay: 0.8s; }
+        .problem-card:nth-child(6) .problem-icon { animation-delay: 1s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        .nav-dot:hover::before {
-            content: attr(data-title);
-            position: absolute;
-            right: 25px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: var(--dark-bg);
-            padding: 5px 10px;
-            border-radius: 5px;
-            white-space: nowrap;
-            font-size: 12px;
-            border: 1px solid var(--border-light);
+        .problem-card h3 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
         }
 
-        /* Sections */
-        .section {
-            min-height: 100vh;
-            padding: 80px 40px;
-            display: flex;
+        .problem-card p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            line-height: 1.8;
+        }
+
+        /* Solution Section */
+        .solution {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .solution-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
             align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s ease;
-        }
-
-        .section.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .container {
-            max-width: 1400px;
-            width: 100%;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Hero Section */
-        .hero-content {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        .tagline {
-            font-size: 1.2rem;
-            color: var(--cyan);
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
-
-        h1 {
-            font-size: clamp(3rem, 6vw, 5rem);
+        .solution-text h2 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: clamp(3rem, 5vw, 5rem);
             font-weight: 700;
-            line-height: 1;
-            margin-bottom: 30px;
+            margin-bottom: 2rem;
+            color: var(--violet-dark);
+            line-height: 1.1;
         }
 
-        .subtitle {
-            font-size: 1.3rem;
-            color: var(--text-gray);
-            line-height: 1.6;
-            margin-bottom: 40px;
+        .solution-text p {
+            font-size: 1.25rem;
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+        .highlight {
+            color: var(--secondary);
+            font-weight: 600;
         }
 
-        .stat-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border-light);
-            border-radius: 15px;
-            padding: 25px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .stat-box:hover {
-            transform: translateY(-5px);
-            background: rgba(0, 188, 212, 0.1);
-            border-color: var(--cyan);
-        }
-
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--yellow);
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-gray);
-            text-transform: lowercase;
-        }
-
-        /* Logo Display */
-        .logo-visual {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-container {
+        /* Circular Diagram */
+        .circle-diagram {
             position: relative;
-            width: 350px;
-            height: 350px;
+            width: 400px;
+            height: 400px;
+            margin: 0 auto;
         }
 
-        .logo-text {
+        .center-circle {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 3rem;
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
             font-weight: 700;
-            z-index: 10;
+            box-shadow: 0 25px 50px rgba(102, 30, 218, 0.3);
+            animation: pulse 3s infinite;
+            font-family: 'Smooch Sans', sans-serif;
         }
 
-        .logo-text::after {
-            content: "we create value from data";
+        .orbit-circle {
             position: absolute;
-            bottom: -30px;
+            width: 120px;
+            height: 120px;
+            background: white;
+            border: 3px solid var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--violet-dark);
+            box-shadow: 0 10px 25px rgba(24, 167, 160, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .orbit-circle:hover {
+            transform: scale(1.15);
+            box-shadow: 0 15px 35px rgba(24, 167, 160, 0.3);
+            background: var(--secondary);
+            color: white;
+            border-color: var(--secondary);
+        }
+
+        .orbit-circle:nth-child(2) {
+            top: 10px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 0.9rem;
-            font-weight: 300;
-            color: var(--text-gray);
-            white-space: nowrap;
         }
 
-        .orbit-ring {
-            position: absolute;
-            border: 2px solid rgba(0, 188, 212, 0.2);
-            border-radius: 50%;
-            animation: pulse 3s ease-in-out infinite;
+        .orbit-circle:nth-child(3) {
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
         }
 
-        .orbit-ring:nth-child(1) {
-            width: 100%;
-            height: 100%;
-            animation-delay: 0s;
+        .orbit-circle:nth-child(4) {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        .orbit-ring:nth-child(2) {
-            width: 80%;
-            height: 80%;
-            top: 10%;
-            left: 10%;
-            animation-delay: 0.5s;
+        .orbit-circle:nth-child(5) {
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
         }
 
-        .orbit-ring:nth-child(3) {
-            width: 60%;
-            height: 60%;
-            top: 20%;
-            left: 20%;
-            animation-delay: 1s;
+        /* Roles Section */
+        .roles {
+            padding: 5rem 2rem;
+            background: linear-gradient(180deg, var(--teal-light) 0%, #FFFFFF 100%);
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.05); }
-        }
-
-        /* Benefits Section */
-        .benefits-grid {
+        .roles-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 4rem auto 0;
         }
 
-        .benefit-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-light);
-            border-radius: 20px;
-            padding: 40px 30px;
-            transition: all 0.3s ease;
+        .role-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 2rem;
+            box-shadow: 0 20px 60px rgba(102, 30, 218, 0.1);
+            transition: all 0.5s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .benefit-card::before {
-            content: "";
+        .role-card::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--cyan), var(--cyan-light));
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
             transform: scaleX(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.5s ease;
         }
 
-        .benefit-card:hover::before {
+        .role-card:hover::before {
             transform: scaleX(1);
         }
 
-        .benefit-card:hover {
+        .role-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 30px 80px rgba(102, 30, 218, 0.15);
         }
 
-        .benefit-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--text-white);
+        .role-title {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 700;
         }
 
-        .benefit-description {
-            color: var(--cyan);
-            font-size: 1.1rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
+        .role-subtitle {
+            font-size: 1.25rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            font-style: italic;
         }
 
-        .benefit-detail {
-            color: var(--text-gray);
+        .role-description {
+            font-size: 1.15rem;
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .role-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .skill-tag {
+            padding: 0.75rem 1.25rem;
+            background: linear-gradient(135deg, rgba(102, 30, 218, 0.08), rgba(24, 167, 160, 0.08));
+            border-radius: 25px;
             font-size: 0.95rem;
-            line-height: 1.6;
+            color: var(--violet-dark);
+            border: 1px solid rgba(102, 30, 218, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
 
-        /* Process Timeline */
+        .skill-tag:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+        }
+
+        /* Process Section */
+        .process {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
         .process-timeline {
-            margin-top: 60px;
             position: relative;
+            max-width: 800px;
+            margin: 5rem auto 0;
         }
 
         .timeline-line {
             position: absolute;
-            top: 30px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--cyan), var(--cyan-light));
-            z-index: 0;
-        }
-
-        .timeline-items {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            position: relative;
-            z-index: 1;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            transform: translateX(-50%);
         }
 
         .timeline-item {
-            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6rem;
+            opacity: 0;
+            transform: translateY(50px);
         }
 
-        .timeline-dot {
+        .timeline-item.visible {
+            animation: fadeInUp 0.8s forwards;
+        }
+
+        .timeline-content {
+            width: 45%;
+            padding: 2.5rem;
+            background: linear-gradient(135deg, rgba(102, 30, 218, 0.03), rgba(24, 167, 160, 0.03));
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px rgba(102, 30, 218, 0.08);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(102, 30, 218, 0.1);
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 30, 218, 0.15);
+            background: white;
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: auto;
+        }
+
+        .timeline-number {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
             width: 60px;
             height: 60px;
-            background: var(--dark-bg);
-            border: 3px solid var(--cyan);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
             border-radius: 50%;
-            margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--cyan);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 30, 218, 0.3);
         }
 
-        .timeline-item:hover .timeline-dot {
-            background: var(--cyan);
-            color: var(--dark-bg);
-            transform: scale(1.1);
-        }
-
-        .timeline-title {
-            font-size: 1.2rem;
+        .timeline-content h3 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 2.2rem;
             font-weight: 600;
-            color: var(--cyan);
-            margin-bottom: 10px;
+            color: var(--primary);
+            margin-bottom: 1rem;
         }
 
-        .timeline-description {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-
-        /* Competitive Advantages */
-        .advantages-container {
-            margin-top: 60px;
-        }
-
-        .advantage-item {
-            display: grid;
-            grid-template-columns: 80px 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: var(--card-bg);
-            border-radius: 20px;
-            border: 1px solid var(--border-light);
-            transition: all 0.3s ease;
-        }
-
-        .advantage-item:hover {
-            transform: translateX(10px);
-            border-color: var(--cyan);
-        }
-
-        .advantage-number {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--cyan), var(--cyan-light));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--dark-bg);
-        }
-
-        .advantage-content h3 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            color: var(--text-white);
-        }
-
-        .advantage-content p {
-            color: var(--text-gray);
+        .timeline-content p {
             font-size: 1.1rem;
-            line-height: 1.6;
-        }
-
-        /* Client Logos */
-        .clients-showcase {
-            margin-top: 60px;
-        }
-
-        .clients-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
-        }
-
-        .client-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-light);
-            border-radius: 15px;
-            padding: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            color: var(--text-gray);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .client-card:hover {
-            background: rgba(0, 188, 212, 0.1);
-            color: var(--text-white);
-            transform: scale(1.05);
-            border-color: var(--cyan);
-        }
-
-        /* Testimonials */
-        .testimonial-card {
-            background: linear-gradient(135deg, rgba(0, 188, 212, 0.1), var(--card-bg));
-            border: 1px solid var(--cyan);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .testimonial-card::before {
-            content: '"';
-            position: absolute;
-            top: 20px;
-            left: 30px;
-            font-size: 4rem;
-            color: var(--cyan);
-            opacity: 0.3;
-        }
-
-        .testimonial-text {
-            font-size: 1.2rem;
+            color: var(--gray);
             line-height: 1.8;
-            color: var(--text-white);
-            margin-bottom: 25px;
-            padding-left: 30px;
         }
 
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            padding-left: 30px;
-        }
-
-        .author-avatar {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--yellow), var(--yellow-bright));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: var(--dark-bg);
-        }
-
-        .author-info h4 {
-            color: var(--yellow);
-            margin-bottom: 5px;
-            font-size: 1.1rem;
-        }
-
-        .author-info p {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-        }
-
-        /* Contact Section */
-        .contact-info {
-            background: linear-gradient(135deg, rgba(0, 188, 212, 0.2), var(--card-bg));
-            border: 2px solid var(--cyan);
-            border-radius: 30px;
-            padding: 60px;
+        /* Results Section */
+        .results {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--violet-dark), var(--primary));
+            color: white;
             text-align: center;
-            margin-top: 60px;
         }
 
-        .contact-title {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+        .results .section-title {
+            color: white;
+            margin-bottom: 4rem;
         }
 
-        .contact-subtitle {
-            font-size: 1.3rem;
-            color: var(--text-gray);
-            margin-bottom: 40px;
-        }
-
-        .contact-details {
+        .metrics-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .contact-item {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            font-size: 1.1rem;
-            color: var(--text-white);
+        .metric-card {
+            padding: 2.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        .contact-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--cyan);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--dark-bg);
-            font-weight: 700;
+        .metric-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
         }
 
-        /* Section Headers */
-        h2 {
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 20px;
-            font-weight: 700;
+        .metric-number {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 1rem;
         }
 
-        .section-subtitle {
+        .metric-label {
             font-size: 1.2rem;
-            color: var(--text-gray);
-            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.95);
         }
 
-        .highlight {
-            color: var(--cyan);
+        /* CTA Section */
+        .cta-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--secondary), var(--teal-dark));
+            text-align: center;
+            color: white;
         }
 
-        .highlight-yellow {
-            color: var(--yellow);
-        }
-
-        /* Interactive Elements */
-        .interactive-counter {
-            display: inline-block;
+        .cta-section h2 {
+            font-family: 'Smooch Sans', sans-serif;
+            font-size: clamp(3rem, 5vw, 5rem);
             font-weight: 700;
-            color: var(--yellow);
-            cursor: pointer;
-            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+            color: white;
+            line-height: 1.1;
         }
 
-        .interactive-counter:hover {
-            transform: scale(1.1);
-            color: var(--yellow-bright);
+        .cta-section p {
+            font-size: 1.5rem;
+            margin-bottom: 3rem;
+            color: rgba(255, 255, 255, 0.95);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: 1.25rem 3.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--secondary);
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
-            .hero-content {
+        @media (max-width: 968px) {
+            .solution-content {
                 grid-template-columns: 1fr;
                 text-align: center;
             }
 
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .timeline-item {
+                flex-direction: column;
             }
 
-            .timeline-items {
-                grid-template-columns: repeat(2, 1fr);
+            .timeline-content {
+                width: 100%;
+                margin-left: 0 !important;
             }
 
-            .nav-dots {
-                display: none;
+            .timeline-line {
+                left: 30px;
+            }
+
+            .timeline-number {
+                left: 30px;
+            }
+
+            .roles-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .circle-diagram {
+                width: 320px;
+                height: 320px;
+            }
+
+            .center-circle {
+                width: 140px;
+                height: 140px;
+                font-size: 1.2rem;
+            }
+
+            .orbit-circle {
+                width: 90px;
+                height: 90px;
+                font-size: 0.8rem;
             }
         }
 
-        @media (max-width: 768px) {
-            .section {
-                padding: 60px 20px;
+        @media (max-width: 640px) {
+            .hero, .problems, .solution, .roles, .process, .results, .cta-section {
+                padding: 3rem 1rem;
             }
 
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            h2 {
-                font-size: 2rem;
-            }
-
-            .stats-grid {
+            .problems-grid {
                 grid-template-columns: 1fr;
             }
 
-            .timeline-items {
+            .roles-container {
                 grid-template-columns: 1fr;
             }
 
-            .advantage-item {
-                grid-template-columns: 1fr;
-                text-align: center;
+            .role-card {
+                padding: 2rem;
             }
 
-            .advantage-number {
-                margin: 0 auto;
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
+        }
+
+        /* Additional animations */
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+
+        /* Utility classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
         }
     </style>
 </head>
 <body>
-    <!-- Progress Indicator -->
-    <div class="progress-indicator">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-
-    <!-- Navigation Dots -->
-    <div class="nav-dots">
-        <div class="nav-dot active" data-title="Inicio" onclick="scrollToSection(0)"></div>
-        <div class="nav-dot" data-title="Qué Ofrecemos" onclick="scrollToSection(1)"></div>
-        <div class="nav-dot" data-title="Proceso" onclick="scrollToSection(2)"></div>
-        <div class="nav-dot" data-title="Ventaja Competitiva" onclick="scrollToSection(3)"></div>
-        <div class="nav-dot" data-title="Clientes" onclick="scrollToSection(4)"></div>
-        <div class="nav-dot" data-title="Contacto" onclick="scrollToSection(5)"></div>
-    </div>
-
-    <!-- Section 1: Hero -->
-    <section class="section active" id="section-0">
-        <div class="container">
-            <div class="hero-content">
-                <div>
-                    <p class="tagline">&lt; Conectando talento, impulsando innovación /&gt;</p>
-                    <h1>STAFF<br><span class="highlight">AUGMENTATION</span></h1>
-                    <p class="subtitle">
-                        En Rocbird, usamos las últimas tecnologías en Big Data e Inteligencia Artificial 
-                        para ayudar a las empresas a maximizar el valor de sus datos.
-                    </p>
-                    <div class="stats-grid">
-                        <div class="stat-box">
-                            <span class="stat-value interactive-counter" data-target="6">+6</span>
-                            <span class="stat-label">años de experiencia</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-value interactive-counter" data-target="8">8</span>
-                            <span class="stat-label">NPS Score</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-value interactive-counter" data-target="80">80%</span>
-                            <span class="stat-label">equipo certificado</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="logo-visual">
-                    <div class="logo-container">
-                        <div class="orbit-ring"></div>
-                        <div class="orbit-ring"></div>
-                        <div class="orbit-ring"></div>
-                        <div class="logo-text">rocbird</div>
-                    </div>
-                </div>
-            </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Driven by People</h1>
+            <p class="subtitle">Human Systems Integration</p>
+            <a href="#problems" class="cta-button">Transformar Organización</a>
         </div>
     </section>
 
-    <!-- Section 2: Qué Ofrecemos -->
-    <section class="section" id="section-1">
+    <!-- Problems Section -->
+    <section id="problems" class="problems">
         <div class="container">
-            <h2>¿Qué <span class="highlight">ofrecemos</span>?</h2>
-            <p class="section-subtitle">Por qué elegir a Rocbird para Staff Augmentation</p>
+            <h2 class="section-title">
+                Los <span class="gradient">Desafíos</span> que Enfrentas
+            </h2>
             
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <h3 class="benefit-title">Talento de alta calidad</h3>
-                    <p class="benefit-description">Acceso directo a profesionales IT certificados</p>
-                    <p class="benefit-detail">
-                        Profesionales especializados en las últimas tecnologías, 
-                        con certificaciones actualizadas y experiencia comprobada.
-                    </p>
+            <div class="problems-grid">
+                <div class="problem-card">
+                    <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"></polygon>
+                    </svg>
+                    <h3>Falta de Alineación</h3>
+                    <p>Los equipos trabajan en silos sin objetivos compartidos, generando fricción y desperdicio de recursos.</p>
                 </div>
-                <div class="benefit-card">
-                    <h3 class="benefit-title">Flexibilidad</h3>
-                    <p class="benefit-description">Soluciones de staffing personalizadas</p>
-                    <p class="benefit-detail">
-                        Adaptamos nuestros servicios a tus necesidades específicas, 
-                        escalando equipos según la demanda del proyecto.
-                    </p>
+
+                <div class="problem-card">
+                    <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+                    </svg>
+                    <h3>Procesos Ineficientes</h3>
+                    <p>Sistemas obsoletos que no se adaptan a las necesidades actuales del negocio y frenan la productividad.</p>
                 </div>
-                <div class="benefit-card">
-                    <h3 class="benefit-title">Eficiencia de costos</h3>
-                    <p class="benefit-description">Talento de clase mundial a tarifas competitivas</p>
-                    <p class="benefit-detail">
-                        Optimización del presupuesto sin comprometer la calidad, 
-                        con modelos flexibles de contratación.
-                    </p>
+
+                <div class="problem-card">
+                    <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    <h3>Desconexión Humana</h3>
+                    <p>Pérdida de engagement y motivación en equipos que no se sienten escuchados ni valorados.</p>
                 </div>
-                <div class="benefit-card">
-                    <h3 class="benefit-title">Ventaja horaria</h3>
-                    <p class="benefit-description">Trabajamos en UTC-3</p>
-                    <p class="benefit-detail">
-                        Facilitando la colaboración fluida con clientes de América del Norte, 
-                        con superposición horaria óptima.
-                    </p>
+
+                <div class="problem-card">
+                    <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <h3>Decisiones sin Datos</h3>
+                    <p>Liderazgo basado en intuición sin insights concretos sobre el rendimiento real del equipo.</p>
+                </div>
+
+                <div class="problem-card">
+                    <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12,6 12,12 16,14"></polyline>
+                    </svg>
+                    <h3>Burnout Organizacional</h3>
+                    <p>Sobrecarga de trabajo que lleva a la rotación de talento y pérdida de conocimiento crítico.</p>
+                </div>
+
+                <div class="problem-card">
+                    <svg class="problem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <circle cx="12" cy="12" r="6"></circle>
+                        <circle cx="12" cy="12" r="2"></circle>
+                    </svg>
+                    <h3>Objetivos Difusos</h3>
+                    <p>Metas poco claras que no generan impacto medible ni crean valor sostenible para el negocio.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Section 3: Proceso -->
-    <section class="section" id="section-2">
+    <!-- Solution Section -->
+    <section class="solution">
         <div class="container">
-            <h2>¿Cómo <span class="highlight">trabajamos</span>?</h2>
-            <p class="section-subtitle">Un proceso sin fricciones</p>
+            <div class="solution-content">
+                <div class="solution-text">
+                    <h2>
+                        Nuestra <span class="gradient">Metodología</span> Integral
+                    </h2>
+                    <p>
+                        Integramos <span class="highlight">personas, procesos y tecnología</span> para crear sistemas organizacionales de alto rendimiento.
+                    </p>
+                    <p>
+                        Nuestro enfoque holístico transforma la cultura organizacional desde adentro, generando impacto sostenible y medible.
+                    </p>
+                </div>
+                
+                <div class="circle-diagram">
+                    <div class="center-circle">INTEGRACIÓN</div>
+                    <div class="orbit-circle">PERSONAS</div>
+                    <div class="orbit-circle">PROCESOS</div>
+                    <div class="orbit-circle">CULTURA</div>
+                    <div class="orbit-circle">TECNOLOGÍA</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roles Section -->
+    <section class="roles">
+        <div class="container">
+            <h2 class="section-title">
+                Nuestros <span class="gradient">Servicios</span>
+            </h2>
+            
+            <div class="roles-container">
+                <div class="role-card">
+                    <h3 class="role-title">Human Systems Consultant</h3>
+                    <p class="role-subtitle">Transformación organizacional integral</p>
+                    <p class="role-description">
+                        Diseñamos e implementamos sistemas que potencian el talento humano, creando sinergias entre personas, procesos y tecnología para maximizar el rendimiento organizacional.
+                    </p>
+                    <div class="role-skills">
+                        <span class="skill-tag">Change Management</span>
+                        <span class="skill-tag">Process Optimization</span>
+                        <span class="skill-tag">Team Dynamics</span>
+                        <span class="skill-tag">Strategic Planning</span>
+                        <span class="skill-tag">Data Analytics</span>
+                    </div>
+                </div>
+
+                <div class="role-card">
+                    <h3 class="role-title">Organizational Designer</h3>
+                    <p class="role-subtitle">Arquitectura de experiencias laborales</p>
+                    <p class="role-description">
+                        Creamos estructuras organizacionales ágiles y resilientes que se adaptan al cambio, fomentando la innovación y el crecimiento sostenible del negocio.
+                    </p>
+                    <div class="role-skills">
+                        <span class="skill-tag">System Thinking</span>
+                        <span class="skill-tag">Agile Methodologies</span>
+                        <span class="skill-tag">Culture Design</span>
+                        <span class="skill-tag">Performance Management</span>
+                        <span class="skill-tag">Leadership Development</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process">
+        <div class="container">
+            <h2 class="section-title">
+                Nuestro <span class="gradient">Proceso</span>
+            </h2>
             
             <div class="process-timeline">
                 <div class="timeline-line"></div>
-                <div class="timeline-items">
-                    <div class="timeline-item">
-                        <div class="timeline-dot">1</div>
-                        <h3 class="timeline-title">Análisis y diagnóstico estratégico</h3>
-                        <p class="timeline-description">
-                            Escucha activa, respuesta ágil y precisión milimétrica para identificar el talento IT ideal.
-                        </p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">2</div>
-                        <h3 class="timeline-title">Entrevistas personalizadas</h3>
-                        <p class="timeline-description">
-                            Match preciso entre habilidades técnicas, competencias blandas y cultura empresarial.
-                        </p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">3</div>
-                        <h3 class="timeline-title">Rápida gestión de onboarding</h3>
-                        <p class="timeline-description">
-                            Integración rápida y eficiente, permitiendo que el talento genere impacto desde el primer día.
-                        </p>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-dot">4</div>
-                        <h3 class="timeline-title">Atención continua</h3>
-                        <p class="timeline-description">
-                            Sistema de feedback 360° con plan de desarrollo y seguimiento continuo.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 4: Ventaja Competitiva -->
-    <section class="section" id="section-3">
-        <div class="container">
-            <h2>Ventaja <span class="highlight">competitiva</span></h2>
-            
-            <div class="advantages-container">
-                <div class="advantage-item">
-                    <div class="advantage-number">1</div>
-                    <div class="advantage-content">
-                        <h3>Baja tasa de rotación</h3>
-                        <p>
-                            Contamos con la menor tasa de rotación en la industria, 
-                            lo que garantiza estabilidad y continuidad en tus proyectos.
-                        </p>
-                    </div>
-                </div>
-                <div class="advantage-item">
-                    <div class="advantage-number">2</div>
-                    <div class="advantage-content">
-                        <h3>Talento de primer nivel</h3>
-                        <p>
-                            Argentina ocupa el primer lugar en América Latina en alfabetización 
-                            tecnológica (Coursera) y dominio del inglés (EF English Index).
-                        </p>
-                    </div>
-                </div>
-                <div class="advantage-item">
-                    <div class="advantage-number">3</div>
-                    <div class="advantage-content">
-                        <h3>Alineación cultural</h3>
-                        <p>
-                            Nuestros ambientes de trabajo son equivalentes a los de las grandes 
-                            empresas IT de Estados Unidos, lo que facilita la integración.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 5: Clientes y Testimonios -->
-    <section class="section" id="section-4">
-        <div class="container">
-            <h2>Confían en <span class="highlight">Rocbird</span></h2>
-            <p class="section-subtitle">Desde Argentina a todo el mundo</p>
-            
-            <div class="clients-showcase">
-                <div class="clients-grid">
-                    <div class="client-card">BANCOR</div>
-                    <div class="client-card">NaranjaX</div>
-                    <div class="client-card">Kanda Software</div>
-                    <div class="client-card">GREENPEACE</div>
-                    <div class="client-card">Overactive</div>
-                    <div class="client-card">Kinetic Corp</div>
-                    <div class="client-card">KNIME</div>
-                    <div class="client-card">IEBS Digital School</div>
-                    <div class="client-card">Devlights</div>
-                    <div class="client-card">Atos</div>
-                    <div class="client-card">PlatformX Solutions</div>
-                    <div class="client-card">FUNDES</div>
-                </div>
-            </div>
-
-            <h2 style="margin-top: 80px;">Éxitos <span class="highlight">comprobados</span></h2>
-            
-            <div class="testimonial-card">
-                <p class="testimonial-text">
-                    Los candidatos siempre se ajustan a nuestras necesidades, con gran apoyo y comunicación. 
-                    Nuestra asociación ha evolucionado permitiendo refinar la calidad de los candidatos.
-                </p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">SR</div>
-                    <div class="author-info">
-                        <h4>Steve Rodriguez</h4>
-                        <p>Director de Operaciones Latam - Kanda Software</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="testimonial-card">
-                <p class="testimonial-text">
-                    Rocbird tiene un proceso específico para encontrar perfiles técnicos y entender nuestra cultura. 
-                    Los candidatos presentados cumplen técnicamente y culturalmente.
-                </p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">GF</div>
-                    <div class="author-info">
-                        <h4>Gabriel Fidalgo</h4>
-                        <p>Analista SR de Operaciones IT - NaranjaX</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="testimonial-card">
-                <p class="testimonial-text">
-                    Rocbird pone al cliente en el centro. Priorizan la entrega de valor complementando las 
-                    necesidades puntuales del negocio con su conocimiento y expertise en datos analítica.
-                </p>
-                <div class="testimonial-author">
-                    <div class="author-avatar">LA</div>
-                    <div class="author-info">
-                        <h4>Lucía Arando</h4>
-                        <p>Data Management Lead - NaranjaX</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section 6: Contacto -->
-    <section class="section" id="section-5">
-        <div class="container">
-            <div class="contact-info">
-                <h2 class="contact-title">¿Listo para <span class="highlight-yellow">potenciar tu equipo</span>?</h2>
-                <p class="contact-subtitle">
-                    Hablemos sobre cómo podemos integrar talentos IT de primer nivel a tus proyectos y acelerar tu crecimiento.
-                </p>
                 
-                <div class="contact-details">
-                    <div class="contact-item">
-                        <div class="contact-icon">@</div>
-                        <span>gaston.vdg@rocbird.io</span>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">📞</div>
-                        <span>+54 379 440 9048</span>
-                    </div>
-                    <div class="contact-item">
-                        <div class="contact-icon">👤</div>
-                        <span>Gastón Di Giuseppe<br>COO | Co-Founder</span>
+                <div class="timeline-item">
+                    <div class="timeline-number">1</div>
+                    <div class="timeline-content">
+                        <h3>Diagnóstico Integral</h3>
+                        <p>Analizamos la situación actual mediante entrevistas, encuestas y observación directa para identificar oportunidades de mejora.</p>
                     </div>
                 </div>
-                
-                <div style="margin-top: 40px;">
-                    <p style="font-size: 1.5rem; color: var(--cyan);">rocbird.io</p>
+
+                <div class="timeline-item">
+                    <div class="timeline-number">2</div>
+                    <div class="timeline-content">
+                        <h3>Diseño de Soluciones</h3>
+                        <p>Desarrollamos estrategias personalizadas que integran personas, procesos y tecnología de manera coherente.</p>
+                    </div>
                 </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-number">3</div>
+                    <div class="timeline-content">
+                        <h3>Implementación Gradual</h3>
+                        <p>Ejecutamos el plan de transformación por fases, asegurando adopción y minimizando la resistencia al cambio.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-number">4</div>
+                    <div class="timeline-content">
+                        <h3>Medición y Optimización</h3>
+                        <p>Monitoreamos resultados continuamente y ajustamos la estrategia para garantizar el éxito a largo plazo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="results">
+        <div class="container">
+            <h2 class="section-title">
+                Resultados <span style="color: #18A7A0">Comprobados</span>
+            </h2>
+            
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-number" id="productivity">0%</div>
+                    <div class="metric-label">Incremento Productividad</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number" id="satisfaction">0%</div>
+                    <div class="metric-label">Satisfacción Empleados</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number" id="efficiency">0%</div>
+                    <div class="metric-label">Optimización Procesos</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-number" id="retention">0%</div>
+                    <div class="metric-label">Retención Talento</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>¿Listos para la Transformación?</h2>
+            <p>Potencia tu organización con sistemas integrados que maximizan el talento humano</p>
+            
+            <div class="cta-buttons">
+                <a href="#contact" class="btn-primary">Iniciar Diagnóstico</a>
+                <a href="#cases" class="btn-secondary">Ver Casos de Éxito</a>
             </div>
         </div>
     </section>
 
     <script>
-        // Smooth scroll to sections
-        function scrollToSection(index) {
-            const sections = document.querySelectorAll('.section');
-            sections[index].scrollIntoView({ behavior: 'smooth' });
-        }
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
 
-        // Update active section and navigation
-        function updateActiveSection() {
-            const sections = document.querySelectorAll('.section');
-            const navDots = document.querySelectorAll('.nav-dot');
-            const scrollPosition = window.scrollY + window.innerHeight / 2;
-            
-            sections.forEach((section, index) => {
-                const top = section.offsetTop;
-                const bottom = top + section.offsetHeight;
-                
-                if (scrollPosition >= top && scrollPosition <= bottom) {
-                    // Update sections
-                    sections.forEach(s => s.classList.remove('active'));
-                    section.classList.add('active');
-                    
-                    // Update nav dots
-                    navDots.forEach(dot => dot.classList.remove('active'));
-                    if (navDots[index]) {
-                        navDots[index].classList.add('active');
-                    }
-                    
-                    // Update progress bar
-                    const progress = ((index + 1) / sections.length) * 100;
-                    document.getElementById('progressBar').style.width = progress + '%';
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
-        }
+        }, observerOptions);
 
-        // Animate counters
-        function animateCounter(element) {
-            const target = parseInt(element.getAttribute('data-target'));
-            const duration = 2000;
-            const step = target / (duration / 16);
-            let current = 0;
+        // Observe problem cards
+        document.querySelectorAll('.problem-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Observe timeline items
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
+
+        // Animated counters for metrics
+        function animateCounter(elementId, targetValue, duration = 2000) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+
+            let startValue = 0;
+            const increment = targetValue / (duration / 16); // 60fps
             
             const timer = setInterval(() => {
-                current += step;
-                if (current >= target) {
-                    current = target;
+                startValue += increment;
+                if (startValue >= targetValue) {
+                    element.textContent = targetValue + '%';
                     clearInterval(timer);
-                }
-                
-                if (element.textContent.includes('+')) {
-                    element.textContent = '+' + Math.floor(current);
-                } else if (element.textContent.includes('%')) {
-                    element.textContent = Math.floor(current) + '%';
                 } else {
-                    element.textContent = Math.floor(current);
+                    element.textContent = Math.floor(startValue) + '%';
                 }
             }, 16);
         }
 
-        // Initialize counters when visible
-        const counterObserver = new IntersectionObserver((entries) => {
+        // Start counters when results section is visible
+        const resultsSection = document.querySelector('.results');
+        let countersStarted = false;
+
+        const resultsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
-                    animateCounter(entry.target);
-                    entry.target.classList.add('animated');
+                if (entry.isIntersecting && !countersStarted) {
+                    countersStarted = true;
+                    // Start animations with delays
+                    setTimeout(() => animateCounter('productivity', 47), 200);
+                    setTimeout(() => animateCounter('satisfaction', 92), 400);
+                    setTimeout(() => animateCounter('efficiency', 68), 600);
+                    setTimeout(() => animateCounter('retention', 85), 800);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.3 });
 
-        document.querySelectorAll('.interactive-counter').forEach(counter => {
-            counterObserver.observe(counter);
-        });
+        resultsObserver.observe(resultsSection);
 
-        // Scroll event listeners
-        window.addEventListener('scroll', updateActiveSection);
-        window.addEventListener('resize', updateActiveSection);
-
-        // Initialize on load
-        window.addEventListener('load', () => {
-            updateActiveSection();
-            
-            // Animate elements on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -100px 0px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            }, observerOptions);
-            
-            document.querySelectorAll('.benefit-card, .timeline-item, .advantage-item, .client-card, .testimonial-card').forEach(el => {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px)';
-                el.style.transition = 'all 0.6s ease';
-                observer.observe(el);
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
             });
         });
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            const sections = document.querySelectorAll('.section');
-            const currentIndex = Array.from(sections).findIndex(s => s.classList.contains('active'));
-            
-            if (e.key === 'ArrowDown' && currentIndex < sections.length - 1) {
-                scrollToSection(currentIndex + 1);
-            } else if (e.key === 'ArrowUp' && currentIndex > 0) {
-                scrollToSection(currentIndex - 1);
-            }
-        });
-
-        // Mouse wheel smooth scroll
-        let isScrolling = false;
-        window.addEventListener('wheel', (e) => {
-            if (!isScrolling) {
-                isScrolling = true;
+        // Add some interactive enhancements
+        document.querySelectorAll('.orbit-circle').forEach(circle => {
+            circle.addEventListener('click', function() {
+                // Add a small animation on click
+                this.style.transform = 'scale(1.2)';
                 setTimeout(() => {
-                    isScrolling = false;
-                }, 1000);
-                
-                const sections = document.querySelectorAll('.section');
-                const currentIndex = Array.from(sections).findIndex(s => s.classList.contains('active'));
-                
-                if (e.deltaY > 0 && currentIndex < sections.length - 1) {
-                    e.preventDefault();
-                    scrollToSection(currentIndex + 1);
-                } else if (e.deltaY < 0 && currentIndex > 0) {
-                    e.preventDefault();
-                    scrollToSection(currentIndex - 1);
-                }
-            }
-        }, { passive: false });
-
-        // Touch support for mobile
-        let touchStartY = 0;
-        let touchEndY = 0;
-
-        document.addEventListener('touchstart', (e) => {
-            touchStartY = e.changedTouches[0].screenY;
+                    this.style.transform = '';
+                }, 150);
+            });
         });
 
-        document.addEventListener('touchend', (e) => {
-            touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-            const sections = document.querySelectorAll('.section');
-            const currentIndex = Array.from(sections).findIndex(s => s.classList.contains('active'));
+        // Enhanced hover effects for skill tags
+        document.querySelectorAll('.skill-tag').forEach(tag => {
+            tag.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.05)';
+            });
             
-            if (touchStartY - touchEndY > 50 && currentIndex < sections.length - 1) {
-                scrollToSection(currentIndex + 1);
-            } else if (touchEndY - touchStartY > 50 && currentIndex > 0) {
-                scrollToSection(currentIndex - 1);
-            }
-        }
+            tag.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Add parallax effect to floating elements
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.hero::before, .hero::after');
+            
+            parallaxElements.forEach((element, index) => {
+                const speed = 0.5 + (index * 0.2);
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+
+        // Loading animation completion
+        window.addEventListener('load', () => {
+            // Trigger animations after page load
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
     </script>
 </body>
 </html>
