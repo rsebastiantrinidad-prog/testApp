@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBP Assistant - Casos de Uso</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: flex;
+            min-height: 600px;
+        }
+
+        .sidebar {
+            width: 350px;
+            background: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+            padding: 0;
+        }
+
+        .user-tabs {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-tab {
+            padding: 25px;
+            cursor: pointer;
+            border-bottom: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .user-tab:hover {
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .user-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .user-tab.active::after {
+            content: '';
+            position: absolute;
+            right: -1px;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: #667eea;
+        }
+
+        .tab-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .tab-subtitle {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .tab-industry {
+            font-size: 0.8em;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        .user-tab:not(.active) .tab-industry {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scenario-header {
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .scenario-title {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .scenario-context {
+            font-size: 1.1em;
+            color: #6c757d;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .chat-simulation {
+            flex: 1;
+            padding: 30px;
+            background: white;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            text-align: right;
+        }
+
+        .user-message .message-content {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 20px 20px 5px 20px;
+            max-width: 70%;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .assistant-message .message-content {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 20px;
+            border-radius: 5px 20px 20px 20px;
+            max-width: 85%;
+            position: relative;
+        }
+
+        .assistant-message .message-content::before {
+            content: '🤖';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: white;
+            padding: 5px;
+            border-radius: 50%;
+            font-size: 1.2em;
+        }
+
+        .framework-badge {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .action-list {
+            background: rgba(40, 167, 69, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .action-item {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .action-item::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .template-tag {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .outcomes {
+            background: rgba(255, 193, 7, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .nav-buttons {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .scenario-counter {
+            font-size: 0.9em;
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+            }
+            
+            .user-tabs {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+            
+            .user-tab {
+                min-width: 200px;
+                border-right: 1px solid #e9ecef;
+                border-bottom: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>DBP Methodology Assistant</h1>
+            <p>Democratizando expertise en gestión de proyectos con IA</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="user-tabs">
+                    <div class="user-tab active" data-user="operations">
+                        <div class="tab-title">Gerente de Operaciones</div>
+                        <div class="tab-subtitle">Múltiples proyectos, decisiones diarias</div>
+                        <div class="tab-industry">Tech/Software</div>
+                    </div>
+                    <div class="user-tab" data-user="strategy">
+                        <div class="tab-title">Director de Estrategia</div>
+                        <div class="tab-subtitle">Implementación de PMO</div>
+                        <div class="tab-industry">Manufacturing</div>
+                    </div>
+                    <div class="user-tab" data-user="startup">
+                        <div class="tab-title">Founder/CEO</div>
+                        <div class="tab-subtitle">Escalando sin burocratizar</div>
+                        <div class="tab-industry">Startup</div>
+                    </div>
+                    <div class="user-tab" data-user="project">
+                        <div class="tab-title">Project Manager</div>
+                        <div class="tab-subtitle">Crisis de timeline y recursos</div>
+                        <div class="tab-industry">Finance</div>
+                    </div>
+                    <div class="user-tab" data-user="consultant">
+                        <div class="tab-title">Consultor Independiente</div>
+                        <div class="tab-subtitle">Metodologías para clientes</div>
+                        <div class="tab-industry">Consulting</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="content-area">
+                <div class="scenario-header">
+                    <div class="scenario-title" id="scenarioTitle">Crisis de Timeline vs Quality</div>
+                    <div class="scenario-context" id="scenarioContext">
+                        <strong>Situación:</strong> El equipo de desarrollo necesita 2 sprints adicionales para completar Feature X con calidad, pero marketing presiona para delivery esta semana por compromisos con cliente.
+                    </div>
+                </div>
+                
+                <div class="chat-simulation" id="chatArea">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-button" id="prevBtn" onclick="changeScenario(-1)">← Anterior</button>
+                    <div class="scenario-counter">
+                        <span id="currentScenario">1</span> de <span id="totalScenarios">3</span>
+                    </div>
+                    <button class="nav-button" id="nextBtn" onclick="changeScenario(1)">Siguiente →</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scenarios = {
+            operations: {
+                title: "Gerente de Operaciones - Tech/Software",
+                scenarios: [
+                    {
+                        title: "Crisis de Timeline vs Quality",
+                        context: "<strong>Situación:</strong> El equipo de desarrollo necesita 2 sprints adicionales para completar Feature X con calidad, pero marketing presiona para delivery esta semana por compromisos con cliente.",
+                        chat: [
+                            {
+                                type: "user",
+                                content: "Mi equipo de desarrollo dice que necesitan 2 sprints más para Feature X, pero marketing presiona para delivery esta semana. El cliente está esperando. ¿Cómo manejo esta tensión?"
+                            },
+                            {
+                                type: "assistant",
+                                content: `<div class="framework-badge">🎯 FRAMEWORK: Stakeholder Tension Resolution</div>
+                                
+<strong>ANÁLISIS DE SITUACIÓN:</strong><br>
+• Patrón típico: Agile-Marketing pressure conflict<br>
+• Risk Level: ALTO - Quality vs Customer satisfaction<br>
+• Industry context: Tech requiere balance speed/quality<br><br>
+
+<div class="action-list">
+<strong>ACCIONES INMEDIATAS (próximas 4 horas):</strong>
+<div class="action-item">Define MVP de Feature X con development team <span class="template-tag">Template DBP-S3</span></div>
+<div class="action-item">Quantifica business impact del delay con marketing</div>
+<div class="action-item">Evalúa phased delivery options</div>
+</div>
+
+<strong>ESTRATEGIA DE NEGOCIACIÓN:</strong><br>
+Propón entrega parcial: Core functionality esta semana + enhancements en siguiente sprint. Esto satisface commitment con cliente mientras preserva quality standards.
+
+<div class="outcomes">
+<strong>🎯 OUTCOME ESPERADO:</strong> Win-win donde marketing cumple commitment y desarrollo mantiene estándares de calidad. Success rate: 85% en situaciones similares.
+</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Recursos Limitados, Múltiples Prioridades",
+                        context: "<strong>Situación:</strong> 3 proyectos críticos compitiendo por el mismo pool de desarrolladores senior. Cada stakeholder dice que su proyecto es 'máxima prioridad'.",
+                        chat: [
+                            {
+                                type: "user",
+                                content: "Tengo 3 proyectos críticos y solo 4 desarrolladores senior. Cada stakeholder insiste en que su proyecto es prioritario. ¿Cómo distribuyo los recursos sin generar conflictos?"
+                            },
+                            {
+                                type: "assistant",
+                                content: `<div class="framework-badge">🎯 FRAMEWORK: Resource Allocation Matrix</div>
+                                
+<strong>ANÁLISIS DE PRIORIZACIÓN:</strong><br>
+• Challenge: Resource scarcity + competing priorities<br>
+• Solution approach: Data-driven decision making<br>
+• Outcome: Objective resource allocation<br><br>
+
+<div class="action-list">
+<strong>METODOLOGÍA DBP-R7 (próximas 24h):</strong>
+<div class="action-item">Score cada proyecto: Business impact × Urgency × Resource efficiency</div>
+<div class="action-item">Map skills required vs team capabilities <span class="template-tag">DBP-R3 Matrix</span></div>
+<div class="action-item">Present data-driven recommendation to stakeholders</div>
+</div>
+
+<strong>COMUNICACIÓN STRATEGY:</strong><br>
+"Basándome en impact analysis objetivo, propongo allocation que maximiza value delivery para la organización." Adjunta scoring matrix para transparencia.
+
+<div class="outcomes">
+<strong>🎯 RESULTADO:</strong> Decisión objetiva respaldada por data. Stakeholders entienden rationale y support la allocation strategy.
+</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Team Burnout en Sprint Crítico",
+                        context: "<strong>Situación:</strong> El equipo muestra signos de burnout en el sprint final antes del release. Productividad bajando, pero deadline no puede moverse.",
+                        chat: [
+                            {
+                                type: "user",
+                                content: "Mi equipo está quemado en el sprint final antes del release. Veo que la productividad está bajando pero el deadline es inmovible. ¿Qué hago para mantener el momentum?"
+                            },
+                            {
+                                type: "assistant",
+                                content: `<div class="framework-badge">🎯 FRAMEWORK: Team Recovery + Crisis Sprint Management</div>
+                                
+<strong>DIAGNÓSTICO BURNOUT:</strong><br>
+• Timing crítico: Final sprint pressure<br>
+• Risk: Quality degradation + team disengagement<br>
+• Priority: Protect team while ensuring delivery<br><br>
+
+<div class="action-list">
+<strong>ACCIONES DE RECUPERACIÓN (hoy):</strong>
+<div class="action-item">Individual 15-min check-ins con cada team member</div>
+<div class="action-item">Identify critical vs nice-to-have features <span class="template-tag">DBP-T9</span></div>
+<div class="action-item">Implement micro-breaks: 2h focused work + 30min break</div>
+<div class="action-item">Delegate non-critical tasks fuera del core team</div>
+</div>
+
+<strong>MOTIVACIÓN STRATEGY:</strong><br>
+"Estamos en la recta final. Vamos a hacer esto smart, no hard." Refocus en outcome, not hours worked.
+
+<div class="outcomes">
+<strong>🎯 RECOVERY PLAN:</strong> Team recupera energía para final push + delivery successful + lessons learned para prevent future burnout.
+</div>`
+                            }
+                        ]
+                    }
+                ]
+            },
+            strategy: {
+                title: "Director de Estrategia - Manufacturing",
+                scenarios: [
+                    {
+                        title: "Implementación PMO - Checkpoints Críticos",
+                        context: "<strong>Situación:</strong> Mes 2 de implementación de PMO en manufacturing company. Necesita validar que está siguiendo best practices y identificar red flags tempranos.",
+                        chat: [
+                            {
+                                type: "user",
+                                content: "Estamos en mes 2 de implementar nuestra PMO. ¿Qué checkpoints críticos debería estar validando ahora? ¿Cómo sé si estamos en track?"
+                            },
+                            {
+                                type: "assistant",
+                                content: `<div class="framework-badge">🎯 FRAMEWORK: PMO Maturity Assessment - Manufacturing</div>
+                                
+<strong>CHECKPOINTS MANUFACTURING-SPECIFIC:</strong><br><br>
+
+<div class="action-list">
+<strong>MES 2 VALIDATION (esta semana):</strong>
+<div class="action-item">Integration con production cycles: ¿PMO workflows alineados?</div>
+<div class="action-item">Resource allocation efficiency: ¿Competing con production priorities?</div>
+<div class="action-item">Quality gates integration: ¿Standards manufacturing aplicados? <span class="template-tag">DBP-M4</span></div>
+<div class="action-item">Vendor management process: ¿PMO considera supply chain dependencies?</div>
+</div>
+
+<strong>RED FLAGS A MONITOREAR:</strong><br>
+• Resistance from production teams<br>
+• Process overhead > 15% of project time<br>
+• Disconnection entre PMO metrics y operational KPIs<br><br>
+
+<strong>PRÓXIMOS HITOS:</strong><br>
+Mes 3: Seasonal planning integration<br>
+Mes 4: Cost predictability metrics<br>
+
+<div class="outcomes">
+<strong>🎯 SUCCESS INDICATOR:</strong> PMO enhance production efficiency, not complicate it. Target: +20% project predictability by month 4.
+</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Resistencia Cultural al Cambio",
+                        context: "<strong>Situación:</strong> Los managers de producción ven la PMO como 'más burocracia'. Hay resistance pasiva a adoptar nuevos procesos.",
+                        chat: [
+                            {
+                                type: "user",
+                                content: "Los managers de producción están resistiendo la PMO. Dicen que es 'más burocracia que no agrega valor'. ¿Cómo cambio esta percepción?"
+                            },
+                            {
+                                type: "assistant",
+                                content: `<div class="framework-badge">🎯 FRAMEWORK: Change Management - Manufacturing Culture</div>
+                                
+<strong>ANÁLISIS DE RESISTENCIA:</strong><br>
+• Root cause: Fear que PMO interfiera con production efficiency<br>
+• Cultural factor: Manufacturing values tangible results<br>
+• Solution: Demostrar value, not impose process<br><br>
+
+<div class="action-list">
+<strong>STRATEGY DE ADOPCIÓN:</strong>
+<div class="action-item">Pilot project con production manager más abierto</div>
+<div class="action-item">Showcase quick wins: Reduced planning time, clearer priorities <span class="template-tag">DBP-C12</span></div>
+<div class="action-item">Co-create processes con production input, not top-down</div>
+<div class="action-item">Measure impact en production metrics they care about</div>
+</div>
+
+<strong>MESSAGING STRATEGY:</strong><br>
+"PMO está aquí para hacer production más predecible, not more complex."<br><br>
+
+<strong>PROOF POINTS:</strong><br>
+Show ROI en terms de: Less rework, better resource planning, fewer production interruptions.
+
+<div class="outcomes">
+<strong>🎯 CULTURAL SHIFT:</strong> Production managers become PMO advocates after seeing tangible improvements en their daily operations.
+</div>`
+                            }
+                        ]
+                    }
+                ]
+            },
+            startup: {
+                title: "Founder/CEO - Startup",
+                scenarios: [
+                    {
+                        title: "Scaling Structure Sin Burocratizar",
+                        context: "<strong>Situación:</strong> Startup de 15 personas creciendo rápido. Necesita structure para operar mejor, pero sin matar la agilidad que los hizo exitosos.",
+                        chat: [
+                            {
+                                type: "user",
+                                content: "Somos 15 personas y creciendo rápido. Necesitamos más structure pero no queremos burocratizar. ¿Cómo profesionalizamos sin perder nuestra agilidad?"
+                            },
+                            {
+                                type: "assistant",
+                                content: `<div class="framework-badge">🎯 FRAMEWORK: Lean PMO for Startups</div>
+                                
+<strong>STARTUP-OPTIMIZED APPROACH:</strong><br><br>
+
+<strong>❌ NO IMPLEMENTAR (too heavy):</strong><br>
+• Formal PMO office con roles dedicated<br>
+• Complex approval processes<br>
+• Heavy documentation requirements<br>
+• Rigid planning cycles<br><br>
+
+<div class="action-list">
+<strong>✅ SÍ IMPLEMENTAR (high impact, low overhead):</strong>
+<div class="action-item">Weekly all-hands con simple structure <span class="template-tag">DBP-S1</span></div>
+<div class="action-item">Basic project tracking (15 min/day max)</div>
+<div class="action-item">Clear role definition without bureaucracy</div>
+<div class="action-item">Simple risk identification process</div>
+</div>
+
+<strong>IMPLEMENTATION GRADUAL:</strong><br>
+Week 1-2: Install basic rhythms<br>
+Week 3-4: Add simple tracking<br>
+Month 2: Evaluate what's working<br>
+Month 3: Add complexity ONLY if needed<br>
+
+<div class="outcomes">
+<strong>🎯 SUCCESS METRICS:</strong> Team moves faster + less confusion + clearer priorities + founders have visibility without micromanaging.
+</div>`
+                            }
+                        ]
+                    },
+                    {
+                        title: "Priorización con Recursos Escasos",
+                        context: "<strong>Situación:</strong> 10 features en backlog, 3 developers, presión de investors para mostrar growth. ¿Cómo priorizar sin análisis paralysis?",
+                        chat: [
+                            {
+                                type: "user",
+                                content: "Tenemos 10 features críticas en backlog, solo 3 developers, y presión de investors para mostrar growth rápido. ¿Cómo priorizamos sin caer en analysis paralysis?"
+                            },
+                            {
+                                type: "assistant",
+                                content: `<div class="framework-badge">🎯 FRAMEWORK: Startup Prioritization Matrix</div>
+                                
+<strong>PRIORIZACIÓN RÁPIDA:</strong><br><br>
+
+<div class="action-list">
+<strong>DBP STARTUP MATRIX (2 horas max):</strong>
+<div class="action-item">Score cada feature: User impact × Development effort × Revenue potential</div>
+<div class="action-item">Apply 80/20 rule: ¿Cuáles 3 features generan 80% del value? <span class="template-tag">DBP-S7</span></div>
+<div class="action-item">Investor story: ¿Qué features mejor demuestran progress?</div>
+<div class="action-item">Technical debt consideration: ¿Alguna dependency crítica?</div>
+</div>
+
+<strong>DECISION FRAMEWORK:</strong><br>
+1. MUST HAVE: Critical for retention<br>
+2. GROWTH: Direct impact on metrics investors track<br>
+3. NICE TO HAVE: Everything else goes to next quarter<br><br>
+
+<strong>EXECUTION STRATEGY:</strong><br>
+Focus on 3 features max. Deliver completely antes de empezar next batch.
+
+<div class="outcomes">
+<strong>🎯 OUTCOME:</strong> Clear roadmap, team focused, investors see progress, users get value. No more "everything is priority 1" chaos.
+</div>`
+                            }
+                        ]
+                    }
+                ]
+            },
+            project: {
+                title: "Project Manager - Finance",
+                scenarios: [
+                    {
+                        title: "Compliance vs Speed de Delivery",
+                        context: "<strong>Situación:</strong> Proyecto de regulatory compliance con deadline inmovible. Audit requirements están frenando development velocity.",
+                        chat: [
+                            {
+                                type: "user",
+                                content: "Tengo un proyecto de compliance con deadline regulatorio inmovible. Los audit requirements están frenando nuestro development velocity. ¿Cómo acelero sin comprometer compliance?"
+                            },
+                            {
+                                type: "assistant",
+                                content: `<div class="framework-badge">🎯 FRAMEWORK: Compliance-Driven Delivery</div>
+                                
+<strong>FINANCE INDUSTRY CONTEXT:</strong><br>
+• Non-negotiable: Regulatory compliance<br>
+• Challenge: Balance audit requirements + delivery speed<br>
+• Solution: Integrate compliance in development flow<br><br>
+
+<div class="action-list">
+<strong>ACCELERATION STRATEGY:</strong>
+<div class="action-item">Parallel compliance review: No sequential bottlenecks</div>
+<div class="action-item">Automated audit trails en development process <span class="template-tag">DBP-F4</span></div>
+<div class="action-item">Pre-approved patterns: Reusable compliance components</div>
+<div class="action-item">Risk-based testing: Focus on high-impact compliance areas</div>
+</div>
+
+<strong>STAKEHOLDER MANAGEMENT:</strong><br>
+Align compliance team como partners, not gatekeepers. Frame como "compliance-enabled velocity"<br><br>
+
+<strong>DELIVERY APPROACH:</strong><br>
+Incremental compliance validation vs big-bang audit at end.
+
+<div class="outcomes">
+<strong>🎯 RESULT:</strong> Faster delivery sin compliance risk. Audit team satisfied, regulators happy, business objectives met.
+</div>`
+                            }
+                        ]
+                    }
+                ]
+            },
+            consultant: {
+                title: "Consultor Independiente",
+                scenarios: [
+                    {
+                        title: "Metodología para Cliente Nuevo",
+                        context: "<strong>Situación:</strong> Cliente en retail quiere implementar metodología ágil pero tienen procesos muy tradicionales. ¿Cómo adaptarlo sin shock cultural?",
+                        chat: [
+                            {
+                                type: "user",
+                                content: "Tengo un cliente en retail que quiere 'ser más ágil' pero tienen procesos muy tradicionales y hierarchical culture. ¿Cómo adapto metodologías ágiles sin crear shock cultural?"
+                            },
+                            {
+                                type: "assistant",
+                                content: `<div class="framework-badge">🎯 FRAMEWORK: Agile Transformation - Retail Industry</div>
+                                
+<strong>RETAIL CONTEXT CONSIDERATIONS:</strong><br>
+• Seasonal business cycles require predictability<br>
+• Traditional hierarchy deeply embedded<br>
+• Customer-facing operations can't afford disruption<br><br>
+
+<div class="action-list">
+<strong>HYBRID APPROACH DBP-R15:</strong>
+<div class="action-item">Agile planning con predictable execution windows</div>
+<div class="action-item">Maintain hierarchy but add cross-functional teams</div>
+<div class="action-item">Pilot en non-customer-facing projects first <span class="template-tag">DBP-R8</span></div>
+<div class="action-item">Terminology adaptation: "Sprints" → "Focus periods"</div>
+</div>
+
+<strong>CHANGE MANAGEMENT:</strong><br>
+Start con agile mindset, not agile process. Demonstrate value antes de cambiar structure.<br><br>
+
+<strong>SUCCESS METRICS:</strong><br>
+• Faster time-to-market for seasonal campaigns<br>
+• Better cross-department collaboration<br>
+• Maintained operational stability
+
+<div class="outcomes">
+<strong>🎯 TRANSFORMATION RESULT:</strong> Client gets agility benefits without cultural disruption. Gradual adoption leads to sustainable change.
+</div>`
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        let currentUser = 'operations';
+        let currentScenarioIndex = 0;
+
+        function initializeChat() {
+            const userData = scenarios[currentUser];
+            const scenario = userData.scenarios[currentScenarioIndex];
+            
+            document.getElementById('scenarioTitle').textContent = scenario.title;
+            document.getElementById('scenarioContext').innerHTML = scenario.context;
+            document.getElementById('currentScenario').textContent = currentScenarioIndex + 1;
+            document.getElementById('totalScenarios').textContent = userData.scenarios.length;
+            
+            const chatArea = document.getElementById('chatArea');
+            chatArea.innerHTML = '';
+            
+            scenario.chat.forEach((message, index) => {
+                setTimeout(() => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = `message ${message.type}-message`;
+                    messageDiv.innerHTML = `<div class="message-content">${message.content}</div>`;
+                    chatArea.appendChild(messageDiv);
+                    chatArea.scrollTop = chatArea.scrollHeight;
+                }, index * 800);
+            });
+            
+            updateNavButtons();
+        }
+
+        function changeScenario(direction) {
+            const userData = scenarios[currentUser];
+            const newIndex = currentScenarioIndex + direction;
+            
+            if (newIndex >= 0 && newIndex < userData.scenarios.length) {
+                currentScenarioIndex = newIndex;
+                initializeChat();
+            }
+        }
+
+        function updateNavButtons() {
+            const userData = scenarios[currentUser];
+            document.getElementById('prevBtn').disabled = currentScenarioIndex === 0;
+            document.getElementById('nextBtn').disabled = currentScenarioIndex === userData.scenarios.length - 1;
+        }
+
+        // Tab switching
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.user-tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Update current user and reset scenario
+                    currentUser = this.dataset.user;
+                    currentScenarioIndex = 0;
+                    
+                    // Initialize chat for new user
+                    initializeChat();
+                });
+            });
+            
+            // Initialize with first user
+            initializeChat();
+        });
+    </script>
+</body>
+</html>
