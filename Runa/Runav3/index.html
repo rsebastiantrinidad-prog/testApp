@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNA - Implementación Boutique de Sistemas Operativos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            z-index: 1000;
+            border-bottom: 1px solid #661EDA;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #661EDA;
+            letter-spacing: 2px;
+        }
+
+        .cta-nav {
+            background: #661EDA;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .cta-nav:hover {
+            background: #7c3ae6;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(102, 30, 218, 0.2);
+            color: #18A7A0;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid rgba(102, 30, 218, 0.4);
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 24px;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        .hero h1 span {
+            color: #18A7A0;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: #cccccc;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: #999999;
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .cta-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .cta-primary {
+            background: #661EDA;
+            color: white;
+            padding: 18px 36px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .cta-primary:hover {
+            background: #7c3ae6;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(102, 30, 218, 0.4);
+        }
+
+        .cta-secondary {
+            color: #18A7A0;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border-bottom: 2px solid #18A7A0;
+            padding-bottom: 2px;
+        }
+
+        /* Results Bar */
+        .results-bar {
+            background: linear-gradient(135deg, rgba(102, 30, 218, 0.15), rgba(24, 167, 160, 0.15));
+            padding: 60px 0;
+            border-top: 1px solid rgba(102, 30, 218, 0.3);
+            border-bottom: 1px solid rgba(102, 30, 218, 0.3);
+        }
+
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+
+        .result-item h3 {
+            font-size: 48px;
+            color: #661EDA;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .result-item p {
+            color: #cccccc;
+            font-size: 16px;
+        }
+
+        .result-source {
+            text-align: center;
+            margin-top: 30px;
+            color: #999999;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+        }
+
+        .section-header h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: #999999;
+            line-height: 1.8;
+        }
+
+        /* Problem Section */
+        .problem-scenario {
+            background: rgba(102, 30, 218, 0.05);
+            border-left: 4px solid #661EDA;
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+
+        .problem-scenario h3 {
+            color: #18A7A0;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .scenario-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .scenario-list li {
+            color: #cccccc;
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .scenario-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #661EDA;
+            font-weight: bold;
+        }
+
+        .problem-after {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(102, 30, 218, 0.3);
+        }
+
+        .problem-after h4 {
+            color: #999999;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .problem-after ul {
+            list-style: none;
+        }
+
+        .problem-after ul li {
+            color: #ff6b6b;
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .problem-after ul li:before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        .insight-box {
+            background: linear-gradient(135deg, rgba(102, 30, 218, 0.2), rgba(24, 167, 160, 0.2));
+            border: 2px solid #18A7A0;
+            padding: 40px;
+            border-radius: 12px;
+            margin-top: 40px;
+        }
+
+        .insight-box h3 {
+            color: #18A7A0;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .insight-box p {
+            color: #ffffff;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .insight-box .highlight {
+            color: #661EDA;
+            font-weight: 600;
+        }
+
+        /* Solution Grid */
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .solution-card {
+            background: rgba(102, 30, 218, 0.08);
+            border: 2px solid rgba(102, 30, 218, 0.3);
+            padding: 40px;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .solution-card:hover {
+            border-color: #18A7A0;
+            transform: translateY(-5px);
+        }
+
+        .solution-card h3 {
+            color: #18A7A0;
+            font-size: 22px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .solution-card h3:before {
+            content: "";
+            width: 40px;
+            height: 40px;
+            background: #661EDA;
+            border-radius: 8px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .solution-card ul {
+            list-style: none;
+        }
+
+        .solution-card ul li {
+            color: #cccccc;
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .solution-card ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #18A7A0;
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .solution-result {
+            background: rgba(24, 167, 160, 0.1);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 50px;
+            border: 2px solid rgba(24, 167, 160, 0.3);
+        }
+
+        .solution-result h3 {
+            color: #18A7A0;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .solution-result p {
+            color: #ffffff;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* Process Timeline */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 40px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-marker {
+            background: #661EDA;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 14px;
+            height: fit-content;
+            border: 3px solid #18A7A0;
+        }
+
+        .timeline-content {
+            background: rgba(102, 30, 218, 0.08);
+            padding: 35px;
+            border-radius: 12px;
+            border-left: 4px solid #18A7A0;
+        }
+
+        .timeline-content h3 {
+            color: #18A7A0;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .timeline-section {
+            margin-bottom: 25px;
+        }
+
+        .timeline-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-section h4 {
+            color: #661EDA;
+            font-size: 16px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .timeline-section ul {
+            list-style: none;
+        }
+
+        .timeline-section ul li {
+            color: #cccccc;
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .timeline-section ul li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #18A7A0;
+        }
+
+        /* Comparison Table */
+        .comparison-wrapper {
+            margin: 60px 0;
+        }
+
+        .comparison-table {
+            background: rgba(102, 30, 218, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(102, 30, 218, 0.2);
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
+            gap: 15px;
+            padding: 20px;
+            border-bottom: 1px solid rgba(102, 30, 218, 0.2);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-row.header {
+            background: rgba(102, 30, 218, 0.2);
+            font-weight: 700;
+            color: #18A7A0;
+        }
+
+        .comparison-row.highlight {
+            background: rgba(24, 167, 160, 0.15);
+            border: 2px solid #18A7A0;
+            margin: 2px;
+            border-radius: 8px;
+        }
+
+        .comparison-cell {
+            color: #cccccc;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .comparison-cell.price-highlight {
+            color: #661EDA;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        /* Value Proposition Box */
+        .value-prop-box {
+            background: linear-gradient(135deg, rgba(102, 30, 218, 0.1), rgba(24, 167, 160, 0.1));
+            border: 2px solid #18A7A0;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+        }
+
+        .value-prop-box h3 {
+            color: #18A7A0;
+            font-size: 24px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .value-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        .value-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .value-item h4 {
+            color: #18A7A0;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .value-item p {
+            color: #cccccc;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Pricing Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .pricing-card {
+            background: rgba(102, 30, 218, 0.08);
+            border: 2px solid rgba(102, 30, 218, 0.3);
+            padding: 0;
+            border-radius: 12px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border-color: #18A7A0;
+            background: rgba(24, 167, 160, 0.1);
+            transform: scale(1.05);
+        }
+
+        .pricing-badge {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: #18A7A0;
+            color: white;
+            padding: 8px 50px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transform: rotate(45deg);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .pricing-card.featured .pricing-badge {
+            display: block;
+        }
+
+        .pricing-card:hover {
+            border-color: #18A7A0;
+            transform: translateY(-10px);
+        }
+
+        .pricing-header {
+            background: rgba(102, 30, 218, 0.2);
+            padding: 30px;
+            text-align: center;
+            border-bottom: 2px solid rgba(102, 30, 218, 0.3);
+        }
+
+        .pricing-header h3 {
+            color: #18A7A0;
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .ideal-for {
+            color: #999999;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .price-box {
+            padding: 30px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .price {
+            font-size: 48px;
+            color: #661EDA;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .price-note {
+            color: #999999;
+            font-size: 14px;
+        }
+
+        .pricing-includes {
+            padding: 30px;
+        }
+
+        .pricing-includes h4 {
+            color: #18A7A0;
+            margin-bottom: 20px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .pricing-includes ul {
+            list-style: none;
+        }
+
+        .pricing-includes ul li {
+            color: #cccccc;
+            padding: 12px 0;
+            padding-left: 25px;
+            position: relative;
+            border-bottom: 1px solid rgba(102, 30, 218, 0.2);
+            line-height: 1.5;
+        }
+
+        .pricing-includes ul li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-includes ul li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #18A7A0;
+            font-weight: bold;
+        }
+
+        .pricing-includes ul li strong {
+            color: #18A7A0;
+        }
+
+        .pricing-cta {
+            display: block;
+            text-align: center;
+            background: transparent;
+            border: 2px solid #661EDA;
+            color: #661EDA;
+            padding: 16px;
+            margin: 0 30px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .pricing-card.featured .pricing-cta {
+            background: #661EDA;
+            color: white;
+        }
+
+        .pricing-cta:hover {
+            background: #661EDA;
+            color: white;
+        }
+
+        .savings-badge {
+            background: rgba(24, 167, 160, 0.2);
+            border-top: 2px solid rgba(24, 167, 160, 0.4);
+            padding: 15px;
+            text-align: center;
+            color: #18A7A0;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        /* Payment Info */
+        .payment-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .payment-card {
+            background: rgba(102, 30, 218, 0.08);
+            border: 2px solid rgba(102, 30, 218, 0.3);
+            padding: 30px;
+            border-radius: 12px;
+        }
+
+        .payment-card h4 {
+            color: #18A7A0;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .payment-card ul {
+            list-style: none;
+        }
+
+        .payment-card ul li {
+            color: #cccccc;
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .payment-card ul li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #18A7A0;
+            font-size: 20px;
+        }
+
+        .payment-card p {
+            color: #cccccc;
+            line-height: 1.7;
+        }
+
+        /* About */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .about-image {
+            width: 100%;
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, #661EDA, #18A7A0);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            color: white;
+        }
+
+        .about-content h3 {
+            color: #18A7A0;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .about-content p {
+            color: #cccccc;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .about-list {
+            margin-top: 30px;
+        }
+
+        .about-list h4 {
+            color: #661EDA;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .about-list ul {
+            list-style: none;
+        }
+
+        .about-list ul li {
+            color: #cccccc;
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .about-list ul li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #18A7A0;
+        }
+
+        .capacity-highlight {
+            background: rgba(102, 30, 218, 0.1);
+            border: 2px solid #661EDA;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+
+        .capacity-highlight h4 {
+            color: #18A7A0;
+            margin-bottom: 10px;
+        }
+
+        .capacity-highlight p {
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            background: linear-gradient(135deg, rgba(102, 30, 218, 0.2), rgba(24, 167, 160, 0.2));
+            border: 3px solid #661EDA;
+            padding: 80px 60px;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .final-cta .urgency {
+            display: inline-block;
+            background: #661EDA;
+            color: white;
+            padding: 10px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .final-cta h2 {
+            font-size: 38px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+
+        .final-cta p {
+            font-size: 18px;
+            color: #cccccc;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .final-cta .cta-primary {
+            font-size: 18px;
+            padding: 20px 48px;
+        }
+
+        .final-cta .disclaimer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #999999;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(10, 10, 10, 0.98);
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(102, 30, 218, 0.3);
+        }
+
+        footer p {
+            color: #666666;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .hero-subtitle {
+                font-size: 20px;
+            }
+
+            .results-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .comparison-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .comparison-cell:before {
+                content: attr(data-label);
+                font-weight: bold;
+                display: inline-block;
+                margin-right: 10px;
+                color: #18A7A0;
+            }
+
+            .comparison-row.header {
+                display: none;
+            }
+
+            .value-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .payment-info {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .cta-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .cta-secondary {
+                text-align: center;
+            }
+
+            .section-header h2 {
+                font-size: 32px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">RUNA</div>
+            <a href="#contacto" class="cta-nav">Agendar Llamada</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in">
+                <div class="badge">Máximo 3 clientes simultáneos</div>
+                <h1>Implementación de <span>Sistemas Operativos</span></h1>
+                <p class="hero-subtitle">Instalamos EOS, PMO, OKRs o frameworks custom en tu empresa.<br>Con la parte que TODOS omiten: transformación de liderazgo integrada.</p>
+                <p class="hero-description">
+                    No más sistemas perfectos que nadie usa después de 3 meses. Transformamos el sistema Y a las personas que lo operan. En paralelo. En 90 días.
+                </p>
+                <div class="cta-group">
+                    <a href="#proceso" class="cta-primary">Ver Proceso de 90 Días</a>
+                    <a href="#contacto" class="cta-secondary">Agendar Diagnóstico →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="results-bar">
+        <div class="container">
+            <div class="results-grid">
+                <div class="result-item">
+                    <h3>60%</h3>
+                    <p>Reducción en reuniones de coordinación</p>
+                </div>
+                <div class="result-item">
+                    <h3>12 hrs</h3>
+                    <p>Recuperadas por semana para el CEO</p>
+                </div>
+                <div class="result-item">
+                    <h3>3x</h3>
+                    <p>Velocidad en toma de decisiones</p>
+                </div>
+            </div>
+            <p class="result-source">Resultados del primer cliente (Q4 2024) - 85 días de implementación</p>
+        </div>
+    </section>
+
+    <section id="problema">
+        <div class="container">
+            <div class="section-header">
+                <h2>Por Qué las Implementaciones de Sistemas Fallan</h2>
+                <p>Has visto esto antes. Tal vez lo viviste.</p>
+            </div>
+
+            <div class="problem-scenario">
+                <h3>El patrón típico:</h3>
+                <ul class="scenario-list">
+                    <li>Contratan consultor de EOS / PMO / OKRs</li>
+                    <li>Instala procesos hermosos en Notion / Asana / Monday</li>
+                    <li>Training de 2 días con el equipo</li>
+                    <li>Se va con su cheque de $30K-50K</li>
+                </ul>
+                
+                <div class="problem-after">
+                    <h4>3 meses después:</h4>
+                    <ul>
+                        <li>Nadie usa el sistema</li>
+                        <li>Volvieron a hábitos viejos</li>
+                        <li>CEO sigue coordinando todo manualmente</li>
+                        <li>$30K-50K tirados a la basura</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="insight-box">
+                <h3>¿Por qué fallan?</h3>
+                <p>Porque el problema <span class="highlight">NO es técnico</span>. Es humano.</p>
+                <p>→ El CEO sabe que DEBE delegar... pero no lo hace<br>
+                   → Los líderes entienden el framework... pero no cambian comportamiento<br>
+                   → El equipo tiene las herramientas... pero no hábitos nuevos</p>
+                <p style="margin-top: 20px; font-size: 20px;"><span class="highlight">Sistema sin transformación de liderazgo = desperdicio garantizado.</span></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="solucion" style="background: rgba(102, 30, 218, 0.03);">
+        <div class="container">
+            <div class="section-header">
+                <h2>RUNA: Sistema + Liderazgo Integrados</h2>
+                <p>No instalamos solo procesos. Transformamos a las personas que los operan. En paralelo.</p>
+            </div>
+
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <h3>Sistema Operativo</h3>
+                    <ul>
+                        <li>Framework adaptado (EOS / PMO / OKRs / custom)</li>
+                        <li>Procesos configurados en TUS herramientas actuales</li>
+                        <li>Dashboards operativos que se usan realmente</li>
+                        <li>Documentación completa y accesible</li>
+                    </ul>
+                </div>
+
+                <div class="solution-card">
+                    <h3>Transformación de Liderazgo</h3>
+                    <ul>
+                        <li>Coaching ejecutivo 1-on-1 semanal (CEO/COO)</li>
+                        <li>Herramientas diarias de liderazgo efectivo</li>
+                        <li>Desarrollo de segunda línea de liderazgo</li>
+                        <li>Gestión del cambio con metodología probada</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="solution-result">
+                <h3>↓ El Resultado ↓</h3>
+                <p>Sistema que <strong>SE USA</strong> porque líderes transformados lo operan naturalmente.<br>
+                   No depende de intervención heroica ni de nuestra presencia.</p>
+            </div>
+
+            <div class="insight-box" style="margin-top: 60px;">
+                <h3>Por qué funciona donde otros fallan:</h3>
+                <p><span class="highlight">Otros consultores:</span> Instalan sistema → se van → sistema colapsa en 90 días</p>
+                <p><span class="highlight">RUNA:</span> Transforma personas en paralelo → sistema se auto-sostiene después de 90 días</p>
+                <p style="margin-top: 20px;">La diferencia: Coaching integrado, no training opcional</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="proceso">
+        <div class="container">
+            <div class="section-header">
+                <h2>Proceso de Implementación: 90 Días</h2>
+                <p>Hands-on, directo, sin delegación a juniors. Atención personalizada garantizada.</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        DÍAS<br>1-30
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Diagnóstico + Quick Wins</h3>
+                        
+                        <div class="timeline-section">
+                            <h4>Sistema:</h4>
+                            <ul>
+                                <li>Auditoría profunda de procesos actuales</li>
+                                <li>Selección de framework (EOS/PMO/OKRs/custom)</li>
+                                <li>Implementación de 2-3 quick wins inmediatos</li>
+                                <li>Configuración inicial en herramientas existentes</li>
+                            </ul>
+                        </div>
+
+                        <div class="timeline-section">
+                            <h4>Liderazgo:</h4>
+                            <ul>
+                                <li>4 sesiones de coaching con CEO/COO</li>
+                                <li>Evaluación de estilo de liderazgo actual</li>
+                                <li>Herramienta #1: Decision Delegation Matrix</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        DÍAS<br>31-60
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Instalación Core</h3>
+                        
+                        <div class="timeline-section">
+                            <h4>Sistema:</h4>
+                            <ul>
+                                <li>Framework completo configurado y operativo</li>
+                                <li>Training con todo el equipo de Framework</li>
+                                <li>Primeros ciclos operativos completados</li>
+                                <li>Dashboards de salud organizacional preliminar</li>
+                            </ul>
+                        </div>
+
+                        <div class="timeline-section">
+                            <h4>Liderazgo:</h4>
+                            <ul>
+                                <li>4 sesiones de coaching continuo</li>
+                                <li>Herramientas #2-4 implementadas y en uso</li>
+                                <li>Desarrollo intensivo de líderes de 2da línea</li>
+                                <li>Gestión de resistencias al cambio</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        DÍAS<br>61-90
+                    </div>
+                    <div class="timeline-content">
+                        <h3>Autonomía + Handoff</h3>
+                        
+                        <div class="timeline-section">
+                            <h4>Sistema:</h4>
+                            <ul>
+                                <li>Sistema operando sin intervención externa</li>
+                                <li>Métricas de salud configuradas y monitoreadas</li>
+                                <li>Documentación completa y accesible</li>
+                                <li>Champions internos capacitados</li>
+                            </ul>
+                        </div>
+
+                        <div class="timeline-section">
+                            <h4>Liderazgo:</h4>
+                            <ul>
+                                <li>4 sesiones finales + plan de desarrollo continuo</li>
+                                <li>Champions de cambio identificados y empoderados</li>
+                                <li>Autonomía de liderazgo garantizada</li>
+                                <li>Sistema de soporte post-implementación</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="solution-result" style="margin-top: 60px;">
+                <h3>Al día 90:</h3>
+                <p>Sistema operando autónomamente. Líderes transformados. Cultura que sostiene el cambio.<br>
+                   <strong>No necesitás que sigamos ahí para que funcione.</strong></p>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" style="background: rgba(24, 167, 160, 0.03);">
+        <div class="container">
+            <div class="section-header">
+                <h2>Inversión & Comparación de Mercado</h2>
+                <p>Precio transparente. Sin sorpresas. Sin contratos anuales.</p>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="comparison-wrapper">
+                <h3 style="text-align: center; color: #18A7A0; margin-bottom: 30px; font-size: 24px;">¿Cuánto cuestan las alternativas?</h3>
+                <div class="comparison-table">
+                    <div class="comparison-row header">
+                        <div class="comparison-cell">Servicio</div>
+                        <div class="comparison-cell">Precio Anual</div>
+                        <div class="comparison-cell">Incluye Sistema</div>
+                        <div class="comparison-cell">Incluye Liderazgo</div>
+                        <div class="comparison-cell">Duración</div>
+                    </div>
+                    <div class="comparison-row highlight">
+                        <div class="comparison-cell" data-label="Servicio: "><strong>RUNA</strong></div>
+                        <div class="comparison-cell price-highlight" data-label="Precio: "><strong>$2.5K-10K</strong></div>
+                        <div class="comparison-cell" data-label="Sistema: ">✅</div>
+                        <div class="comparison-cell" data-label="Liderazgo: ">✅</div>
+                        <div class="comparison-cell" data-label="Duración: ">90 días</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-cell" data-label="Servicio: ">EOS Implementer</div>
+                        <div class="comparison-cell" data-label="Precio: ">$20K-50K/año</div>
+                        <div class="comparison-cell" data-label="Sistema: ">✅</div>
+                        <div class="comparison-cell" data-label="Liderazgo: ">❌</div>
+                        <div class="comparison-cell" data-label="Duración: ">18-24 meses</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-cell" data-label="Servicio: ">Scaling Up Coach</div>
+                        <div class="comparison-cell" data-label="Precio: ">$40K-200K+/año</div>
+                        <div class="comparison-cell" data-label="Sistema: ">✅</div>
+                        <div class="comparison-cell" data-label="Liderazgo: ">Parcial</div>
+                        <div class="comparison-cell" data-label="Duración: ">Varios años</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-cell" data-label="Servicio: ">Executive Coach</div>
+                        <div class="comparison-cell" data-label="Precio: ">$10K-60K/año</div>
+                        <div class="comparison-cell" data-label="Sistema: ">❌</div>
+                        <div class="comparison-cell" data-label="Liderazgo: ">✅</div>
+                        <div class="comparison-cell" data-label="Duración: ">6-12 meses</div>
+                    </div>
+                    <div class="comparison-row">
+                        <div class="comparison-cell" data-label="Servicio: ">PMO Consultant</div>
+                        <div class="comparison-cell" data-label="Precio: ">$15K-100K+</div>
+                        <div class="comparison-cell" data-label="Sistema: ">✅</div>
+                        <div class="comparison-cell" data-label="Liderazgo: ">❌</div>
+                        <div class="comparison-cell" data-label="Duración: ">3-12 meses</div>
+                    </div>
+                </div>
+                <p style="text-align: center; color: #999999; margin-top: 20px; font-size: 14px;">
+                    Fuente: ICF Global Coaching Study 2023, EOS Worldwide, Scaling Up, PMI
+                </p>
+            </div>
+
+            <!-- Value Proposition -->
+            <div class="value-prop-box">
+                <h3>Por qué RUNA es 60-90% más accesible:</h3>
+                <div class="value-grid">
+                    <div class="value-item">
+                        <div class="value-icon">🎯</div>
+                        <h4>Capacidad Limitada</h4>
+                        <p>Máximo 3 clientes simultáneos = no necesito escalar precios para pagar equipo grande</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">⚡</div>
+                        <h4>Intensidad > Duración</h4>
+                        <p>90 días intensivos vs 18-24 meses de sesiones espaciadas = más eficiente</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">🔧</div>
+                        <h4>Adaptación, no Invención</h4>
+                        <p>Uso frameworks probados (EOS/PMO/OKRs) en lugar de crear metodología propia</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon">👤</div>
+                        <h4>Boutique, no Franquicia</h4>
+                        <p>Atención directa sin overhead de marca corporativa o royalties de franquicia</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pricing Cards -->
+            <h3 style="text-align: center; color: #ffffff; margin: 60px 0 40px; font-size: 28px;">3 Niveles de Implementación</h3>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Estándar</h3>
+                        <p class="ideal-for">Ideal para: 20-50 personas</p>
+                    </div>
+                    <div class="price-box">
+                        <div class="price">$2,500</div>
+                        <div class="price-note">Pago único · Sin contratos</div>
+                    </div>
+                    <div class="pricing-includes">
+                        <h4>Qué está incluido:</h4>
+                        <ul>
+                            <li><strong>Sistema:</strong> Framework existente adaptado (EOS/PMO/OKRs)</li>
+                            <li><strong>Liderazgo:</strong> 8 sesiones coaching ejecutivo CEO/COO</li>
+                            <li><strong>Equipo:</strong> Training certificado (6 hrs)</li>
+                            <li><strong>Duración:</strong> 90 días hands-on</li>
+                            <li><strong>Garantía:</strong> Sistema operando autónomamente al día 90</li>
+                        </ul>
+                    </div>
+                    <a href="#contacto" class="pricing-cta">Consultar Disponibilidad</a>
+                    <div class="savings-badge">Ahorras $17.5K-47.5K vs EOS</div>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">✨ Más Elegido</div>
+                    <div class="pricing-header">
+                        <h3>Avanzado</h3>
+                        <p class="ideal-for">Ideal para: 50-150 personas</p>
+                    </div>
+                    <div class="price-box">
+                        <div class="price">$5,000</div>
+                        <div class="price-note">Pago único · Sin contratos</div>
+                    </div>
+                    <div class="pricing-includes">
+                        <h4>Todo lo de Estándar, más:</h4>
+                        <ul>
+                            <li><strong>Sistema:</strong> Framework custom o combinado</li>
+                            <li><strong>Liderazgo:</strong> 12 sesiones + workshops grupales</li>
+                            <li><strong>2da Línea:</strong> Desarrollo de líderes junior</li>
+                            <li><strong>Métricas:</strong> Dashboard avanzado de salud org</li>
+                            <li><strong>Soporte:</strong> 30 días adicionales post-implementación</li>
+                        </ul>
+                    </div>
+                    <a href="#contacto" class="pricing-cta">Consultar Disponibilidad</a>
+                    <div class="savings-badge">Ahorras $15K-45K vs EOS</div>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Completo</h3>
+                        <p class="ideal-for">Ideal para: 150-500 personas</p>
+                    </div>
+                    <div class="price-box">
+                        <div class="price">$10,000</div>
+                        <div class="price-note">Pago único · Sin contratos</div>
+                    </div>
+                    <div class="pricing-includes">
+                        <h4>Todo lo de Avanzado, más:</h4>
+                        <ul>
+                            <li><strong>Estrategia:</strong> Definición estratégica si no existe</li>
+                            <li><strong>Liderazgo:</strong> 16 sesiones + facilitación continua</li>
+                            <li><strong>Múltiples Líneas:</strong> Desarrollo cascada de liderazgo</li>
+                            <li><strong>Change Mgmt:</strong> Gestión de cambio intensiva</li>
+                            <li><strong>Duración:</strong> 120 días de implementación</li>
+                        </ul>
+                    </div>
+                    <a href="#contacto" class="pricing-cta">Consultar Disponibilidad</a>
+                    <div class="savings-badge">Ahorras $10K-40K vs EOS</div>
+                </div>
+            </div>
+
+            <!-- Payment & Guarantee -->
+            <div class="payment-info">
+                <div class="payment-card">
+                    <h4>💳 Opciones de Pago</h4>
+                    <ul>
+                        <li>Pago único al inicio</li>
+                        <li>50% inicio / 50% a 45 días</li>
+                        <li>33% inicio / 33% a 30 días / 33% a 60 días</li>
+                    </ul>
+                    <p style="margin-top: 15px; font-size: 14px; color: #999;">Sin contratos de permanencia. Sin costos ocultos.</p>
+                </div>
+                <div class="payment-card">
+                    <h4>✅ Garantía de Resultados</h4>
+                    <p>Si al día 90 el sistema no opera autónomamente (sin intervención nuestra), trabajamos sin costo adicional hasta lograrlo.</p>
+                    <p style="margin-top: 15px; font-size: 14px; color: #18A7A0;"><strong>Riesgo = Cero</strong></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="quien">
+        <div class="container">
+            <div class="section-header">
+                <h2>Quién Implementa RUNA</h2>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-image">
+                    ST
+                </div>
+                <div class="about-content">
+                    <h3>Sebastián Trinidad</h3>
+                    <p>Implementador de sistemas operativos con [X] años de experiencia transformando empresas de [industrias específicas].</p>
+                    
+                    <div class="about-list">
+                        <h4>Metodología:</h4>
+                        <ul>
+                            <li>Frameworks probados: EOS, PMO, OKRs, Holacracy</li>
+                            <li>Coaching ejecutivo certificado en [metodología]</li>
+                            <li>[Y] líderes desarrollados</li>
+                            <li>[Z] empresas transformadas</li>
+                        </ul>
+                    </div>
+
+                    <div class="capacity-highlight">
+                        <h4>Capacidad Limitada por Diseño</h4>
+                        <p><strong>Máximo 3 clientes simultáneos</strong> garantiza atención directa (no delegada a juniors), implementación personalizada, y disponibilidad cuando la necesitás.</p>
+                        <p style="margin-top: 10px; color: #18A7A0;">No es una restricción. Es una ventaja.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" style="background: rgba(102, 30, 218, 0.05);">
+        <div class="container">
+            <div class="final-cta">
+                <div class="urgency">⚠️ Quedan 2 espacios disponibles en Q4 2025</div>
+                <h2>Diagnóstico RUNA</h2>
+                <p>Llamada de 30 minutos para determinar si tu empresa es candidata ideal para RUNA.</p>
+                <p><strong>En esta llamada obtenés:</strong><br>
+                1. Auditoría de tu situación operativa actual<br>
+                2. Evaluación de madurez organizacional<br>
+                3. Propuesta de framework + inversión (si somos fit)</p>
+                <a href="https://calendly.com/rsebastian-trinidad/30min" class="cta-primary" target="_blank">Agendar Diagnóstico Gratuito</a>
+                <p class="disclaimer">No es una llamada de ventas. Si no sos candidato ideal, te lo digo directamente y sugiero alternativas.<br>Solo acepto 3 clientes por año. Actualmente quedan 2 espacios en Q1 2025.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>RUNA™ | Driven By People | Implementación Boutique de Sistemas Operativos</p>
+            <p style="margin-top: 10px; font-size: 12px;">© 2025 Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

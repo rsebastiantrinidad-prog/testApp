@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RUNA™ - Sistema Operativo Organizacional</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            z-index: 1000;
+            border-bottom: 2px solid #661EDA;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #661EDA;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #18A7A0;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #661EDA 0%, #18A7A0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .brand-line {
+            font-size: 14px;
+            color: #999999;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero .subtitle {
+            font-size: 24px;
+            color: #cccccc;
+            margin-bottom: 40px;
+        }
+
+        .hero .problem {
+            font-size: 18px;
+            color: #999999;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .hero .tagline {
+            font-size: 16px;
+            color: #18A7A0;
+            font-weight: 600;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: #661EDA;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: 2px solid #661EDA;
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: #661EDA;
+            transform: translateY(-2px);
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 40px;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #18A7A0;
+        }
+
+        /* Problem Section */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .problem-card {
+            background: rgba(102, 30, 218, 0.1);
+            border: 1px solid #661EDA;
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            border-color: #18A7A0;
+            box-shadow: 0 10px 30px rgba(102, 30, 218, 0.3);
+        }
+
+        .problem-card h3 {
+            color: #18A7A0;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .problem-card p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        .cost-highlight {
+            text-align: center;
+            font-size: 48px;
+            color: #661EDA;
+            font-weight: bold;
+            margin: 40px 0;
+        }
+
+        /* Modules Section */
+        .modules-container {
+            display: grid;
+            gap: 40px;
+        }
+
+        .module {
+            background: linear-gradient(135deg, rgba(102, 30, 218, 0.1) 0%, rgba(24, 167, 160, 0.1) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .module:hover {
+            border-color: #18A7A0;
+            transform: translateX(10px);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .module-number {
+            width: 60px;
+            height: 60px;
+            background: #661EDA;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .module-title {
+            font-size: 28px;
+            color: #18A7A0;
+        }
+
+        .module-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .module-detail {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 3px solid #661EDA;
+        }
+
+        .module-detail h4 {
+            color: #18A7A0;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .module-detail p {
+            color: #cccccc;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Leadership Layer */
+        .leadership-layer {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(24, 167, 160, 0.3);
+        }
+
+        .leadership-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .leadership-icon {
+            width: 40px;
+            height: 40px;
+            background: #18A7A0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .leadership-title {
+            font-size: 20px;
+            color: #18A7A0;
+            font-weight: 600;
+        }
+
+        .leadership-content {
+            display: grid;
+            gap: 15px;
+        }
+
+        .leadership-item {
+            background: rgba(24, 167, 160, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 3px solid #18A7A0;
+        }
+
+        .leadership-item strong {
+            color: #18A7A0;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .leadership-item p {
+            color: #cccccc;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Three Layers Model */
+        .three-layers {
+            display: grid;
+            gap: 20px;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .layer-card {
+            background: rgba(102, 30, 218, 0.1);
+            border: 2px solid #661EDA;
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .layer-card:hover {
+            transform: scale(1.02);
+            border-color: #18A7A0;
+        }
+
+        .layer-card::after {
+            content: "↓";
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+            color: #18A7A0;
+        }
+
+        .layer-card:last-child::after {
+            content: "";
+        }
+
+        .layer-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: #661EDA;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+
+        .layer-title {
+            font-size: 22px;
+            color: #18A7A0;
+            margin-bottom: 15px;
+        }
+
+        .layer-subtitle {
+            color: #999999;
+            font-size: 14px;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .layer-description {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        /* Benefits Section */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .benefit-card {
+            background: rgba(24, 167, 160, 0.1);
+            border: 2px solid #18A7A0;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .benefit-card:hover {
+            background: rgba(24, 167, 160, 0.2);
+            transform: scale(1.05);
+        }
+
+        .benefit-number {
+            font-size: 48px;
+            color: #661EDA;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .benefit-label {
+            color: #18A7A0;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .benefit-description {
+            color: #cccccc;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .timeline-marker {
+            width: 80px;
+            height: 80px;
+            background: #661EDA;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 14px;
+            border: 4px solid #18A7A0;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(102, 30, 218, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid #18A7A0;
+        }
+
+        .timeline-content h3 {
+            color: #18A7A0;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .timeline-content p {
+            color: #cccccc;
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, #661EDA 0%, #18A7A0 100%);
+            border-radius: 20px;
+            padding: 80px 40px;
+        }
+
+        .cta-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .cta-section .cta-button {
+            background: white;
+            color: #661EDA;
+            border-color: white;
+        }
+
+        .cta-section .cta-button:hover {
+            background: transparent;
+            color: white;
+            border-color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero .brand-line {
+                font-size: 12px;
+            }
+
+            .hero .subtitle {
+                font-size: 18px;
+            }
+
+            .hero .tagline {
+                font-size: 14px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .module-content {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+            }
+
+            .layer-card {
+                padding: 20px;
+            }
+
+            .layer-title {
+                font-size: 18px;
+            }
+
+            .leadership-layer {
+                margin-top: 20px;
+                padding-top: 20px;
+            }
+
+            .leadership-title {
+                font-size: 16px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logo span {
+                display: block;
+                margin-top: 5px;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">RUNA™ <span style="font-size: 12px; font-weight: normal; opacity: 0.7;">| Driven By People</span></div>
+            <ul class="nav-links">
+                <li><a href="#problema">Problema</a></li>
+                <li><a href="#modelo">Modelo</a></li>
+                <li><a href="#solucion">Solución</a></li>
+                <li><a href="#beneficios">Beneficios</a></li>
+                <li><a href="#proceso">Proceso</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>RUNA™</h1>
+            <p class="brand-line">| Driven By People</p>
+            <p class="subtitle">El Lenguaje Operativo de tu Organización</p>
+            <p class="tagline">Con Transformación del Liderazgo Estratégico Integrada</p>
+            <p class="problem">
+                Tu empresa tiene todas las piezas pero no el lenguaje común que las coordina. 
+                RUNA instala el alfabeto operativo: sistemas, liderazgo y cultura hablando el mismo idioma.
+            </p>
+            <a href="#modelo" class="cta-button">Explorar la Solución</a>
+        </div>
+    </section>
+
+    <section id="problema">
+        <div class="container">
+            <h2 class="section-title">El Problema Real</h2>
+            <div class="problem-grid fade-in">
+                <div class="problem-card">
+                    <h3>Tiempo Perdido</h3>
+                    <p>15-25 horas semanales del equipo de liderazgo en reuniones de coordinación que no coordinan nada.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Sobrecarga Invisible</h3>
+                    <p>Las mismas personas asignadas a 3-5 proyectos simultáneos. Todo se atrasa, nadie sabe por qué.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Decisiones Lentas</h3>
+                    <p>Cada decisión operativa escala al CEO porque no existe claridad de quién decide qué.</p>
+                </div>
+                <div class="problem-card">
+                    <h3>Información Perdida</h3>
+                    <p>El conocimiento crítico vive en conversaciones de Slack y cabezas de personas clave.</p>
+                </div>
+            </div>
+
+            <div class="cost-highlight fade-in">
+                $400K-600K USD/año
+            </div>
+            <p style="text-align: center; color: #cccccc; font-size: 18px;">
+                Costo promedio en desperdicio operativo para una empresa de 100 personas
+            </p>
+        </div>
+    </section>
+
+    <section id="modelo">
+        <div class="container">
+            <h2 class="section-title">Las 3 Dimensiones de RUNA</h2>
+            <p style="text-align: center; color: #cccccc; font-size: 18px; max-width: 800px; margin: 0 auto 60px;">
+                Como las runas antiguas que se combinaban para crear significado, 
+                RUNA integra tres dimensiones que se entrelazan para crear el lenguaje operativo de tu organización.
+            </p>
+            <div class="three-layers">
+                <div class="layer-card fade-in">
+                    <div class="layer-title">
+                        <span class="layer-number">1</span>
+                        Sistema Operativo
+                    </div>
+                    <div class="layer-subtitle">Operations Architect diseña</div>
+                    <div class="layer-description">
+                        Procesos, flujos, métricas, herramientas. La arquitectura que hace visible y coordina el trabajo.
+                        Sin esto, todo es caos y dependencia de intervención heroica.
+                    </div>
+                </div>
+                <div class="layer-card fade-in">
+                    <div class="layer-title">
+                        <span class="layer-number">2</span>
+                        Transformación de Liderazgo
+                    </div>
+                    <div class="layer-subtitle">Talent Catalyst desarrolla</div>
+                    <div class="layer-description">
+                        Mentorías, coaching, herramientas prácticas. La capacidad de los líderes para operar de manera diferente.
+                        Sin esto, el sistema perfecto nunca se usa realmente.
+                    </div>
+                </div>
+                <div class="layer-card fade-in">
+                    <div class="layer-title">
+                        <span class="layer-number">3</span>
+                        Adopción Cultural
+                    </div>
+                    <div class="layer-subtitle">Ambos facilitan</div>
+                    <div class="layer-description">
+                        Sostenibilidad, champions, cambio de mentalidad. La cultura que hace que el sistema se auto-sostenga.
+                        Sin esto, todo dura 3 meses y colapsa.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="solucion" style="background: rgba(102, 30, 218, 0.05);">
+        <div class="container">
+            <h2 class="section-title">Las 6 Runas Fundamentales</h2>
+            <p style="text-align: center; color: #cccccc; font-size: 18px; max-width: 800px; margin: 0 auto 60px;">
+                Cada runa representa un elemento fundamental del lenguaje operativo. 
+                Juntas, crean el alfabeto completo que coordina tu organización.
+            </p>
+            <div class="modules-container">
+                <div class="module fade-in">
+                    <div class="module-header">
+                        <div class="module-number">ᚱ</div>
+                        <h3 class="module-title">Runa de Decisión</h3>
+                    </div>
+                    <div class="module-content">
+                        <div class="module-detail">
+                            <h4>⚙️ Dimensión Sistémica</h4>
+                            <p>Framework de priorización, matriz de autoridad, protocolo de escalamiento, dashboard estratégico.</p>
+                        </div>
+                        <div class="module-detail">
+                            <h4>Resultado Medible</h4>
+                            <p>40-60% menos reuniones de "alineación". Decisiones de priorización en menos de 48 horas sin el CEO.</p>
+                        </div>
+                    </div>
+                    <div class="leadership-layer">
+                        <div class="leadership-header">
+                            <div class="leadership-icon">👤</div>
+                            <h4 class="leadership-title">Transformación de Liderazgo: Delegar con Confianza</h4>
+                        </div>
+                        <div class="leadership-content">
+                            <div class="leadership-item">
+                                <strong>Mentoría personalizada:</strong>
+                                <p>Coaching ejecutivo 1-on-1 para trabajar el "soltar el control" sin perder visibilidad</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Herramienta práctica:</strong>
+                                <p>"Decision Delegation Matrix" - herramienta diaria que el líder usa para decidir qué delegar</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Competencia desarrollada:</strong>
+                                <p>Delegar decisiones estratégicamente sin micromanaging</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module fade-in">
+                    <div class="module-header">
+                        <div class="module-number">ᚠ</div>
+                        <h3 class="module-title">Runa de Flujo</h3>
+                    </div>
+                    <div class="module-content">
+                        <div class="module-detail">
+                            <h4>⚙️ Dimensión Sistémica</h4>
+                            <p>Arquitectura de flujos, calendario optimizado, templates de comunicación, canales definidos por tipo de información.</p>
+                        </div>
+                        <div class="module-detail">
+                            <h4>Resultado Medible</h4>
+                            <p>30-50% reducción en carga de reuniones. Tiempo de ciclo de decisiones operativas -60%.</p>
+                        </div>
+                    </div>
+                    <div class="leadership-layer">
+                        <div class="leadership-header">
+                            <div class="leadership-icon">👤</div>
+                            <h4 class="leadership-title">Transformación de Liderazgo: Comunicación Efectiva</h4>
+                        </div>
+                        <div class="leadership-content">
+                            <div class="leadership-item">
+                                <strong>Consultoría personalizada:</strong>
+                                <p>Análisis del estilo de comunicación del líder y su impacto en la organización</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Herramienta práctica:</strong>
+                                <p>"Communication Cadence Guide" - qué comunicar, cuándo, cómo y a quién</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Competencia desarrollada:</strong>
+                                <p>Comunicar con claridad y frecuencia adecuada sin sobre-comunicar</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module fade-in">
+                    <div class="module-header">
+                        <div class="module-number">ᚢ</div>
+                        <h3 class="module-title">Runa de Recursos</h3>
+                    </div>
+                    <div class="module-content">
+                        <div class="module-detail">
+                            <h4>⚙️ Dimensión Sistémica</h4>
+                            <p>Mapeo de capacidad, sistema de asignación con reglas, visualización de carga, alertas de sobreasignación.</p>
+                        </div>
+                        <div class="module-detail">
+                            <h4>Resultado Medible</h4>
+                            <p>Visibilidad real de capacidad. Rotación por burnout disminuye 40-60%.</p>
+                        </div>
+                    </div>
+                    <div class="leadership-layer">
+                        <div class="leadership-header">
+                            <div class="leadership-icon">👤</div>
+                            <h4 class="leadership-title">Transformación de Liderazgo: Desarrollo de Talento</h4>
+                        </div>
+                        <div class="leadership-content">
+                            <div class="leadership-item">
+                                <strong>Mentoría de alto impacto:</strong>
+                                <p>Coaching sobre cómo desarrollar talento mientras asignas proyectos estratégicamente</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Herramienta práctica:</strong>
+                                <p>"Talent Development Canvas" - vincular cada asignación con crecimiento profesional</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Competencia desarrollada:</strong>
+                                <p>Asignar recursos pensando en desarrollo, no solo en delivery inmediato</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module fade-in">
+                    <div class="module-header">
+                        <div class="module-number">ᚦ</div>
+                        <h3 class="module-title">Runa de Ejecución</h3>
+                    </div>
+                    <div class="module-content">
+                        <div class="module-detail">
+                            <h4>⚙️ Dimensión Sistémica</h4>
+                            <p>Mapa de dependencias, workflow con estados y gates, alertas tempranas, dashboard master de portafolio.</p>
+                        </div>
+                        <div class="module-detail">
+                            <h4>Resultado Medible</h4>
+                            <p>2-3x más proyectos simultáneos con el mismo equipo. Resolución de bloqueos en horas, no días.</p>
+                        </div>
+                    </div>
+                    <div class="leadership-layer">
+                        <div class="leadership-header">
+                            <div class="leadership-icon">👤</div>
+                            <h4 class="leadership-title">Transformación de Liderazgo: Accountability sin Culpa</h4>
+                        </div>
+                        <div class="leadership-content">
+                            <div class="leadership-item">
+                                <strong>Programa de acompañamiento:</strong>
+                                <p>Coaching grupal con Project Managers sobre accountability constructiva</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Herramienta práctica:</strong>
+                                <p>"Commitment Protocol" - cómo hacer y pedir compromisos claros</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Competencia desarrollada:</strong>
+                                <p>Pedir cuentas sin generar defensividad ni cultura del miedo</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module fade-in">
+                    <div class="module-header">
+                        <div class="module-number">ᚨ</div>
+                        <h3 class="module-title">Runa de Aprendizaje</h3>
+                    </div>
+                    <div class="module-content">
+                        <div class="module-detail">
+                            <h4>⚙️ Dimensión Sistémica</h4>
+                            <p>Knowledge base configurada, templates de retrospectivas, métricas de mejora continua, sistema de captura de lecciones.</p>
+                        </div>
+                        <div class="module-detail">
+                            <h4>Resultado Medible</h4>
+                            <p>Conocimiento sistematizado. Nuevos empleados productivos en 50% menos tiempo.</p>
+                        </div>
+                    </div>
+                    <div class="leadership-layer">
+                        <div class="leadership-header">
+                            <div class="leadership-icon">👤</div>
+                            <h4 class="leadership-title">Transformación de Liderazgo: Aprendizaje Reflexivo</h4>
+                        </div>
+                        <div class="leadership-content">
+                            <div class="leadership-item">
+                                <strong>Consultoría estratégica:</strong>
+                                <p>Facilitación de retrospectivas ejecutivas trimestrales con seguridad psicológica</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Herramienta práctica:</strong>
+                                <p>"Leader Reflection Journal" - preguntas semanales para aprendizaje continuo</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Competencia desarrollada:</strong>
+                                <p>Modelar vulnerabilidad y aprender de fracasos públicamente</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="module fade-in">
+                    <div class="module-header">
+                        <div class="module-number">ᚹ</div>
+                        <h3 class="module-title">Runa de Adopción</h3>
+                    </div>
+                    <div class="module-content">
+                        <div class="module-detail">
+                            <h4>⚙️ Dimensión Sistémica</h4>
+                            <p>Programa de training con certificaciones, sistema de incentivos, matriz de accountability, métricas de adopción.</p>
+                        </div>
+                        <div class="module-detail">
+                            <h4>Resultado Medible</h4>
+                            <p>Adopción genuina y sostenible. El sistema se auto-sostiene después de implementación.</p>
+                        </div>
+                    </div>
+                    <div class="leadership-layer">
+                        <div class="leadership-header">
+                            <div class="leadership-icon">👤</div>
+                            <h4 class="leadership-title">Transformación de Liderazgo: Gestión del Cambio</h4>
+                        </div>
+                        <div class="leadership-content">
+                            <div class="leadership-item">
+                                <strong>Mentoría intensiva:</strong>
+                                <p>Coaching al equipo de liderazgo sobre gestión del cambio con metodología probada</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Herramienta práctica:</strong>
+                                <p>"Change Leadership Playbook" - guía paso a paso para liderar transiciones organizacionales</p>
+                            </div>
+                            <div class="leadership-item">
+                                <strong>Competencia desarrollada:</strong>
+                                <p>Gestionar resistencia con empatía y firmeza, identificar champions</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="beneficios">
+        <div class="container">
+            <h2 class="section-title">Beneficios Proyectados a 12 Meses</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in">
+                    <div class="benefit-number">40-60%</div>
+                    <div class="benefit-label">Reducción en Coordinación</div>
+                    <p class="benefit-description">Menos horas en reuniones de "alineación" y coordinación manual</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-number">50-80%</div>
+                    <div class="benefit-label">Velocidad de Decisiones</div>
+                    <p class="benefit-description">Aumento en velocidad de toma de decisiones operativas</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-number">2-3x</div>
+                    <div class="benefit-label">Capacidad de Ejecución</div>
+                    <p class="benefit-description">Más iniciativas ejecutadas con el mismo equipo</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-number">15+ hrs</div>
+                    <div class="benefit-label">Tiempo del Líder Recuperado</div>
+                    <p class="benefit-description">Horas semanales recuperadas del CEO/COO para estrategia</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-number">80%</div>
+                    <div class="benefit-label">Autonomía del Equipo</div>
+                    <p class="benefit-description">Decisiones operativas que no escalan al líder</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-number">40-60%</div>
+                    <div class="benefit-label">Reducción de Rotación</div>
+                    <p class="benefit-description">Menos rotación en posiciones clave por burnout</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-number">3-5</div>
+                    <div class="benefit-label">Líderes Desarrollados</div>
+                    <p class="benefit-description">Líderes de segunda línea operando con autonomía estratégica</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-number">30-50%</div>
+                    <div class="benefit-label">Ciclo de Proyectos</div>
+                    <p class="benefit-description">Reducción en tiempo de ciclo de proyectos</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-number">50%</div>
+                    <div class="benefit-label">Onboarding</div>
+                    <p class="benefit-description">Nuevas contrataciones productivas en la mitad del tiempo</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="proceso" style="background: rgba(24, 167, 160, 0.05);">
+        <div class="container">
+            <h2 class="section-title">Inscripción de las Runas: 90 Días</h2>
+            <p style="text-align: center; color: #cccccc; font-size: 18px; max-width: 800px; margin: 0 auto 60px;">
+                En 90 días, inscribimos las 6 runas fundamentales en tu organización, 
+                creando el alfabeto operativo que coordina sistemas, liderazgo y cultura.
+            </p>
+            <div class="timeline">
+                <div class="timeline-item fade-in">
+                    <div class="timeline-marker">Días<br>1-30</div>
+                    <div class="timeline-content">
+                        <h3>Mapeo del Lenguaje Actual</h3>
+                        <p><strong>Sistema:</strong> Entendemos cómo habla tu empresa hoy. Qué símbolos usa cada área. Dónde se pierde la traducción.</p>
+                        <p><strong>Liderazgo:</strong> Evaluamos el estilo de liderazgo actual. Iniciamos coaching ejecutivo 1-on-1 con CEO/COO.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-marker">Días<br>31-60</div>
+                    <div class="timeline-content">
+                        <h3>Inscripción de las 6 Runas</h3>
+                        <p><strong>Sistema:</strong> Instalamos las 6 runas fundamentales. Entrenamos a tu equipo en el nuevo alfabeto operativo.</p>
+                        <p><strong>Liderazgo:</strong> Coaching semanal sobre delegación y comunicación. Implementamos herramientas prácticas diarias.</p>
+                    </div>
+                </div>
+                <div class="timeline-item fade-in">
+                    <div class="timeline-marker">Días<br>61-90</div>
+                    <div class="timeline-content">
+                        <h3>Activación del Sistema Rúnico</h3>
+                        <p><strong>Sistema:</strong> Tu organización opera con un solo lenguaje. Las runas se sostienen solas.</p>
+                        <p><strong>Liderazgo:</strong> Sesiones finales de coaching. Identificamos champions. Plan de desarrollo continuo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <div class="container">
+            <div class="cta-section fade-in">
+                <h2>¿Tu organización necesita un lenguaje común?</h2>
+                <p>Conversación de 45 minutos para diagnosticar si tu empresa está lista para RUNA: 
+                el alfabeto operativo que coordina sistemas, liderazgo y cultura en un solo lenguaje.</p>
+                <a href="https://calendly.com/rsebastian-trinidad/30min" class="cta-button" target="_blank">Agendar Conversación</a>
+                <p style="margin-top: 30px; font-size: 14px; opacity: 0.8;">
+                    No es una llamada de ventas. Es una conversación de diagnóstico. Si no somos fit, te lo diremos directamente.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
