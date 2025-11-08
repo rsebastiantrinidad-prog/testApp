@@ -169,9 +169,8 @@
         const SUPABASE_URL = 'https://zaziglowjqzbbswevpzq.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphemlnbG93anF6YmJzd2V2cHpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI2MTk1MzcsImV4cCI6MjA3ODE5NTUzN30.3KvwJip5VMXdDxb_BcLP0p7OgIv4AqI7exsCYyApOyI';
 
-        // Inicializar cliente de Supabase
-        // IMPORTANTE: Usamos window.supabase porque el CDN expone la librería en el objeto window
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Declarar la variable supabase (se inicializará cuando el CDN esté listo)
+        let supabase;
 
         // =====================================================
         // MAPEO DE COLORES A EMOJIS
@@ -468,6 +467,16 @@
                 alert('⚠️ IMPORTANTE: Debes configurar tus credenciales de Supabase en el archivo index.html\n\nBusca las variables SUPABASE_URL y SUPABASE_ANON_KEY y reemplázalas con tus valores reales.');
                 return;
             }
+
+            // Inicializar cliente de Supabase
+            // Verificar que el CDN de Supabase esté cargado
+            if (typeof window.supabase === 'undefined') {
+                alert('❌ Error: El CDN de Supabase no se cargó correctamente. Verifica tu conexión a internet.');
+                return;
+            }
+
+            // Crear el cliente de Supabase
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
             // Cargar la vista de backlog por defecto
             showTab('backlog');
