@@ -3,882 +3,476 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La Verdad Que Nadie Te Dice</title>
+    <title>Sprint Management MVP</title>
+
+    <!-- Tailwind CSS desde CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Supabase JS desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        /* Estilos personalizados adicionales */
+        .tab-active {
+            border-bottom: 3px solid #3b82f6;
+            color: #3b82f6;
         }
-
-        body {
-            font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            background: #000;
-            color: #fff;
-            overflow-x: hidden;
-            cursor: none;
-            user-select: none;
-        }
-
-        .custom-cursor {
-            position: fixed;
-            width: 4px;
-            height: 4px;
-            background: #fff;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.12s ease;
-            mix-blend-mode: difference;
-        }
-
-        .cursor-glow {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9998;
+        .status-cell {
+            cursor: pointer;
             transition: all 0.2s ease;
-            transform: translate(-50%, -50%);
         }
-
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 100px 20px;
-        }
-
-        .brutal-opener {
-            font-size: 32px;
-            font-weight: 100;
-            line-height: 1.4;
-            margin-bottom: 60px;
-            opacity: 0;
-            animation: fadeInUp 2s ease forwards;
-            letter-spacing: 0.5px;
-        }
-
-        .story-section {
-            margin: 120px 0;
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .story-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section-trigger {
-            font-size: 9px;
-            letter-spacing: 4px;
-            color: #333;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            position: relative;
-        }
-
-        .section-trigger::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: #fff;
-            transition: width 0.6s ease;
-        }
-
-        .section-trigger:hover {
-            color: #666;
-            letter-spacing: 6px;
-        }
-
-        .section-trigger:hover::after {
-            width: 100%;
-        }
-
-        .story-text {
-            font-size: 20px;
-            font-weight: 200;
-            line-height: 1.7;
-            letter-spacing: 0.4px;
-        }
-
-        .kill-shot {
-            position: relative;
-            cursor: pointer;
-            transition: all 0.5s ease;
-            font-weight: 300;
-            display: inline-block;
-        }
-
-        .kill-shot:hover {
-            color: #fff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            transform: scale(1.02);
-        }
-
-        .executive-tooltip {
-            position: absolute;
-            bottom: 130%;
-            left: 50%;
-            transform: translateX(-50%) translateY(15px);
-            background: rgba(10, 10, 10, 0.98);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
-            padding: 15px 20px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 300;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            backdrop-filter: blur(30px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        .kill-shot:hover .executive-tooltip {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .hidden-truth {
-            background: rgba(255, 255, 255, 0.015);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            padding: 40px;
-            margin: 40px 0;
-            cursor: pointer;
-            transition: all 0.8s ease;
-            backdrop-filter: blur(40px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hidden-truth::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.02), transparent);
-            transition: left 1s ease;
-        }
-
-        .hidden-truth:hover::before {
-            left: 100%;
-        }
-
-        .hidden-truth:hover {
-            background: rgba(255, 255, 255, 0.03);
-            border-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .truth-prompt {
-            color: #555;
-            font-size: 13px;
-            text-align: center;
-            letter-spacing: 2px;
-            margin-bottom: 0;
-            transition: all 0.4s ease;
-        }
-
-        .truth-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            margin-top: 0;
-        }
-
-        .truth-content.exposed {
-            max-height: 400px;
-            margin-top: 30px;
-        }
-
-        .executive-reality {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 25px;
-            margin: 50px 0;
-        }
-
-        .reality-node {
-            text-align: center;
-            padding: 25px 15px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.7s ease;
-            cursor: pointer;
-            border: 1px solid transparent;
-            position: relative;
-        }
-
-        .reality-node:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-8px) scale(1.05);
-        }
-
-        .reality-node.awakened {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: scale(1.08);
-            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.1);
-        }
-
-        .node-icon {
-            font-size: 28px;
-            margin-bottom: 15px;
-            display: block;
-            opacity: 0.6;
-            transition: all 0.4s ease;
-        }
-
-        .reality-node:hover .node-icon {
-            opacity: 1;
-            transform: scale(1.2) rotate(5deg);
-        }
-
-        .node-label {
-            font-size: 13px;
-            color: #888;
-            font-weight: 300;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .brutal-metric {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
-            border-radius: 20px;
-            padding: 60px;
-            text-align: center;
-            margin: 60px 0;
-            cursor: pointer;
-            transition: all 1s ease;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .brutal-metric::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-            transition: all 1.2s ease;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        .brutal-metric:hover::after {
-            width: 500px;
-            height: 500px;
-        }
-
-        .brutal-metric:hover {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-            transform: scale(1.04);
-            border-color: rgba(255, 255, 255, 0.25);
-        }
-
-        .shock-number {
-            font-size: 84px;
-            font-weight: 100;
-            color: #fff;
-            display: block;
-            margin-bottom: 20px;
-            opacity: 0;
-            transform: scale(0.2) rotate(-15deg);
-            transition: all 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        .shock-number.detonated {
-            opacity: 1;
-            transform: scale(1) rotate(0deg);
-        }
-
-        .metric-devastation {
-            font-size: 14px;
-            color: #777;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 300;
-        }
-
-        .leadership-test {
-            margin: 100px 0;
-            padding: 80px 0;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            position: relative;
-        }
-
-        .ultimate-question {
-            font-size: 24px;
-            font-weight: 100;
-            margin: 50px 0;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            cursor: pointer;
-            transition: all 0.8s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ultimate-question::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.02), transparent);
-            transform: translateX(-100%);
-            transition: transform 1s ease;
-        }
-
-        .ultimate-question:hover::before {
-            transform: translateX(100%);
-        }
-
-        .ultimate-question:hover {
-            border-color: rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.02);
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
-            transform: scale(1.02);
-        }
-
-        .progress-line {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 1px;
-            background: linear-gradient(90deg, #fff, rgba(255,255,255,0.3));
-            transition: width 0.1s ease;
-            z-index: 1000;
-        }
-
-        .click-counter {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            font-size: 11px;
-            color: #333;
-            letter-spacing: 2px;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .reality-bomb {
-            background: rgba(255, 0, 0, 0.05);
-            border: 1px solid rgba(255, 0, 0, 0.2);
-            border-radius: 12px;
-            padding: 30px;
-            margin: 30px 0;
-            font-size: 16px;
-            font-weight: 300;
-            color: #ff6b6b;
-            cursor: pointer;
-            transition: all 0.6s ease;
-            opacity: 0;
-            transform: scale(0.9);
-        }
-
-        .reality-bomb.armed {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .reality-bomb:hover {
-            background: rgba(255, 0, 0, 0.08);
-            border-color: rgba(255, 0, 0, 0.4);
-            color: #fff;
-            transform: scale(1.02);
-        }
-
-        .whisper-secret {
-            font-size: 12px;
-            color: #444;
-            font-style: italic;
-            cursor: pointer;
-            transition: all 0.5s ease;
-            margin: 20px 0;
-            text-align: center;
-            opacity: 0.7;
-        }
-
-        .whisper-secret:hover {
-            color: #888;
-            letter-spacing: 1px;
-            opacity: 1;
-            transform: scale(1.05);
-        }
-
-        .sacrifice-detector {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px dashed rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 25px;
-            margin: 25px 0;
-            cursor: pointer;
-            transition: all 0.7s ease;
-            position: relative;
-        }
-
-        .sacrifice-detector:hover {
-            border-style: solid;
-            border-color: rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .sacrifice-content {
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 1s ease;
-        }
-
-        .sacrifice-content.revealed {
-            opacity: 1;
-            max-height: 200px;
-            margin-top: 20px;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse-danger {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
-        }
-
-        .danger-pulse {
-            animation: pulse-danger 2s infinite;
-        }
-
-        .leadership-mirror {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.005));
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 50px;
-            margin: 60px 0;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.8s ease;
-            position: relative;
-        }
-
-        .leadership-mirror:hover {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: perspective(1000px) rotateX(2deg);
-        }
-
-        .double-click-secret {
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .triple-click-unlock {
-            opacity: 0;
-            transition: all 0.5s ease;
-        }
-
-        .triple-click-unlock.unlocked {
-            opacity: 1;
-            color: #ff6b6b;
-            font-weight: 400;
-        }
-
-        @media (max-width: 768px) {
-            .brutal-opener { font-size: 24px; }
-            .story-text { font-size: 18px; }
-            .container { padding: 60px 15px; }
+        .status-cell:hover {
+            transform: scale(1.1);
+            background-color: #f3f4f6;
         }
     </style>
 </head>
-<body>
-    <div class="custom-cursor" id="cursor"></div>
-    <div class="cursor-glow" id="cursorGlow"></div>
-    <div class="progress-line" id="progressLine"></div>
-    <div class="click-counter" id="clickCounter">INTERACCIONES: 0</div>
-    
-    <div class="container">
-        <div class="brutal-opener">
-            Llevás meses <span class="kill-shot" onclick="revealPain(this)">sacrificándote por proyectos que no salen<span class="executive-tooltip">El síndrome del líder quemado</span></span>. Trabajás 12 horas para ver cómo tu empresa <span class="kill-shot">vende bien pero los clientes se van para siempre<span class="executive-tooltip">Síntoma: falta de sistemas, no de esfuerzo</span></span>.
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- Header Principal -->
+    <header class="bg-blue-600 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold">📊 Sprint Management MVP</h1>
+            <p class="text-blue-100 mt-1">Gestión de sprints con seguimiento diario</p>
+        </div>
+    </header>
+
+    <!-- Navegación por Tabs -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4">
+            <div class="flex space-x-8">
+                <button
+                    id="tab-backlog"
+                    class="py-4 px-6 font-semibold text-gray-600 hover:text-blue-600 transition tab-active"
+                    onclick="showTab('backlog')">
+                    📋 Backlog
+                </button>
+                <button
+                    id="tab-sprint"
+                    class="py-4 px-6 font-semibold text-gray-600 hover:text-blue-600 transition"
+                    onclick="showTab('sprint')">
+                    🚀 Sprint Actual
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenedor Principal -->
+    <main class="container mx-auto px-4 py-8">
+
+        <!-- ========================================== -->
+        <!-- VISTA: BACKLOG -->
+        <!-- ========================================== -->
+        <div id="view-backlog" class="space-y-6">
+
+            <!-- Botón Agregar Tarea -->
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Backlog de Tareas</h2>
+                <button
+                    onclick="addTask()"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition">
+                    ➕ Agregar Tarea
+                </button>
+            </div>
+
+            <!-- Lista de Tareas del Backlog -->
+            <div id="backlog-list" class="space-y-3">
+                <!-- Las tareas se cargarán aquí dinámicamente -->
+            </div>
+
         </div>
 
-        <div class="story-section">
-            <div class="section-trigger" onclick="triggerSection(this)">El problema real</div>
-            <div class="story-text">
-                Pero nadie te dice la verdad: <span class="kill-shot">no es falta de esfuerzo, es falta de sistema<span class="executive-tooltip">Hard truth: más horas ≠ mejores resultados</span></span>.
+        <!-- ========================================== -->
+        <!-- VISTA: SPRINT ACTUAL -->
+        <!-- ========================================== -->
+        <div id="view-sprint" class="space-y-6 hidden">
+
+            <h2 class="text-2xl font-bold text-gray-800">Sprint Actual - Seguimiento Diario</h2>
+
+            <!-- Tabla de Sprint -->
+            <div class="bg-white rounded-lg shadow-lg overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-sm font-bold text-gray-700 uppercase tracking-wider">
+                                Tarea
+                            </th>
+                            <th class="px-4 py-4 text-center text-sm font-bold text-gray-700 uppercase tracking-wider">
+                                Día 1
+                            </th>
+                            <th class="px-4 py-4 text-center text-sm font-bold text-gray-700 uppercase tracking-wider">
+                                Día 2
+                            </th>
+                            <th class="px-4 py-4 text-center text-sm font-bold text-gray-700 uppercase tracking-wider">
+                                Día 3
+                            </th>
+                            <th class="px-4 py-4 text-center text-sm font-bold text-gray-700 uppercase tracking-wider">
+                                Día 4
+                            </th>
+                            <th class="px-4 py-4 text-center text-sm font-bold text-gray-700 uppercase tracking-wider">
+                                Día 5
+                            </th>
+                            <th class="px-4 py-4 text-center text-sm font-bold text-gray-700 uppercase tracking-wider">
+                                Día 6
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="sprint-table-body" class="bg-white divide-y divide-gray-200">
+                        <!-- Las filas se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
             </div>
-            
-            <div class="sacrifice-detector" onclick="detectSacrifice(this)">
-                <div class="truth-prompt">→ ¿Te reconocés en esto?</div>
-                <div class="sacrifice-content">
-                    <div class="reality-bomb armed">
-                        "Cada noche que te quedás hasta tarde para 'salvar' un proyecto, estás admitiendo que tu empresa no funciona."
+
+            <!-- Leyenda -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">Leyenda de Estados</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-3xl">⚪</span>
+                        <span class="text-gray-700">Sin actualizar</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-3xl">🟢</span>
+                        <span class="text-gray-700">Todo OK</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-3xl">🟡</span>
+                        <span class="text-gray-700">Con dificultad</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-3xl">🔴</span>
+                        <span class="text-gray-700">Bloqueado</span>
                     </div>
                 </div>
+                <p class="text-sm text-gray-500 mt-3">
+                    💡 Haz click en cualquier celda para cambiar el estado
+                </p>
             </div>
+
         </div>
 
-        <div class="story-section">
-            <div class="section-trigger" onclick="triggerSection(this)">La solución brutal</div>
-            <div class="story-text">
-                Una <span class="kill-shot">mesa chica de tres personas<span class="executive-tooltip">PMO: 3 personas > 30 consultores</span></span> que no vino a hacer amigos. Miraron el quilombo y dijeron: <span class="double-click-secret" ondblclick="revealBrutalTruth(this)">"Esto se ordena o se cierra"</span>.
-            </div>
+    </main>
 
-            <div class="whisper-secret" onclick="whisperTruth(this)">
-                (La frase que ningún consultor te va a decir)
-            </div>
-        </div>
-
-        <div class="story-section">
-            <div class="section-trigger" onclick="triggerSection(this)">El momento bisagra</div>
-            <div class="story-text">
-                <span class="kill-shot">Dos semanas<span class="executive-tooltip">Timeframe ejecutivo: acción inmediata</span></span>. No dos meses de planificación, no seis meses de "transición". Catorce días para que los proyectos salgan a tiempo.
-            </div>
-
-            <div class="hidden-truth" onclick="revealTimeSecret(this)">
-                <div class="truth-prompt">→ El secreto del timing ejecutivo</div>
-                <div class="truth-content">
-                    <div class="executive-reality">
-                        <div class="reality-node" onclick="awakenNode(this)">
-                            <span class="node-icon">⚡</span>
-                            <div class="node-label">Velocidad mata perfección</div>
-                        </div>
-                        <div class="reality-node" onclick="awakenNode(this)">
-                            <span class="node-icon">🎯</span>
-                            <div class="node-label">Foco mata multitasking</div>
-                        </div>
-                        <div class="reality-node" onclick="awakenNode(this)">
-                            <span class="node-icon">💀</span>
-                            <div class="node-label">Disciplina mata carisma</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="story-section">
-            <div class="section-trigger" onclick="triggerSection(this)">El resultado que duele</div>
-            <div class="story-text">
-                <span class="kill-shot">Los mismos clientes que antes compraban una vez y se iban<span class="executive-tooltip">Tu customer churn era del 100%</span></span>, ahora renuevan, recomiendan y <span class="triple-click-unlock" onclick="countClicks(this)">compran más</span>.
-            </div>
-
-            <div class="brutal-metric" onclick="detonateMetric(this)">
-                <div class="truth-prompt breathing-element">→ La métrica que te va a doler</div>
-                <div class="shock-number" data-number="30">0</div>
-                <div class="metric-devastation">por ciento menos quilombos</div>
-                <div class="whisper-secret" style="margin-top: 15px;">Mismo equipo, mismos recursos</div>
-            </div>
-        </div>
-
-        <div class="story-section">
-            <div class="leadership-test">
-                <div class="section-trigger" onclick="triggerSection(this)">Test de liderazgo</div>
-                <div class="story-text">
-                    ¿Sabés por qué se iban? Porque <span class="kill-shot">una empresa que no cumple es una empresa que está mintiendo<span class="executive-tooltip">Trust = único asset no replicable</span></span>. Y vos sos el responsable de cada mentira que tu empresa dice.
-                </div>
-                
-                <div class="reality-bomb" onclick="armBomb(this)">
-                    Cada proyecto que no entregás a tiempo es tu credibilidad que se va por el inodoro.
-                </div>
-
-                <div class="ultimate-question" onclick="confrontLeader(this)">
-                    ¿Estás dirigiendo una empresa o administrando un fracaso elegante?
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- ========================================== -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================================== -->
     <script>
-        let interactionCount = 0;
-        let clickSequence = [];
-        const clickCounter = document.getElementById('clickCounter');
+        // =====================================================
+        // CONFIGURACIÓN DE SUPABASE
+        // =====================================================
+        // IMPORTANTE: Reemplaza estos valores con tus credenciales de Supabase
+        // 1. Ve a tu proyecto en Supabase: https://app.supabase.com
+        // 2. Ve a Settings > API
+        // 3. Copia "Project URL" y pégala en SUPABASE_URL
+        // 4. Copia "anon public" key y pégala en SUPABASE_ANON_KEY
 
-        // Sistema de cursor ultra-responsivo
-        const cursor = document.getElementById('cursor');
-        const cursorGlow = document.getElementById('cursorGlow');
-        let mouseX = 0, mouseY = 0;
+        const SUPABASE_URL = 'https://zaziglowjqzbbswevpzq.supabase.co'; // Ejemplo: 'https://abcdefgh.supabase.co'
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphemlnbG93anF6YmJzd2V2cHpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI2MTk1MzcsImV4cCI6MjA3ODE5NTUzN30.3KvwJip5VMXdDxb_BcLP0p7OgIv4AqI7exsCYyApOyI'; // La clave anon/public key
 
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursor.style.left = mouseX + 'px';
-            cursor.style.top = mouseY + 'px';
-            cursorGlow.style.left = mouseX + 'px';
-            cursorGlow.style.top = mouseY + 'px';
-        });
+        // Inicializar cliente de Supabase
+        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // Contador de interacciones
-        function incrementInteraction() {
-            interactionCount++;
-            clickCounter.textContent = `INTERACCIONES: ${interactionCount}`;
-            if (interactionCount > 10) {
-                clickCounter.style.color = '#666';
-                clickCounter.innerHTML = `NIVEL EJECUTIVO: ${interactionCount}`;
+        // =====================================================
+        // MAPEO DE COLORES A EMOJIS
+        // =====================================================
+        const COLOR_EMOJIS = {
+            'gray': '⚪',
+            'green': '🟢',
+            'yellow': '🟡',
+            'red': '🔴'
+        };
+
+        // Ciclo de colores: gray → green → yellow → red → gray
+        const COLOR_CYCLE = ['gray', 'green', 'yellow', 'red'];
+
+        // =====================================================
+        // FUNCIÓN: Obtener el siguiente color en el ciclo
+        // =====================================================
+        function getNextColor(currentColor) {
+            const currentIndex = COLOR_CYCLE.indexOf(currentColor);
+            const nextIndex = (currentIndex + 1) % COLOR_CYCLE.length;
+            return COLOR_CYCLE[nextIndex];
+        }
+
+        // =====================================================
+        // FUNCIÓN: Cambiar entre tabs (Backlog / Sprint)
+        // =====================================================
+        function showTab(tabName) {
+            // Ocultar todas las vistas
+            document.getElementById('view-backlog').classList.add('hidden');
+            document.getElementById('view-sprint').classList.add('hidden');
+
+            // Remover clase activa de todos los tabs
+            document.getElementById('tab-backlog').classList.remove('tab-active');
+            document.getElementById('tab-sprint').classList.remove('tab-active');
+
+            // Mostrar la vista seleccionada y activar el tab
+            if (tabName === 'backlog') {
+                document.getElementById('view-backlog').classList.remove('hidden');
+                document.getElementById('tab-backlog').classList.add('tab-active');
+                loadBacklog(); // Cargar datos del backlog
+            } else if (tabName === 'sprint') {
+                document.getElementById('view-sprint').classList.remove('hidden');
+                document.getElementById('tab-sprint').classList.add('tab-active');
+                loadSprint(); // Cargar datos del sprint
             }
         }
 
-        // Progreso inteligente
-        function updateProgress() {
-            const scrollTop = window.pageYOffset;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = Math.min((scrollTop / docHeight) * 100, 100);
-            document.getElementById('progressLine').style.width = scrollPercent + '%';
-        }
+        // =====================================================
+        // FUNCIÓN: Cargar tareas del backlog
+        // =====================================================
+        async function loadBacklog() {
+            try {
+                // Consultar tareas con status='backlog'
+                const { data: tasks, error } = await supabase
+                    .from('tasks')
+                    .select('*')
+                    .eq('status', 'backlog')
+                    .order('created_at', { ascending: false });
 
-        // Revelación cinematográfica
-        function revealSections() {
-            const sections = document.querySelectorAll('.story-section');
-            sections.forEach((section, index) => {
-                const rect = section.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) {
-                    setTimeout(() => {
-                        section.classList.add('visible');
-                    }, index * 300);
+                if (error) throw error;
+
+                // Renderizar la lista de tareas
+                const backlogList = document.getElementById('backlog-list');
+
+                if (tasks.length === 0) {
+                    backlogList.innerHTML = `
+                        <div class="bg-white rounded-lg shadow-md p-8 text-center">
+                            <p class="text-gray-500 text-lg">No hay tareas en el backlog</p>
+                            <p class="text-gray-400 text-sm mt-2">Agrega una nueva tarea para comenzar</p>
+                        </div>
+                    `;
+                    return;
                 }
-            });
-        }
 
-        // Interacciones específicas
-        function revealPain(element) {
-            incrementInteraction();
-            element.style.color = '#ff6b6b';
-            element.style.fontWeight = '400';
-            setTimeout(() => {
-                element.style.color = '#fff';
-            }, 1000);
-        }
+                backlogList.innerHTML = tasks.map(task => `
+                    <div class="bg-white rounded-lg shadow-md p-5 flex justify-between items-center hover:shadow-lg transition">
+                        <div class="flex-1">
+                            <h3 class="text-lg font-semibold text-gray-800">${task.title}</h3>
+                            <p class="text-sm text-gray-500 mt-1">
+                                👤 ${task.assigned_to || 'Sin asignar'}
+                                ${task.sprint_number ? `• Sprint ${task.sprint_number}` : ''}
+                            </p>
+                        </div>
+                        <button
+                            onclick="moveToSprint('${task.id}')"
+                            class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-lg transition">
+                            → Sprint
+                        </button>
+                    </div>
+                `).join('');
 
-        function triggerSection(element) {
-            incrementInteraction();
-            element.style.color = '#fff';
-            element.style.transform = 'scale(1.1)';
-            setTimeout(() => {
-                element.style.transform = 'scale(1)';
-            }, 300);
-        }
-
-        function detectSacrifice(element) {
-            incrementInteraction();
-            const content = element.querySelector('.sacrifice-content');
-            const prompt = element.querySelector('.truth-prompt');
-            
-            if (content.classList.contains('revealed')) {
-                content.classList.remove('revealed');
-                prompt.textContent = '→ ¿Te reconocés en esto?';
-            } else {
-                content.classList.add('revealed');
-                prompt.textContent = '← La verdad duele';
-                element.classList.add('danger-pulse');
+            } catch (error) {
+                console.error('Error al cargar backlog:', error);
+                alert('Error al cargar el backlog. Revisa la consola.');
             }
         }
 
-        function revealBrutalTruth(element) {
-            incrementInteraction();
-            element.innerHTML = '"Acá no vinimos a ser populares, vinimos a que esto funcione"';
-            element.style.color = '#fff';
-            element.style.fontWeight = '400';
-            element.style.fontSize = '18px';
-        }
+        // =====================================================
+        // FUNCIÓN: Cargar tareas del sprint actual
+        // =====================================================
+        async function loadSprint() {
+            try {
+                // Consultar tareas con status='sprint'
+                const { data: tasks, error } = await supabase
+                    .from('tasks')
+                    .select('*')
+                    .eq('status', 'sprint')
+                    .order('created_at', { ascending: true });
 
-        function whisperTruth(element) {
-            incrementInteraction();
-            element.innerHTML = '"Los problemas complejos requieren soluciones simples, no al revés"';
-            element.style.color = '#fff';
-            element.style.fontSize = '15px';
-            element.style.fontStyle = 'normal';
-            element.style.textAlign = 'center';
-            element.style.fontWeight = '300';
-        }
+                if (error) throw error;
 
-        function revealTimeSecret(element) {
-            incrementInteraction();
-            const content = element.querySelector('.truth-content');
-            const prompt = element.querySelector('.truth-prompt');
-            
-            content.classList.add('exposed');
-            prompt.textContent = '← Las reglas del tiempo ejecutivo';
-            
-            const nodes = element.querySelectorAll('.reality-node');
-            nodes.forEach((node, index) => {
-                setTimeout(() => {
-                    node.classList.add('awakened');
-                }, index * 400);
-            });
-        }
+                const tableBody = document.getElementById('sprint-table-body');
 
-        function awakenNode(node) {
-            incrementInteraction();
-            node.style.background = 'rgba(255, 255, 255, 0.12)';
-            node.style.transform = 'scale(1.15) translateY(-10px)';
-            node.style.boxShadow = '0 20px 50px rgba(255, 255, 255, 0.15)';
-        }
-
-        function detonateMetric(element) {
-            incrementInteraction();
-            const numberEl = element.querySelector('.shock-number');
-            const targetNumber = parseInt(numberEl.dataset.number);
-            const prompt = element.querySelector('.truth-prompt');
-            
-            prompt.style.opacity = '0.2';
-            
-            let current = 100;
-            const timer = setInterval(() => {
-                current -= 2;
-                if (current <= targetNumber) {
-                    current = targetNumber;
-                    clearInterval(timer);
+                if (tasks.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+                                No hay tareas en el sprint actual. Ve al Backlog para agregar tareas.
+                            </td>
+                        </tr>
+                    `;
+                    return;
                 }
-                numberEl.textContent = current;
-            }, 45);
-            
-            numberEl.classList.add('detonated');
+
+                // Para cada tarea, obtener sus estados diarios
+                const tasksWithStatus = await Promise.all(tasks.map(async (task) => {
+                    const { data: statuses, error: statusError } = await supabase
+                        .from('daily_status')
+                        .select('*')
+                        .eq('task_id', task.id);
+
+                    if (statusError) throw statusError;
+
+                    // Crear un mapa de día → color
+                    const statusMap = {};
+                    statuses.forEach(s => {
+                        statusMap[s.day_number] = s.color;
+                    });
+
+                    return { ...task, statusMap };
+                }));
+
+                // Renderizar las filas de la tabla
+                tableBody.innerHTML = tasksWithStatus.map(task => `
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4">
+                            <div class="text-sm font-medium text-gray-900">${task.title}</div>
+                            <div class="text-xs text-gray-500 mt-1">👤 ${task.assigned_to || 'Sin asignar'}</div>
+                        </td>
+                        ${[1, 2, 3, 4, 5, 6].map(day => {
+                            const currentColor = task.statusMap[day] || 'gray';
+                            const emoji = COLOR_EMOJIS[currentColor];
+                            return `
+                                <td class="px-4 py-4 text-center">
+                                    <span
+                                        class="status-cell text-3xl inline-block"
+                                        onclick="updateStatus('${task.id}', ${day}, '${currentColor}')"
+                                        title="Click para cambiar estado">
+                                        ${emoji}
+                                    </span>
+                                </td>
+                            `;
+                        }).join('')}
+                    </tr>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error al cargar sprint:', error);
+                alert('Error al cargar el sprint. Revisa la consola.');
+            }
         }
 
-        function armBomb(element) {
-            incrementInteraction();
-            element.style.background = 'rgba(255, 0, 0, 0.1)';
-            element.style.borderColor = 'rgba(255, 0, 0, 0.5)';
-            element.innerHTML = 'Y lo peor: cada día que no actúas, estás eligiendo que siga así.';
-            element.style.fontWeight = '400';
-        }
+        // =====================================================
+        // FUNCIÓN: Actualizar estado de una tarea en un día
+        // =====================================================
+        async function updateStatus(taskId, dayNumber, currentColor) {
+            try {
+                // Calcular el siguiente color en el ciclo
+                const nextColor = getNextColor(currentColor);
 
-        let confrontationLevel = 0;
-        function confrontLeader(element) {
-            incrementInteraction();
-            confrontationLevel++;
-            
-            const responses = [
-                'La diferencia entre un líder y un manager es que el líder cambia las reglas del juego.',
-                'Podés seguir administrando el caos o podés decidir controlarlo. No hay tercera opción.',
-                'Cada día que tolerás la mediocridad, estás enseñándole a tu equipo que está bien fallar.',
-                'La pregunta real: ¿tenés una empresa o tenés un hobby caro?'
-            ];
-            
-            if (confrontationLevel <= responses.length) {
-                element.innerHTML = responses[confrontationLevel - 1];
-                element.style.color = '#ff6b6b';
-                element.style.borderColor = 'rgba(255, 107, 107, 0.4)';
-                
-                if (confrontationLevel >= 3) {
-                    element.style.background = 'rgba(255, 0, 0, 0.05)';
-                    element.classList.add('danger-pulse');
+                // Verificar si ya existe un registro para esta tarea y día
+                const { data: existing, error: checkError } = await supabase
+                    .from('daily_status')
+                    .select('id')
+                    .eq('task_id', taskId)
+                    .eq('day_number', dayNumber)
+                    .maybeSingle(); // Usar maybeSingle() en lugar de single() para evitar error si no existe
+
+                if (checkError) throw checkError;
+
+                if (existing) {
+                    // Ya existe: hacer UPDATE
+                    const { error: updateError } = await supabase
+                        .from('daily_status')
+                        .update({
+                            color: nextColor,
+                            updated_at: new Date().toISOString()
+                        })
+                        .eq('task_id', taskId)
+                        .eq('day_number', dayNumber);
+
+                    if (updateError) throw updateError;
+                } else {
+                    // No existe: hacer INSERT
+                    const { error: insertError } = await supabase
+                        .from('daily_status')
+                        .insert({
+                            task_id: taskId,
+                            day_number: dayNumber,
+                            color: nextColor,
+                            updated_at: new Date().toISOString()
+                        });
+
+                    if (insertError) throw insertError;
                 }
+
+                // Recargar la vista del sprint para mostrar el cambio
+                loadSprint();
+
+            } catch (error) {
+                console.error('Error al actualizar estado:', error);
+                alert('Error al actualizar el estado. Revisa la consola.');
             }
         }
 
-        // Triple click secret
-        let clickCount = 0;
-        function countClicks(element) {
-            clickCount++;
-            if (clickCount === 3) {
-                const secret = document.querySelector('.triple-click-unlock');
-                secret.classList.add('unlocked');
-                secret.innerHTML = 'Secreto desbloqueado: La PMO no agregó recursos, quitó desperdicios';
+        // =====================================================
+        // FUNCIÓN: Mover tarea del backlog al sprint
+        // =====================================================
+        async function moveToSprint(taskId) {
+            try {
+                // Actualizar el status de la tarea a 'sprint'
+                const { error } = await supabase
+                    .from('tasks')
+                    .update({ status: 'sprint' })
+                    .eq('id', taskId);
+
+                if (error) throw error;
+
+                // Recargar el backlog
+                loadBacklog();
+
+                // Mostrar mensaje de éxito
+                alert('✅ Tarea movida al sprint exitosamente');
+
+            } catch (error) {
+                console.error('Error al mover tarea al sprint:', error);
+                alert('Error al mover la tarea. Revisa la consola.');
             }
         }
 
-        // Efectos de cursor inteligente
+        // =====================================================
+        // FUNCIÓN: Agregar nueva tarea al backlog
+        // =====================================================
+        async function addTask() {
+            // Solicitar datos de la tarea mediante prompts simples
+            const title = prompt('Título de la tarea:');
+            if (!title) return; // Cancelado o vacío
+
+            const assignedTo = prompt('Asignado a (opcional):');
+
+            const sprintNumberStr = prompt('Número de sprint (opcional, default: 1):');
+            const sprintNumber = sprintNumberStr ? parseInt(sprintNumberStr) : 1;
+
+            try {
+                // Insertar la nueva tarea en la base de datos
+                const { error } = await supabase
+                    .from('tasks')
+                    .insert({
+                        title: title.trim(),
+                        assigned_to: assignedTo ? assignedTo.trim() : null,
+                        sprint_number: sprintNumber,
+                        status: 'backlog'
+                    });
+
+                if (error) throw error;
+
+                // Recargar el backlog para mostrar la nueva tarea
+                loadBacklog();
+
+                alert('✅ Tarea agregada exitosamente');
+
+            } catch (error) {
+                console.error('Error al agregar tarea:', error);
+                alert('Error al agregar la tarea. Revisa la consola.');
+            }
+        }
+
+        // =====================================================
+        // INICIALIZACIÓN AL CARGAR LA PÁGINA
+        // =====================================================
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.kill-shot, .hidden-truth, .brutal-metric, .ultimate-question, .sacrifice-detector').forEach(element => {
-                element.addEventListener('mouseenter', () => {
-                    cursor.style.width = '8px';
-                    cursor.style.height = '8px';
-                    cursor.style.background = 'rgba(255, 107, 107, 0.8)';
-                    cursorGlow.style.width = '30px';
-                    cursorGlow.style.height = '30px';
-                    cursorGlow.style.borderColor = 'rgba(255, 107, 107, 0.4)';
-                });
-                
-                element.addEventListener('mouseleave', () => {
-                    cursor.style.width = '4px';
-                    cursor.style.height = '4px';
-                    cursor.style.background = '#fff';
-                    cursorGlow.style.width = '20px';
-                    cursorGlow.style.height = '20px';
-                    cursorGlow.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                });
-            });
+            // Verificar que las credenciales estén configuradas
+            if (SUPABASE_URL === 'TU_SUPABASE_URL_AQUI' || SUPABASE_ANON_KEY === 'TU_SUPABASE_ANON_KEY_AQUI') {
+                alert('⚠️ IMPORTANTE: Debes configurar tus credenciales de Supabase en el archivo index.html\n\nBusca las variables SUPABASE_URL y SUPABASE_ANON_KEY y reemplázalas con tus valores reales.');
+                return;
+            }
 
-            // Detector de patterns de liderazgo
-            let scrollPattern = [];
-            window.addEventListener('scroll', () => {
-                const now = Date.now();
-                scrollPattern.push(now);
-                if (scrollPattern.length > 20) scrollPattern.shift();
-                
-                // Si scroll muy rápido = líder impaciente
-                if (scrollPattern.length > 5) {
-                    const timeDiff = now - scrollPattern[0];
-                    if (timeDiff < 1000) {
-                        document.body.style.filter = 'brightness(1.1)';
-                        setTimeout(() => {
-                            document.body.style.filter = 'brightness(1)';
-                        }, 100);
-                    }
-                }
-            });
+            // Cargar la vista de backlog por defecto
+            showTab('backlog');
         });
 
-        // Event listeners principales
-        window.addEventListener('scroll', () => {
-            updateProgress();
-            revealSections();
-        });
-
-        window.addEventListener('load', () => {
-            revealSections();
-            
-            // Mensaje subliminal después de 30 segundos
-            setTimeout(() => {
-                const subliminal = document.createElement('div');
-                subliminal.innerHTML = 'Tiempo en página: suficiente para cambiar tu empresa';
-                subliminal.style.cssText = `
-                    position: fixed; bottom: 20px; right: 20px; 
-                    font-size: 11px; color: #333; 
-                    opacity: 0; transition: all 2s ease;
-                `;
-                document.body.appendChild(subliminal);
-                setTimeout(() => { subliminal.style.opacity = '1'; }, 100);
-                setTimeout(() => { subliminal.style.opacity = '0'; }, 4000);
-            }, 30000);
-        });
-
-        // Parallax ejecutivo
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            document.querySelectorAll('.story-section').forEach((element, index) => {
-                const speed = 0.01 * (index + 1);
-                const currentTransform = element.style.transform.includes('translateY') ? 
-                    element.style.transform : 'translateY(0px)';
-                element.style.transform = currentTransform.replace(/translateY\([^)]*\)/, '') + ` translateY(${scrolled * speed}px)`;
-            });
-        });
     </script>
+
 </body>
 </html>
