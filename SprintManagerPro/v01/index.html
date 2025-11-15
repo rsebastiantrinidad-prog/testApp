@@ -1,0 +1,1658 @@
+<!-- 
+/////////////////////////////////////////////
+
+Esta version tiene conexion con SUPABASE 
+
+/////////////////////////////////////////////-->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprint Manager Pro v1.2 - Enhanced</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <style>
+        /* --- Keyframes for Animations --- */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- Global Styles & Color Palette --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            
+            --bg-light: #f8f9fa;
+            --bg-mid: #f1f3f5;
+            --bg-card: #ffffff;
+            --text-light: #6b7280;
+            --text-dark: #111827;
+            --border-light: #e5e7eb;
+            --border-mid: #d1d5db;
+
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body.dark {
+            --bg-light: #1f2937;
+            --bg-mid: #374151;
+            --bg-card: #4b5563;
+            --text-light: #d1d5db;
+            --text-dark: #f9fafb;
+            --border-light: #4b5563;
+            --border-mid: #6b7280;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* --- Global Loader --- */
+        #globalLoader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.3s;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border-light);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        body.dark #globalLoader {
+            background: rgba(31, 41, 55, 0.8);
+        }
+
+        /* --- Header --- */
+        .header {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-light);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, #a5b4fc, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        body.dark .logo {
+            background: linear-gradient(to right, #a5b4fc, #c7d2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-badge.connected {
+            background: var(--success);
+            color: white;
+        }
+
+        .status-badge.disconnected {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .toggle-switch input { display: none; }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--border-mid);
+            transition: .3s;
+            border-radius: 24px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: var(--primary);
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Tabs Navigation */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            margin-bottom: -2px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Panels */
+        .panel {
+            display: none;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-dark);
+            border: 1px solid var(--border-mid);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--bg-mid);
+        }
+
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid var(--border-mid);
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Dashboard Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0; /* For animation */
+            animation: popIn 0.3s ease-out forwards;
+        }
+        .stat-icon {
+            font-size: 1.5rem;
+            padding: 0.75rem;
+            border-radius: 50%;
+            color: white;
+        }
+        .stat-card .stat-value {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        .stat-card .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        /* Sprint Grid */
+        .sprints-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .sprint-card {
+            background: var(--bg-card);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--primary);
+            opacity: 0; /* For animation */
+            animation: popIn 0.3s ease-out forwards;
+        }
+        
+        .sprint-card.active {
+            border-left-color: var(--success);
+            box-shadow: var(--shadow-md);
+        }
+
+        .sprint-card.completed {
+            border-left-color: var(--text-light);
+            opacity: 0.7;
+        }
+
+        .sprint-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .sprint-status.planificado {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .sprint-status.en_curso {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .sprint-status.transitado {
+            background: var(--bg-mid);
+            color: var(--text-light);
+        }
+
+        /* Tasks */
+        .task-columns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .task-column {
+            background: var(--bg-mid);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            min-height: 400px;
+        }
+
+        .column-header {
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .column-count {
+            background: var(--border-mid);
+            color: var(--text-dark);
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.1rem 0.5rem;
+            border-radius: 0.5rem;
+        }
+
+        .task-item {
+            background: var(--bg-card);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border-light);
+            opacity: 0; /* For animation */
+            animation: popIn 0.3s ease-out forwards;
+        }
+
+        .task-item:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .task-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .task-meta {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-light);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        /* Daily Status */
+        .day-cell {
+            aspect-ratio: 1;
+            border-radius: 0.375rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            font-size: 0.75rem;
+        }
+        
+        .day-cell:hover {
+            transform: scale(1.1);
+        }
+
+        .day-cell.gray {
+            background: var(--border-light);
+            color: var(--text-light);
+        }
+
+        .day-cell.green {
+            background: #10b981;
+            color: white;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        .day-cell.yellow {
+            background: #f59e0b;
+            color: white;
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+        }
+
+        .day-cell.red {
+            background: #ef4444;
+            color: white;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+        }
+
+        .day-cell.gold {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            border-radius: 0.75rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            animation: modalFadeIn 0.2s ease-out;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+            background: var(--bg-mid);
+            border-radius: 0.75rem;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Rating Stars */
+        .rating-stars {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .star {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--border-mid);
+            transition: color 0.2s;
+        }
+
+        .star.active {
+            color: #ffd700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .task-columns {
+                grid-template-columns: 1fr;
+            }
+            .sprints-grid {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                padding: 1rem;
+            }
+            .header {
+                padding: 1rem;
+            }
+            .logo {
+                font-size: 1.25rem;
+            }
+            .tabs {
+                gap: 0;
+                font-size: 0.8rem;
+            }
+            .tab {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.875rem;
+                justify-content: center;
+                flex: 1;
+            }
+            .tab span {
+                display: none; /* Hide icons on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="globalLoader">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="appContainer">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">Sprint Manager Pro</div>
+                <div class="header-actions">
+                    <span id="connectionStatus" class="status-badge disconnected">Conectando...</span>
+                    
+                    <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-light); font-size: 0.875rem;">
+                        <span>☀️</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span>🌙</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container">
+            <nav class="tabs">
+                <button class="tab active" onclick="switchTab('dashboard')"><span>📊</span> Dashboard</button>
+                <button class="tab" onclick="switchTab('sprints')"><span>🎯</span> Sprints</button>
+                <button class="tab" onclick="switchTab('backlog')"><span>📋</span> Backlog</button>
+                <button class="tab" onclick="switchTab('tracking')"><span>📈</span> Seguimiento</button>
+            </nav>
+
+            <div id="dashboard" class="panel active">
+                <div class="stats-grid" id="dashboardStats">
+                    </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">🔥 Sprints en Curso</h2>
+                        <button class="btn btn-primary" onclick="showModal('newSprintModal')">
+                            ➕ Nuevo Sprint
+                        </button>
+                    </div>
+                    <div id="dashboardSprints">
+                        </div>
+                </div>
+            </div>
+
+            <div id="sprints" class="panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Gestión de Sprints</h2>
+                        <button class="btn btn-primary" onclick="showModal('newSprintModal')">
+                            ➕ Nuevo Sprint
+                        </button>
+                    </div>
+                    <div id="sprintsGrid" class="sprints-grid">
+                        <div class="loading">Cargando sprints...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="backlog" class="panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Backlog de Tareas</h2>
+                        <button class="btn btn-primary" onclick="showModal('newTaskModal')">
+                            ➕ Nueva Tarea
+                        </button>
+                    </div>
+                    <div class="task-columns">
+                        <div class="task-column">
+                            <div class="column-header">
+                                <span>📋 Backlog</span>
+                                <span class="column-count" id="backlogCount">0</span>
+                            </div>
+                            <div id="backlogTasks"></div>
+                        </div>
+                        <div class="task-column">
+                            <div class="column-header">
+                                <span>🔄 En Sprint</span>
+                                <span class="column-count" id="sprintCount">0</span>
+                            </div>
+                            <div id="sprintTasks"></div>
+                        </div>
+                        <div class="task-column">
+                            <div class="column-header">
+                                <span>✅ Completadas</span>
+                                <span class="column-count" id="doneCount">0</span>
+                            </div>
+                            <div id="doneTasks"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tracking" class="panel">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Seguimiento Diario</h2>
+                        <select class="form-select" style="width: auto;" id="trackingSprintSelect" onchange="loadDailyTracking()">
+                            <option value="">Seleccionar sprint...</option>
+                        </select>
+                    </div>
+                    <div id="trackingContent">
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📊</div>
+                            <p>Selecciona un sprint para ver el seguimiento diario</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="newSprintModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Crear Nuevo Sprint</h3>
+                <button class="close-btn" onclick="closeModal('newSprintModal')">×</button>
+            </div>
+            <form id="newSprintForm" onsubmit="createSprint(event)">
+                <div class="form-group">
+                    <label class="form-label">Nombre del Sprint *</label>
+                    <input type="text" class="form-input" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Objetivo</label>
+                    <textarea class="form-textarea" name="objective"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Fecha de Inicio</label>
+                    <input type="date" class="form-input" name="start_date">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Fecha de Fin</label>
+                    <input type="date" class="form-input" name="end_date">
+                </div>
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('newSprintModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Crear Sprint
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="newTaskModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Crear Nueva Tarea</h3>
+                <button class="close-btn" onclick="closeModal('newTaskModal')">×</button>
+            </div>
+            <form id="newTaskForm" onsubmit="createTask(event)">
+                <div class="form-group">
+                    <label class="form-label">Título *</label>
+                    <input type="text" class="form-input" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-textarea" name="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Sprint</label>
+                    <select class="form-select" name="sprint_id" id="taskSprintSelect">
+                        <option value="">Backlog (sin sprint)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Asignar a</label>
+                    <select class="form-select" name="assigned_to" id="taskUserSelect">
+                        <option value="">Sin asignar</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Prioridad</label>
+                    <select class="form-select" name="priority">
+                        <option value="0">Baja</option>
+                        <option value="1">Media</option>
+                        <option value="2">Alta</option>
+                        <option value="3">Crítica</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('newTaskModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Crear Tarea
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="editSprintModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Editar Sprint</h3>
+                <button class="close-btn" onclick="closeModal('editSprintModal')">×</button>
+            </div>
+            <form id="editSprintForm" onsubmit="updateSprint(event)">
+                <input type="hidden" name="id" id="editSprintId">
+                <div class="form-group">
+                    <label class="form-label">Estado</label>
+                    <select class="form-select" name="status">
+                        <option value="planificado">Planificado</option>
+                        <option value="en_curso">En Curso</option>
+                        <option value="transitado">Transitado</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Calificación (1-10)</label>
+                    <div class="rating-stars" id="ratingStars"></div>
+                    <input type="hidden" name="rating" id="ratingValue">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notas</label>
+                    <textarea class="form-textarea" name="notes"></textarea>
+                </div>
+                <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('editSprintModal')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="dailyStatusModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Actualizar Estado Diario</h3>
+                <button class="close-btn" onclick="closeModal('dailyStatusModal')">×</button>
+            </div>
+            <div>
+                <input type="hidden" id="dailyTaskId">
+                <input type="hidden" id="dailyDayNumber">
+                <p style="margin-bottom: 1rem;">Selecciona el color del semáforo:</p>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1rem;">
+                    <button class="btn" style="background: #10b981; color: white; padding: 1rem;" onclick="updateDailyStatus('green')">
+                        🟢 Verde - Todo OK
+                    </button>
+                    <button class="btn" style="background: #f59e0b; color: white; padding: 1rem;" onclick="updateDailyStatus('yellow')">
+                        🟡 Amarillo - Precaución
+                    </button>
+                    <button class="btn" style="background: #ef4444; color: white; padding: 1rem;" onclick="updateDailyStatus('red')">
+                        🔴 Rojo - Bloqueado
+                    </button>
+                    <button class="btn" style="background: linear-gradient(135deg, #ffd700, #ffed4e); color: #000; padding: 1rem; font-weight: bold;" onclick="updateDailyStatus('gold')">
+                        ⭐ Oro - Completado
+                    </button>
+                </div>
+                <button class="btn btn-secondary" style="width: 100%;" onclick="closeModal('dailyStatusModal')">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===================================
+        // ⚠️ CONFIGURACIÓN OBLIGATORIA
+        // ===================================
+        // Reemplaza esto con la URL de tu proyecto de Supabase
+        const SUPABASE_URL = 'https://zaziglowjqzbbswevpzq.supabase.co'; 
+        
+        // Reemplaza esto con tu 'anon public key' de Supabase
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InphemlnbG93anF6YmJzd2V2cHpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI2MTk1MzcsImV4cCI6MjA3ODE5NTUzN30.3KvwJip5VMXdDxb_BcLP0p7OgIv4AqI7exsCYyApOyI'; 
+        // ===================================
+
+        // Inicializar Supabase
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // ======================
+        // STATE
+        // ======================
+        let sprints = [];
+        let tasks = [];
+        let users = [];
+
+        // ======================
+        // INITIALIZATION
+        // ======================
+        async function init() {
+            showLoader();
+            try {
+                // Test connection
+                const { error } = await supabase.from('sprints').select('count', { count: 'exact' });
+                if (error) {
+                    // Manejar error de RLS si la tabla no es legible por 'anon'
+                    if (error.code === '42501') { 
+                        alert('Error de Permiso: Verifica que Row Level Security (RLS) esté habilitado y que la política "anon" tenga permiso de LECTURA (SELECT) en tus tablas.');
+                    }
+                    throw error;
+                }
+                
+                updateConnectionStatus(true);
+                await loadData();
+                
+            } catch (error) {
+                console.error('Error de inicialización:', error);
+                updateConnectionStatus(false);
+                alert('Error de conexión con Supabase. Verifica tu URL, Key y las políticas RLS.');
+            } finally {
+                hideLoader();
+            }
+        }
+
+        function updateConnectionStatus(connected) {
+            const badge = document.getElementById('connectionStatus');
+            badge.className = `status-badge ${connected ? 'connected' : 'disconnected'}`;
+            badge.textContent = connected ? 'Conectado' : 'Error';
+        }
+
+        async function loadData() {
+            // Usamos Promise.all para cargar todo en paralelo
+            await Promise.all([
+                loadSprints(),
+                loadUsers(),
+                loadTasks()
+            ]);
+            
+            // Renderizar todo una vez que los datos estén listos
+            renderDashboard();
+            renderSprints();
+            renderTasks();
+        }
+        
+        // ======================
+        // USERS
+        // ======================
+        async function loadUsers() {
+            try {
+                // Llama a la tabla 'users'
+                const { data, error } = await supabase
+                    .from('users')
+                    .select('id, full_name, avatar_url');
+                
+                if (error) throw error;
+                
+                users = data;
+                
+                // Poblar el dropdown de asignación de tareas
+                const select = document.getElementById('taskUserSelect');
+                while (select.options.length > 1) select.remove(1); // Limpiar
+                
+                users.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user.id;
+                    option.textContent = user.full_name;
+                    select.appendChild(option);
+                });
+                
+            } catch (error) {
+                console.error('Error cargando usuarios:', error);
+            }
+        }
+
+        // ======================
+        // SPRINTS
+        // ======================
+        async function loadSprints() {
+            try {
+                // Llama a la tabla 'sprints'
+                const { data, error } = await supabase
+                    .from('sprints')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+                
+                if (error) throw error;
+                
+                sprints = data;
+                updateSprintSelects();
+                
+            } catch (error) {
+                console.error('Error cargando sprints:', error);
+            }
+        }
+
+        function updateSprintSelects() {
+            const selects = ['taskSprintSelect', 'trackingSprintSelect'];
+            
+            selects.forEach(selectId => {
+                const select = document.getElementById(selectId);
+                const currentValue = select.value;
+                
+                while (select.options.length > 1) select.remove(1);
+                
+                // Sprints 'planificado' o 'en_curso' para crear tareas
+                const relevantSprints = sprints.filter(s => s.status !== 'transitado');
+                relevantSprints.forEach(sprint => {
+                    const option = document.createElement('option');
+                    option.value = sprint.id;
+                    option.textContent = `${sprint.name} (${sprint.status})`;
+                    if (selectId === 'taskSprintSelect') {
+                         select.appendChild(option);
+                    }
+                });
+                
+                // Todos los sprints para el panel de seguimiento
+                if (selectId === 'trackingSprintSelect') {
+                    sprints.forEach(sprint => {
+                        const option = document.createElement('option');
+                        option.value = sprint.id;
+                        option.textContent = `${sprint.name} (${sprint.status})`;
+                        select.appendChild(option);
+                    });
+                }
+                
+                if (currentValue) select.value = currentValue;
+            });
+        }
+
+        async function createSprint(event) {
+            event.preventDefault();
+            showLoader();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const sprint = {
+                name: formData.get('name'),
+                objective: formData.get('objective'),
+                start_date: formData.get('start_date') || null,
+                end_date: formData.get('end_date') || null,
+                status: 'planificado'
+                // created_at y updated_at son automáticos (DEFAULT NOW() en DB)
+            };
+            
+            try {
+                // Inserta en la tabla 'sprints'
+                const { data, error } = await supabase.from('sprints').insert([sprint]).select();
+                if (error) throw error;
+                
+                closeModal('newSprintModal');
+                form.reset();
+                await loadData();
+                alert('✅ Sprint creado exitosamente');
+                
+            } catch (error) {
+                console.error('Error creando sprint:', error);
+                alert('❌ Error al crear sprint');
+            } finally {
+                hideLoader();
+            }
+        }
+
+        async function updateSprint(event) {
+            event.preventDefault();
+            showLoader();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const id = formData.get('id');
+            const updates = {
+                status: formData.get('status'),
+                rating: parseInt(formData.get('rating')) || null,
+                notes: formData.get('notes')
+                // updated_at es automático gracias al Trigger en la DB
+            };
+            
+            try {
+                // Actualiza en la tabla 'sprints'
+                const { error } = await supabase.from('sprints').update(updates).eq('id', id);
+                if (error) throw error;
+                
+                closeModal('editSprintModal');
+                await loadData();
+                alert('✅ Sprint actualizado');
+                
+            } catch (error) {
+                console.error('Error actualizando sprint:', error);
+                alert('❌ Error al actualizar sprint');
+            } finally {
+                hideLoader();
+            }
+        }
+
+        function editSprint(sprint) {
+            document.getElementById('editSprintId').value = sprint.id;
+            
+            const form = document.getElementById('editSprintForm');
+            form.status.value = sprint.status;
+            form.notes.value = sprint.notes || '';
+            
+            const ratingValue = sprint.rating || 0;
+            document.getElementById('ratingValue').value = ratingValue;
+            renderRatingStars(ratingValue);
+            
+            showModal('editSprintModal');
+        }
+
+        function renderRatingStars(currentRating = 0) {
+            const container = document.getElementById('ratingStars');
+            container.innerHTML = '';
+            
+            for (let i = 1; i <= 10; i++) {
+                const star = document.createElement('span');
+                star.className = `star ${i <= currentRating ? 'active' : ''}`;
+                star.textContent = '★';
+                star.onclick = () => {
+                    document.getElementById('ratingValue').value = i;
+                    renderRatingStars(i);
+                };
+                container.appendChild(star);
+            }
+        }
+
+        function renderSprints() {
+            const grid = document.getElementById('sprintsGrid');
+            
+            if (sprints.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🎯</div>
+                        <p>No hay sprints creados. ¡Crea el primero!</p>
+                        <button class="btn btn-primary" onclick="showModal('newSprintModal')">
+                            Crear Primer Sprint
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = sprints.map((sprint, index) => `
+                <div class="sprint-card ${sprint.status === 'en_curso' ? 'active' : ''} ${sprint.status === 'transitado' ? 'completed' : ''}" style="animation-delay: ${index * 50}ms">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.125rem; font-weight: 600;">${sprint.name}</h3>
+                        <span class="sprint-status ${sprint.status}">${sprint.status.replace('_', ' ')}</span>
+                    </div>
+                    
+                    ${sprint.objective ? `<p style="color: var(--text-light); margin-bottom: 1rem; font-size: 0.875rem;">${sprint.objective}</p>` : ''}
+                    
+                    ${sprint.rating ? `
+                        <div style="margin-bottom: 1rem;">
+                            <span style="font-size: 0.875rem; color: var(--text-light);">Rating:</span>
+                            <span style="color: #ffd700; font-weight: bold; font-size: 1.125rem;">${'★'.repeat(sprint.rating)}</span>
+                        </div>
+                    ` : ''}
+                    
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <button class="btn btn-sm btn-secondary" onclick='editSprint(${JSON.stringify(sprint)})'>
+                            ✏️ Editar
+                        </button>
+                        ${sprint.status === 'en_curso' ? `
+                            <button class="btn btn-sm btn-success" onclick="switchTab('tracking'); selectSprintForTracking('${sprint.id}')">
+                                📈 Seguimiento
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ======================
+        // TASKS
+        // ======================
+        async function loadTasks() {
+            try {
+                // Llama a la tabla 'tasks' y hace "join" con sprints y users
+                const { data, error } = await supabase
+                    .from('tasks')
+                    .select('*, sprints(name), users(full_name, avatar_url)')
+                    .order('order_index', { ascending: true });
+                
+                if (error) throw error;
+                
+                tasks = data;
+                
+            } catch (error) {
+                console.error('Error cargando tareas:', error);
+            }
+        }
+
+        async function createTask(event) {
+            event.preventDefault();
+            showLoader();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            const task = {
+                title: formData.get('title'),
+                description: formData.get('description'),
+                sprint_id: formData.get('sprint_id') || null,
+                assigned_to: formData.get('assigned_to') || null,
+                priority: parseInt(formData.get('priority')),
+                status: formData.get('sprint_id') ? 'todo' : 'backlog'
+                // order_index, created_at, updated_at son automáticos en la DB
+            };
+            
+            try {
+                // Inserta en la tabla 'tasks'
+                const { data, error } = await supabase.from('tasks').insert([task]).select();
+                if (error) throw error;
+                
+                closeModal('newTaskModal');
+                form.reset();
+                await loadData();
+                alert('✅ Tarea creada exitosamente');
+                
+            } catch (error) {
+                console.error('Error creando tarea:', error);
+                alert('❌ Error al crear tarea');
+            } finally {
+                hideLoader();
+            }
+        }
+
+        async function updateTaskStatus(taskId, newStatus) {
+            showLoader();
+            let updates = { status: newStatus };
+            if (newStatus === 'done') {
+                updates.completed_at = new Date().toISOString();
+            }
+
+            try {
+                // Actualiza la tabla 'tasks'
+                const { error } = await supabase
+                    .from('tasks')
+                    .update(updates)
+                    .eq('id', taskId);
+                
+                if (error) throw error;
+                
+                await loadData();
+                
+            } catch (error) {
+                console.error('Error actualizando tarea:', error);
+            } finally {
+                hideLoader();
+            }
+        }
+
+        function renderTasks() {
+            const backlogTasks = tasks.filter(t => t.status === 'backlog');
+            const sprintTasks = tasks.filter(t => ['todo', 'in_progress', 'review'].includes(t.status));
+            const doneTasks = tasks.filter(t => t.status === 'done');
+            
+            document.getElementById('backlogCount').textContent = backlogTasks.length;
+            document.getElementById('sprintCount').textContent = sprintTasks.length;
+            document.getElementById('doneCount').textContent = doneTasks.length;
+            
+            renderTaskColumn('backlogTasks', backlogTasks);
+            renderTaskColumn('sprintTasks', sprintTasks);
+            renderTaskColumn('doneTasks', doneTasks);
+        }
+
+        function renderTaskColumn(columnId, columnTasks) {
+            const column = document.getElementById(columnId);
+            
+            if (columnTasks.length === 0) {
+                column.innerHTML = '<div style="text-align: center; color: var(--text-light); padding: 2rem;">Sin tareas</div>';
+                return;
+            }
+            
+            column.innerHTML = columnTasks.map((task, index) => `
+                <div class="task-item" onclick="viewTaskDetails('${task.id}')" style="animation-delay: ${index * 50}ms">
+                    <div class="task-title">${task.title}</div>
+                    <div class="task-meta">
+                        ${task.sprints ? `<span>📁 ${task.sprints.name}</span>` : '<span>📋 Backlog</span>'}
+                        <span>|</span>
+                        <span>🎯 ${['Baja', 'Media', 'Alta', 'Crítica'][task.priority]}</span>
+                        ${task.users ? `<span>|</span><span>👤 ${task.users.full_name}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function viewTaskDetails(taskId) {
+            const task = tasks.find(t => t.id === taskId);
+            if (!task) return;
+            
+            const actions = {
+                'backlog': ['todo', 'done'],
+                'todo': ['in_progress', 'backlog'],
+                'in_progress': ['review', 'todo'],
+                'review': ['done', 'in_progress'],
+                'done': ['backlog']
+            };
+            
+            let newStatus = prompt(`
+                Tarea: ${task.title}\n
+                Estado actual: ${task.status}\n\n
+                Acciones:\n
+                ${(actions[task.status] || []).join('\n')}
+                \nEscribe el nuevo estado (o cancela):
+            `);
+
+            if (newStatus && actions[task.status]?.includes(newStatus)) {
+                updateTaskStatus(taskId, newStatus);
+            }
+        }
+
+        // ======================
+        // DAILY TRACKING
+        // ======================
+        function selectSprintForTracking(sprintId) {
+            document.getElementById('trackingSprintSelect').value = sprintId;
+            loadDailyTracking();
+        }
+
+        async function loadDailyTracking() {
+            const sprintId = document.getElementById('trackingSprintSelect').value;
+            
+            if (!sprintId) {
+                document.getElementById('trackingContent').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <p>Selecciona un sprint para ver el seguimiento diario</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            showLoader();
+            
+            try {
+                // Get tasks for sprint (con join a users)
+                const { data: sprintTasks, error: tasksError } = await supabase
+                    .from('tasks')
+                    .select('*, users(full_name)')
+                    .eq('sprint_id', sprintId)
+                    .neq('status', 'backlog');
+                
+                if (tasksError) throw tasksError;
+                
+                if (sprintTasks.length === 0) {
+                    document.getElementById('trackingContent').innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📝</div>
+                            <p>No hay tareas en este sprint</p>
+                        </div>
+                    `;
+                    hideLoader();
+                    return;
+                }
+                
+                // Get daily status for all tasks
+                const taskIds = sprintTasks.map(t => t.id);
+                const { data: dailyData, error: dailyError } = await supabase
+                    .from('daily_status')
+                    .select('*')
+                    .in('task_id', taskIds);
+                
+                if (dailyError) throw dailyError;
+                
+                const dailyMap = {};
+                dailyData.forEach(ds => {
+                    if (!dailyMap[ds.task_id]) dailyMap[ds.task_id] = {};
+                    dailyMap[ds.task_id][ds.day_number] = ds.color;
+                });
+                
+                renderTrackingTable(sprintTasks, dailyMap);
+                
+            } catch (error) {
+                console.error('Error cargando seguimiento:', error);
+            } finally {
+                hideLoader();
+            }
+        }
+
+        function renderTrackingTable(sprintTasks, dailyMap) {
+            const content = document.getElementById('trackingContent');
+            
+            content.innerHTML = `
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: var(--bg-mid);">
+                                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--border-mid);">Tarea</th>
+                                <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid var(--border-mid);">Asignado</th>
+                                ${[1,2,3,4,5,6].map(day => `
+                                    <th style="padding: 0.75rem; text-align: center; border-bottom: 2px solid var(--border-mid);">Día ${day}</th>
+                                `).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${sprintTasks.map(task => `
+                                <tr style="border-bottom: 1px solid var(--border-light);">
+                                    <td style="padding: 0.75rem; font-weight: 600;">
+                                        ${task.title}
+                                    </td>
+                                    <td style="padding: 0.75rem; font-size: 0.875rem; color: var(--text-light);">
+                                        ${task.users ? task.users.full_name : 'Sin asignar'}
+                                    </td>
+                                    ${[1,2,3,4,5,6].map(day => {
+                                        const color = dailyMap[task.id]?.[day] || 'gray';
+                                        return `
+                                            <td style="padding: 0.5rem; text-align: center;">
+                                                <div class="day-cell ${color}" onclick="openDailyStatusModal('${task.id}', ${day})">
+                                                    ${day}
+                                                </div>
+                                            </td>
+                                        `;
+                                    }).join('')}
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div style="margin-top: 2rem; padding: 1rem; background: var(--bg-mid); border-radius: 0.75rem; color: var(--text-light);">
+                    <strong>Leyenda:</strong>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap; font-size: 0.875rem;">
+                        <span>🟢 Verde = Todo OK</span>
+                        <span>🟡 Amarillo = Precaución</span>
+                        <span>🔴 Rojo = Bloqueado</span>
+                        <span>⭐ Oro = Completado</span>
+                        <span>⚪ Gris = Sin actualizar</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function openDailyStatusModal(taskId, dayNumber) {
+            document.getElementById('dailyTaskId').value = taskId;
+            document.getElementById('dailyDayNumber').value = dayNumber;
+            showModal('dailyStatusModal');
+        }
+
+        async function updateDailyStatus(color) {
+            const taskId = document.getElementById('dailyTaskId').value;
+            const dayNumber = parseInt(document.getElementById('dailyDayNumber').value);
+            
+            showLoader();
+            
+            try {
+                // Usa 'upsert' para crear o actualizar el registro
+                const { error } = await supabase
+                    .from('daily_status')
+                    .upsert({
+                        task_id: taskId,
+                        day_number: dayNumber,
+                        color: color
+                    }, {
+                        onConflict: 'task_id,day_number' // Le dice a Supabase qué hacer si la fila ya existe
+                    });
+                
+                if (error) throw error;
+                
+                closeModal('dailyStatusModal');
+                await loadDailyTracking(); // Esta función ya tiene sus propios loaders
+                
+            } catch (error) {
+                console.error('Error actualizando estado diario:', error);
+                alert('❌ Error al actualizar estado');
+                hideLoader();
+            }
+        }
+
+        // ======================
+        // DASHBOARD
+        // ======================
+        function renderDashboard() {
+            const activeSprints = sprints.filter(s => s.status === 'en_curso');
+            const pendingTasks = tasks.filter(t => t.status !== 'done').length;
+            const completedTasks = tasks.filter(t => t.status === 'done').length;
+            
+            document.getElementById('dashboardStats').innerHTML = `
+                <div class="stat-card" style="animation-delay: 50ms">
+                    <div class="stat-icon" style="background: var(--primary);">🎯</div>
+                    <div>
+                        <div class="stat-value">${sprints.length}</div>
+                        <div class="stat-label">Total Sprints</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="animation-delay: 100ms">
+                    <div class="stat-icon" style="background: var(--success);">🔥</div>
+                    <div>
+                        <div class="stat-value">${activeSprints.length}</div>
+                        <div class="stat-label">Sprints Activos</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="animation-delay: 150ms">
+                    <div class="stat-icon" style="background: var(--warning);">🔄</div>
+                    <div>
+                        <div class="stat-value">${pendingTasks}</div>
+                        <div class="stat-label">Tareas Pendientes</div>
+                    </div>
+                </div>
+                <div class="stat-card" style="animation-delay: 200ms">
+                    <div class="stat-icon" style="background: var(--text-light);">✅</div>
+                    <div>
+                        <div class="stat-value">${completedTasks}</div>
+                        <div class="stat-label">Tareas Completadas</div>
+                    </div>
+                </div>
+            `;
+            
+            const sprintsContainer = document.getElementById('dashboardSprints');
+            if (activeSprints.length > 0) {
+                 sprintsContainer.innerHTML = activeSprints.map(sprint => `
+                    <div style="background: var(--bg-mid); padding: 1.25rem; border-radius: 0.5rem; margin-bottom: 1rem; border-left: 4px solid var(--success);">
+                        <div style="font-weight: 600; margin-bottom: 0.5rem; font-size: 1.1rem;">${sprint.name}</div>
+                        ${sprint.objective ? `<div style="font-size: 0.875rem; color: var(--text-light);">${sprint.objective}</div>` : ''}
+                        <button class="btn btn-sm btn-primary" style="margin-top: 1rem;" onclick="switchTab('tracking'); selectSprintForTracking('${sprint.id}')">
+                            Ver Seguimiento 📈
+                        </button>
+                    </div>
+                `).join('');
+            } else {
+                sprintsContainer.innerHTML = `
+                    <div class="empty-state" style="padding: 2rem;">
+                        <p>No hay sprints activos.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ======================
+        // UI UTILITIES
+        // ======================
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            // Usamos event.currentTarget para asegurar que sea el botón
+            event.currentTarget.classList.add('active');
+            
+            document.querySelectorAll('.panel').forEach(panel => panel.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        function showLoader() {
+            const loader = document.getElementById('globalLoader');
+            loader.style.display = 'flex';
+            loader.style.opacity = '1';
+        }
+        function hideLoader() {
+            const loader = document.getElementById('globalLoader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 300);
+        }
+
+        function toggleDarkMode() {
+            const isChecked = document.getElementById('darkModeToggle').checked;
+            if (isChecked) {
+                document.body.classList.add('dark');
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                document.body.classList.remove('dark');
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
+
+        // Close modals on background click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+        
+        // ======================
+        // START APP
+        // ======================
+        // Init Dark Mode
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark');
+            document.getElementById('darkModeToggle').checked = true;
+        }
+        // Start app
+        init();
+
+    </script>
+</body>
+</html>
